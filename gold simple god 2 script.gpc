@@ -1,0 +1,230 @@
+// Define buttons and settings
+define AIM_BUTTON = PS4_L2;
+define SHOOT_BUTTON = PS4_R2;
+define MENU_BUTTON = PS4_OPTIONS; // Assuming PS4_OPTIONS is the correct button for the menu
+define RECOIL_ADJUST = 20;                 // Increased recoil control
+define AIM_INTENSITY = 8;                 // Stronger short-range tracking
+define LONG_RANGE_AIM_INTENSITY = 75;      // More aggressive long-range aim
+define AIM_SMOOTHNESS = 5;                 // Slightly smoother for better movement
+define PREDICTIVE_ADJUST = 7;              // Faster predictive aim
+define HEADSHOT_SENSITIVITY = 50;          // More head focus
+define AFK_TRACKING_SENSITIVITY = 32;      // Stronger idle movement tracking
+define BURST_FIRE_RATE = 9;                // Faster burst
+define RAPID_FIRE_RATE = 16;               // Quicker spam
+define STICKY_AIM_INTENSITY = 18;          // Increased target stickiness
+
+// Shotgun-specific settings
+define SHOTGUN_MODE = TRUE;
+define SHOTGUN_AIM_ASSIST = 30;
+define SHOTGUN_RECOIL_ADJUST = 19;
+define SHOTGUN_FIRE_RATE = 19;
+
+// Pistol-specific settings
+define PISTOL_MODE = FALSE;
+define PISTOL_AIM_ASSIST = 25;
+define PISTOL_RECOIL_ADJUST = 15;
+define PISTOL_FIRE_RATE = 12;
+
+// Holo Twister-specific settings
+define HOLO_TWISTER_MODE = FALSE;
+define HOLO_TWISTER_AIM_ASSIST = 28;
+define HOLO_TWISTER_RECOIL_ADJUST = 18;
+define HOLO_TWISTER_FIRE_RATE = 15;
+
+// Enable or disable features
+int aim_assist = TRUE;
+int anti_recoil = TRUE;
+int long_distance_aim = TRUE;
+int predictive_aiming = TRUE;
+int headshot_mode = TRUE;
+int afk_tracking = TRUE;
+int burst_fire = TRUE;
+int rapid_fire = TRUE;
+int sticky_aim = TRUE;
+int shotgun_mode = SHOTGUN_MODE;
+int pistol_mode = PISTOL_MODE;
+int holo_twister_mode = HOLO_TWISTER_MODE;
+
+// State variables
+int prev_aim_x = 0;
+int prev_aim_y = 0;
+int enemy_move_x = 0;
+int enemy_move_y = 0;
+int current_aim_x = 0;
+int current_aim_y = 0;
+int recoil_strength = RECOIL_ADJUST;
+
+main {
+    current_aim_x = get_val(PS4_RX);
+    current_aim_y = get_val(PS4_RY);
+    enemy_move_x = (current_aim_x - prev_aim_x) / 2;
+    enemy_move_y = (current_aim_y - prev_aim_y) / 2;
+
+    // Open Mod Menu: Press LT + Menu (press at the same time)
+    if (get_val(AIM_BUTTON) && get_val(MENU_BUTTON)) {
+        combo_run(OpenModMenu);
+    }
+
+    // Shotgun-specific aim assist
+    if (shotgun_mode && aim_assist && get_val(AIM_BUTTON) && abs(get_val(PS4_RX)) < 12 && abs(get_val(PS4_RY)) < 12) {
+        set_val(PS4_RX, current_aim_x + (enemy_move_x / SHOTGUN_AIM_ASSIST));
+        set_val(PS4_RY, current_aim_y + (enemy_move_y / SHOTGUN_AIM_ASSIST));
+    }
+    // Pistol-specific aim assist
+    else if (pistol_mode && aim_assist && get_val(AIM_BUTTON) && abs(get_val(PS4_RX)) < 12 && abs(get_val(PS4_RY)) < 12) {
+        set_val(PS4_RX, current_aim_x + (enemy_move_x / PISTOL_AIM_ASSIST));
+        set_val(PS4_RY, current_aim_y + (enemy_move_y / PISTOL_AIM_ASSIST));
+    }
+    // Holo Twister-specific aim assist
+    else if (holo_twister_mode && aim_assist && get_val(AIM_BUTTON) && abs(get_val(PS4_RX)) < 12 && abs(get_val(PS4_RY)) < 12) {
+        set_val(PS4_RX, current_aim_x + (enemy_move_x / HOLO_TWISTER_AIM_ASSIST));
+        set_val(PS4_RY, current_aim_y + (enemy_move_y / HOLO_TWISTER_AIM_ASSIST));
+    }
+    // Regular aim assist
+    else if (aim_assist && get_val(AIM_BUTTON) && abs(get_val(PS4_RX)) < 15 && abs(get_val(PS4_RY)) < 15) {
+        if (get_val(AIM_BUTTON) < 90) {
+            combo_run(SmoothAimAssist);
+        } else if (long_distance_aim) {
+            combo_run(LongDistanceAimBot);
+        }
+    }
+
+    // Predictive aim
+    if (predictive_aiming && get_val(AIM_BUTTON) && abs(get_val(PS4_RX)) < 17) {
+        set_val(PS4_RX, current_aim_x + (enemy_move_x / PREDICTIVE_ADJUST));
+        set_val(PS4_RY, current_aim_y + (enemy_move_y / PREDICTIVE_ADJUST));
+    }
+
+    // Headshot aim boost
+    if (headshot_mode && get_val(AIM_BUTTON) && abs(get_val(PS4_RX)) < 17 && abs(get_val(PS4_RY)) < 17) {
+        set_val(PS4_RX, current_aim_x + (enemy_move_x / HEADSHOT_SENSITIVITY));
+        set_val(PS4_RY, current_aim_y + (enemy_move_y / HEADSHOT_SENSITIVITY));
+    }
+
+    // AFK tracking
+    if (afk_tracking && !get_val(AIM_BUTTON)) {
+        set_val(PS4_RX, current_aim_x + (enemy_move_x / AFK_TRACKING_SENSITIVITY));
+        set_val(PS4_RY, current_aim_y + (enemy_move_y / AFK_TRACKING_SENSITIVITY));
+    }
+
+    // Sticky aim
+    if (sticky_aim && get_val(AIM_BUTTON) && abs(get_val(PS4_RX)) < 10 && abs(get_val(PS4_RY)) < 10) {
+        set_val(PS4_RX, current_aim_x + (enemy_move_x / STICKY_AIM_INTENSITY));
+        set_val(PS4_RY, current_aim_y + (enemy_move_y / STICKY_AIM_INTENSITY));
+    }
+
+    // Auto-tracking
+    if (get_val(AIM_BUTTON) && abs(get_val(PS4_RX)) < 11 && abs(get_val(PS4_RY)) < 11) {
+        set_val(PS4_RX, current_aim_x + (enemy_move_x / 3));
+        set_val(PS4_RY, current_aim_y + (enemy_move_y / 3));
+    }
+
+    // Shotgun Rapid Fire
+    if (shotgun_mode && get_val(SHOOT_BUTTON)) {
+        combo_run(ShotgunRapidFire);
+    }
+    // Pistol Rapid Fire
+    else if (pistol_mode && get_val(SHOOT_BUTTON)) {
+        combo_run(PistolRapidFire);
+    }
+    // Holo Twister Rapid Fire
+    else if (holo_twister_mode && get_val(SHOOT_BUTTON)) {
+        combo_run(HoloTwisterRapidFire);
+    }
+    // Burst Fire (if not shotgun)
+    else if (!shotgun_mode && burst_fire && get_val(SHOOT_BUTTON)) {
+        combo_run(BurstFire);
+    }
+
+    // Anti-Recoil
+    if (anti_recoil && get_val(SHOOT_BUTTON)) {
+        if (shotgun_mode) {
+            recoil_strength = SHOTGUN_RECOIL_ADJUST;
+        } else if (pistol_mode) {
+            recoil_strength = PISTOL_RECOIL_ADJUST;
+        } else if (holo_twister_mode) {
+            recoil_strength = HOLO_TWISTER_RECOIL_ADJUST;
+        } else if (get_val(AIM_BUTTON) > 90) {
+            recoil_strength = RECOIL_ADJUST / 2;
+        } else {
+            recoil_strength = RECOIL_ADJUST;
+        }
+        combo_run(DynamicAntiRecoil);
+    }
+
+    prev_aim_x = current_aim_x;
+    prev_aim_y = current_aim_y;
+}
+
+// Aim assist combos
+combo SmoothAimAssist {
+    set_val(PS4_RX, AIM_INTENSITY / AIM_SMOOTHNESS);
+    wait(20);
+    set_val(PS4_RX, -AIM_INTENSITY / AIM_SMOOTHNESS);
+    wait(20);
+    set_val(PS4_RY, AIM_INTENSITY / AIM_SMOOTHNESS);
+    wait(20);
+    set_val(PS4_RY, -AIM_INTENSITY / AIM_SMOOTHNESS);
+    wait(20);
+}
+
+combo LongDistanceAimBot {
+    set_val(PS4_RX, LONG_RANGE_AIM_INTENSITY / AIM_SMOOTHNESS);
+    wait(85);
+    set_val(PS4_RX, -LONG_RANGE_AIM_INTENSITY / AIM_SMOOTHNESS);
+    wait(85);
+    set_val(PS4_RY, LONG_RANGE_AIM_INTENSITY / AIM_SMOOTHNESS);
+    wait(85);
+    set_val(PS4_RY, -LONG_RANGE_AIM_INTENSITY / AIM_SMOOTHNESS);
+    wait(85);
+}
+
+// Fire combos
+combo BurstFire {
+    set_val(SHOOT_BUTTON, 100);
+    wait(BURST_FIRE_RATE);
+    set_val(SHOOT_BUTTON, 0);
+    wait(BURST_FIRE_RATE);
+}
+
+combo RapidFire {
+    set_val(SHOOT_BUTTON, 100);
+    wait(RAPID_FIRE_RATE);
+    set_val(SHOOT_BUTTON, 0);
+    wait(RAPID_FIRE_RATE);
+}
+
+combo ShotgunRapidFire {
+    set_val(SHOOT_BUTTON, 100);
+    wait(SHOTGUN_FIRE_RATE);
+    set_val(SHOOT_BUTTON, 0);
+    wait(SHOTGUN_FIRE_RATE);
+}
+
+combo PistolRapidFire {
+    set_val(SHOOT_BUTTON, 100);
+    wait(PISTOL_FIRE_RATE);
+    set_val(SHOOT_BUTTON, 0);
+    wait(PISTOL_FIRE_RATE);
+}
+
+combo HoloTwisterRapidFire {
+    set_val(SHOOT_BUTTON, 100);
+    wait(HOLO_TWISTER_FIRE_RATE);
+    set_val(SHOOT_BUTTON, 0);
+    wait(HOLO_TWISTER_FIRE_RATE);
+}
+
+// Anti-Recoil combo
+combo DynamicAntiRecoil {
+    set_val(PS4_RY, get_val(PS4_RY) - recoil_strength);
+    wait(15);
+}
+
+// Open Mod Menu combo
+combo OpenModMenu {
+    // Replace the following line with the actual code to open the mod menu
+    // This is a placeholder for the actual mod menu functionality
+    // Example: open_menu();
+    // You need to replace 'open_menu()' with the actual function or command to open the mod menu in your script
+} ˙øãªäΩè∏àºè∫å∏âÀ

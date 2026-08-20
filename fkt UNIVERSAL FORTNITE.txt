@@ -1,0 +1,78 @@
+//================ UNIVERSAL FORTNITE CONFIG =================//
+// Settings Based on: Xbox | ADS 4 | Deadzone 10 | Strong Long-Range Tracking
+//============================================================//
+
+// Toggle Mods
+bool AR_ON = TRUE;     // Anti Recoil
+bool AA_ON = TRUE;     // Aim Assist Tracking
+
+// Stick Deadzone Filtering (removes shaking)
+int DZ = 10;
+
+// Tracking Strength
+int AA_X = 13;  // Horizontal pull
+int AA_Y = 19;  // Vertical pull
+int Smooth = 7; // Smooths camera so no jitter
+
+// Universal Anti-Recoil (adaptive)
+int R_X = 0;
+int R_Y = 27;
+
+//============================================================//
+
+int LX, LY, RX, RY;
+
+main {
+
+    // Deadzone Stabilizer
+    LX = get_val(XB1_LX);
+    LY = get_val(XB1_LY);
+    RX = get_val(XB1_RX);
+    RY = get_val(XB1_RY);
+
+    if(abs(RX) <= DZ) RX = 0;
+    if(abs(RY) <= DZ) RY = 0;
+    set_val(XB1_RX, RX);
+    set_val(XB1_RY, RY);
+
+    //========================================================//
+    // AIM ASSIST & AFK TRACKING BOOSTER
+    if(AA_ON && get_val(XB1_LT) > 40) {
+
+        int pull_X = AA_X;
+        int pull_Y = AA_Y;
+
+        // More vertical stabilization long range
+        if(abs(RX) < 25 && abs(RY) < 25) {
+            pull_Y = AA_Y + 3;
+        }
+
+        // Tracking Movement
+        RX = clamp(RX + pull_X * Sign(RX), -100, 100);
+        RY = clamp(RY + pull_Y * Sign(RY), -100, 100);
+
+        RX = SmoothStick(RX, Smooth);
+        RY = SmoothStick(RY, Smooth);
+
+        set_val(XB1_RX, RX);
+        set_val(XB1_RY, RY);
+    }
+    //========================================================//
+
+    // UNIVERSAL ANTI-RECOIL CONTROL
+    if(AR_ON && get_val(XB1_RT) > 20) {
+        add_val(XB1_RY, R_Y * -1); // Push down when shooting
+    }
+}
+
+//================ HELPER FUNCTIONS ==========================//
+int SmoothStick(int input, int S) {
+    return (input * S) / (S + 1);
+}
+
+int Sign(int v) {
+    if(v > 0) return 1;
+    if(v < 0) return -1;
+    return 0;
+}
+//============================================================//

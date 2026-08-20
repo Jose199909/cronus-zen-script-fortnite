@@ -1,0 +1,1908 @@
+define BUTTON_MENU_1 = PS4_L2;
+define BUTTON_MENU_2 = PS4_UP;
+define BUTTON_UP = PS4_UP;
+define BUTTON_DOWN = PS4_DOWN;
+define BUTTON_LEFT = PS4_LEFT;
+define BUTTON_RIGHT = PS4_RIGHT;
+define BUTTON_ENTER = PS4_CROSS;
+define BUTTON_BACK = PS4_CIRCLE;
+define BUTTON_ADS_GAME = PS4_L2;
+define BUTTON_FIRE_GAME = PS4_R2;
+
+define BUTTON_INTERACT_SQUARE = PS4_SQUARE;
+define BUTTON_INTERACT_CROSS = PS4_CROSS;
+define BUTTON_INTERACT_CIRCLE = PS4_CIRCLE;
+define BUTTON_INTERACT_TRIANGLE = PS4_TRIANGLE;
+
+define FONT_SMALL = 0;
+define COLOR_WHITE = 1;
+define VALUE_X_POS = 95;
+
+define MAIN_MENU_LEVEL = 0;
+define RECOIL_MENU_LEVEL = 1;
+define AIM_ASSISTS_LIST_LEVEL = 2;
+define EXTRAS_MENU_LEVEL = 3;
+define SETTINGS_MENU_LEVEL = 4;
+define STICKY_AIM_CONFIG_LEVEL = 5;
+define AIM_DRAG_CONFIG_LEVEL = 6;
+define POLAR_AIM_CONFIG_LEVEL = 7;
+define AIMLOCK_CONFIG_LEVEL = 8;
+define STRAFE_CONFIG_LEVEL = 9;
+define FAST_PICKUP_CONFIG_LEVEL = 10;
+define JITTER_AIM_CONFIG_LEVEL = 11;
+define CORRECTIVE_AIM_CONFIG_LEVEL = 12;
+define POLAR_ACTIVATION_MENU_LEVEL = 13;
+define STRAFE_ACTIVATION_MENU_LEVEL = 14;
+define JITTER_ACTIVATION_MENU_LEVEL = 15;
+
+int setting_anti_recoil_toggle = TRUE;
+int setting_recoil_vertical = 15;
+int setting_recoil_horizontal = 0;
+int setting_ads_sticky_aim_toggle = TRUE;
+int setting_ads_sticky_aim_strength = 20;
+int setting_aim_drag_toggle = TRUE;
+int setting_aim_drag_strength = 2;
+int setting_aim_drag_threshold = 10;
+int setting_polar_aim_toggle = TRUE;
+int setting_polar_aim_radius = 10;
+int setting_polar_aim_speed = 30;
+int setting_left_stick_deadzone = 5;
+int setting_right_stick_deadzone = 5;
+int setting_aimlock_toggle = FALSE;
+int setting_aimlock_strength = 75;
+int setting_fast_pickup_toggle = FALSE;
+int setting_strafe_toggle = FALSE;
+int setting_fast_pickup_press_time = 40;
+int setting_fast_pickup_release_time = 40;
+int setting_jitter_aim_toggle = FALSE;
+int setting_jitter_aim_strength = 8;
+int setting_corrective_aim_toggle = FALSE;
+int setting_corrective_aim_strength = 15;
+int setting_corrective_aim_smoothing = 20;
+
+int setting_polar_activation_idle = FALSE;
+int setting_polar_activation_ads = FALSE;
+int setting_polar_activation_ads_fire = FALSE;
+int setting_polar_activation_always = TRUE;
+int setting_strafe_activation_idle = FALSE;
+int setting_strafe_activation_ads = FALSE;
+int setting_strafe_activation_ads_fire = TRUE;
+int setting_strafe_activation_always = FALSE;
+int setting_jitter_activation_idle = FALSE;
+int setting_jitter_activation_ads = TRUE;
+int setting_jitter_activation_ads_fire = FALSE;
+int setting_jitter_activation_always = FALSE;
+
+int menu_active = FALSE;
+int current_menu_level = MAIN_MENU_LEVEL;
+int main_menu_selection = 0;
+int recoil_menu_selection = 0;
+int aim_assists_list_selection = 0;
+int extras_menu_selection = 0;
+int settings_menu_selection = 0;
+int sticky_aim_config_selection = 0;
+int aim_drag_config_selection = 0;
+int polar_aim_config_selection = 0;
+int aimlock_config_selection = 0;
+int strafe_config_selection = 0;
+int fast_pickup_config_selection = 0;
+int jitter_aim_config_selection = 0;
+int corrective_aim_config_selection = 0;
+int polar_activation_menu_selection = 0;
+int strafe_activation_menu_selection = 0;
+int jitter_activation_menu_selection = 0;
+
+int main_menu_scroll_offset = 0;
+int recoil_menu_scroll_offset = 0;
+int aim_assists_list_scroll_offset = 0;
+int extras_menu_scroll_offset = 0;
+int settings_menu_scroll_offset = 0;
+int sticky_aim_config_scroll_offset = 0;
+int aim_drag_config_scroll_offset = 0;
+int polar_aim_config_scroll_offset = 0;
+int aimlock_config_scroll_offset = 0;
+int strafe_config_scroll_offset = 0;
+int fast_pickup_config_scroll_offset = 0;
+int jitter_aim_config_scroll_offset = 0;
+int corrective_aim_config_scroll_offset = 0;
+int polar_activation_scroll_offset = 0;
+int strafe_activation_scroll_offset = 0;
+int jitter_activation_scroll_offset = 0;
+
+define MAX_VISIBLE_MENU_ITEMS = 3;
+define MAX_OLED_STRING_BUFFER = 15;
+
+int max_main_items = 4;
+int max_recoil_items = 4;
+int max_aim_assists_list_items = 7;
+int max_extras_items = 3;
+int max_settings_items = 3;
+int max_sticky_aim_config_items = 2;
+int max_aim_drag_config_items = 3;
+int max_polar_aim_config_items = 4;
+int max_aimlock_config_items = 2;
+int max_strafe_config_items = 3;
+int max_fast_pickup_config_items = 4;
+int max_jitter_aim_config_items = 3;
+int max_corrective_aim_config_items = 3;
+int max_polar_activation_items = 5;
+int max_strafe_activation_items = 5;
+int max_jitter_activation_items = 5;
+
+int d1, d2, d3;
+int count;
+int y_pos = 20;
+int y_step = 15;
+int slot_iter;
+int item_idx;
+int oled_display_y;
+int current_ry_recoil;
+int recoil_adjustment;
+int current_rx_recoil, recoil_adjustment_x, temp_value_for_clamp_x;
+int raw_lx, raw_ly, raw_rx, raw_ry_stick;
+int final_lx, final_ly, final_rx, final_ry;
+int temp_value_for_clamp;
+int polar_aim_active_condition;
+int g_oled_loop_idx;
+int g_fp_loop_idx;
+int polar_angle_accumulator;
+int corrective_previous_x, corrective_previous_y;
+int corrective_oscillate_direction;
+int jitter_timer, jitter_direction;
+int jitter_val, corrective_current_x, corrective_current_y, corrective_min_input;
+int stick_magnitude, sin_val, cos_val;
+int scrollbar_h, thumb_h, thumb_y, text_color;
+int range, fade_factor;
+int jitter_active_condition;
+
+define STRAFE_INTERVAL_CYCLES = 8;
+int strafe_active_condition = FALSE;
+int strafe_direction_flag = 0;
+int strafe_timer_cycles = 0;
+
+int show_image_on_exit = FALSE;
+int image_display_timer = 0;
+
+int fast_pickup_spam_state = 0;
+int fast_pickup_timer = 0;
+int button_being_spammed = 0;
+int detected_button_this_cycle_fp = 0;
+int spammable_buttons[12];
+
+const int8 POLAR_ASSIST_DATA[]= {
+    0,2,3,5,7,9,10,12,14,16,17,19,21,22,24,
+    26,28,29,31,33,34,36,37,39,41,42,44,45,47,48,
+    50,51,53,54,56,57,59,60,62,63,64,66,67,68,69,
+    71,72,73,74,75,77,78,79,80,81,82,83,84,85,86,
+    87,88,88,89,90,91,92,92,93,94,94,95,95,96,96,
+    97,97,98,98,98,99,99,99,99,100,100,100,100,100,100,
+    100,100,100,100,100,100,99,99,99,99,98,98,98,97,97,
+    96,96,95,95,94,94,93,92,92,91,90,89,88,88,87,
+    86,85,84,83,82,81,80,79,78,77,75,74,73,72,71,
+    69,68,67,66,64,63,62,60,59,57,56,54,53,51,50,
+    48,47,45,44,42,41,39,37,36,34,33,31,29,28,26,
+    24,22,21,19,17,16,14,12,10,9,7,5,3,2,0,
+    -2,-3,-5,-7,-9,-10,-12,-14,-16,-17,-19,-21,-22,-24,-26,
+    -28,-29,-31,-33,-34,-36,-37,-39,-41,-42,-44,-45,-47,-48,-50,
+    -51,-53,-54,-56,-57,-59,-60,-62,-63,-64,-66,-67,-68,-69,-71,
+    -72,-73,-74,-75,-77,-78,-79,-80,-81,-82,-83,-84,-85,-86,-87,
+    -88,-88,-89,-90,-91,-92,-92,-93,-94,-94,-95,-95,-96,-96,-97,
+    -97,-98,-98,-98,-99,-99,-99,-99,-100,-100,-100,-100,-100,-100,-100,
+    -100,-100,-100,-100,-100,-99,-99,-99,-99,-98,-98,-98,-97,-97,-96,
+    -96,-95,-95,-94,-94,-93,-92,-92,-91,-90,-89,-88,-88,-87,-86,
+    -85,-84,-83,-82,-81,-80,-79,-78,-77,-75,-74,-73,-72,-71,-69,
+    -68,-67,-66,-64,-63,-62,-60,-59,-57,-56,-54,-53,-51,-50,-48,
+    -47,-45,-44,-42,-41,-39,-37,-36,-34,-33,-31,-29,-28,-26,-24,
+    -22,-21,-19,-17,-16,-14,-12,-10,-9,-7,-5,-3,-2
+};
+
+define C_A = 65; define C_B = 66; define C_C = 67; define C_D = 68; define C_E = 69; define C_F = 70;
+define C_G = 71; define C_H = 72; define C_I = 73; define C_J = 74; define C_K = 75; define C_L = 76;
+define C_M = 77; define C_N = 78; define C_O = 79; define C_P = 80; define C_Q = 81; define C_R = 82;
+define C_S = 83; define C_T = 84; define C_U = 85; define C_V = 86; define C_W = 87; define C_X = 88;
+define C_Y = 89; define C_Z = 90;
+define C_a = 97; define C_b = 98; define C_c = 99; define C_d_l = 100; define C_e_l = 101; define C_f_l = 102;
+define C_g_l = 103; define C_h_l = 104; define C_i_l = 105; define C_j_l = 106; define C_k = 107;
+define C_l_l = 108; define C_m_l = 109; define C_n_l = 110; define C_o_l = 111; define C_p_l = 112; define C_q_l = 113; define C_r_l = 114;
+define C_s_l = 115; define C_t_l = 116; define C_u_l = 117; define C_v_l = 118; define C_w_l = 119; define C_x_l = 120;
+define C_y_l = 121; define C_z_l = 122;
+define C_0 = 48; define C_1 = 49; define C_2 = 50; define C_3 = 51; define C_4 = 52; define C_5 = 53;
+define C_6 = 54; define C_7 = 55; define C_8 = 56; define C_9 = 57;
+define C_SPACE = 32; define C_COLON = 58; define C_GT = 62; define C_PLUS = 43; define C_EQUALS = 61;
+define C_HYPHEN = 45; define C_PERCENT = 37; define C_DOT = 46;
+
+function suppress_all_inputs() {
+    set_val(PS4_LX,0); set_val(PS4_LY,0); set_val(PS4_RX,0); set_val(PS4_RY,0);
+    set_val(PS4_L2,0); set_val(PS4_R2,0); set_val(PS4_L1,0); set_val(PS4_R1,0);
+    set_val(PS4_CROSS,0); set_val(PS4_CIRCLE,0); set_val(PS4_SQUARE,0); set_val(PS4_TRIANGLE,0);
+    set_val(PS4_L3,0); set_val(PS4_R3,0);
+    set_val(PS4_UP, 0); set_val(PS4_DOWN, 0); set_val(PS4_LEFT, 0); set_val(PS4_RIGHT, 0);
+}
+
+function clear_oled_char_buffer(max_len) {
+    for(g_oled_loop_idx = 1; g_oled_loop_idx <= max_len; g_oled_loop_idx++) {
+        if (g_oled_loop_idx <= MAX_OLED_STRING_BUFFER) {
+            putc_oled(g_oled_loop_idx, C_SPACE);
+        } else { break; }
+    }
+}
+
+function print_number(px,py,pfont,pcolor,num){
+    clear_oled_char_buffer(5);
+    count = 2;
+    if (num < 0) {
+        putc_oled(1, C_HYPHEN);
+        d1=abs(num)/10;
+        d2=abs(num)%10;
+        if (abs(num) >=100) {
+            putc_oled(2, abs(num)/100 + C_0);
+            putc_oled(3, (abs(num)%100)/10 + C_0);
+            putc_oled(4, abs(num)%10 + C_0);
+            count=4;
+        } else if (abs(num) >=10) {
+            putc_oled(2,d1+C_0);
+            putc_oled(3,d2+C_0);
+            count=3;
+        } else {
+            putc_oled(2,d2+C_0);
+            count=2;
+        }
+    }
+    else if (num >= 10000) { count=5; d1=num/10000; d2=(num%10000)/1000; d3=(num%1000)/100; putc_oled(1,d1+C_0);putc_oled(2,d2+C_0);putc_oled(3,d3+C_0);putc_oled(4,(num%100)/10+C_0);putc_oled(5,num%10+C_0);}
+    else if (num >= 1000) { count=4; d1=num/1000; d2=(num%1000)/100; d3=(num%100)/10; putc_oled(1,d1+C_0);putc_oled(2,d2+C_0);putc_oled(3,d3+C_0);putc_oled(4,num%10+C_0); }
+    else if (num >= 100)  { count=3; d1=num/100; d2=(num%100)/10; d3=num%10; putc_oled(1,d1+C_0);putc_oled(2,d2+C_0);putc_oled(3,d3+C_0); }
+    else if (num >= 10)   { count=2; d1=num/10; d2=num%10; putc_oled(1,d1+C_0);putc_oled(2,d2+C_0); }
+    else if (num >= 0)    { count=1; putc_oled(1,num+C_0); }
+    puts_oled(px, py, pfont, count, pcolor);
+}
+
+function print_on_off(px,py,pfont,pcolor,is_on){
+    clear_oled_char_buffer(3);
+    if(is_on) {
+        putc_oled(1, C_O); putc_oled(2, C_N);
+        puts_oled(px, py, pfont, 2, pcolor);
+    } else {
+        putc_oled(1, C_O); putc_oled(2, C_F); putc_oled(3, C_F);
+        puts_oled(px, py, pfont, 3, pcolor);
+    }
+}
+
+function draw_oled_menu() {
+    cls_oled(0);
+
+    if(current_menu_level == MAIN_MENU_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(9);
+        putc_oled(1,C_M); putc_oled(2,C_A); putc_oled(3,C_I); putc_oled(4,C_N); putc_oled(5,C_SPACE);
+        putc_oled(6,C_M); putc_oled(7,C_E); putc_oled(8,C_N); putc_oled(9,C_U);
+        puts_oled(37, 2, FONT_SMALL, 9, 0);
+
+        if (max_main_items > MAX_VISIBLE_MENU_ITEMS) {
+            scrollbar_h = 49;
+            thumb_h = (MAX_VISIBLE_MENU_ITEMS * scrollbar_h) / max_main_items;
+            if (thumb_h < 5) thumb_h = 5;
+            thumb_y = (main_menu_scroll_offset * (scrollbar_h - thumb_h)) / (max_main_items - MAX_VISIBLE_MENU_ITEMS);
+            line_oled(126, 14, 126, 63, COLOR_WHITE, 1);
+            rect_oled(124, 14 + thumb_y, 3, thumb_h, 1, COLOR_WHITE);
+        }
+
+        for (slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++) {
+            item_idx = main_menu_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if (item_idx < max_main_items) {
+                text_color = COLOR_WHITE;
+                if (main_menu_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 122, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if (item_idx == 0) {
+                    clear_oled_char_buffer(14);
+                    putc_oled(1,C_R); putc_oled(2,C_e_l); putc_oled(3,C_c); putc_oled(4,C_o_l); putc_oled(5,C_i_l); putc_oled(6,C_l_l);
+                    putc_oled(7,C_SPACE); putc_oled(8,C_C);putc_oled(9,C_o_l);putc_oled(10,C_n_l);putc_oled(11,C_t_l);
+                    putc_oled(12,C_r_l);putc_oled(13,C_o_l);putc_oled(14,C_l_l);
+                    puts_oled(10, oled_display_y, FONT_SMALL, 14, text_color);
+                } else if (item_idx == 1) {
+                    clear_oled_char_buffer(11);
+                    putc_oled(1,C_A);putc_oled(2,C_i_l);putc_oled(3,C_m_l);putc_oled(4,C_SPACE);putc_oled(5,C_A);putc_oled(6,C_s_l);
+                    putc_oled(7,C_s_l);putc_oled(8,C_i_l);putc_oled(9,C_s_l);putc_oled(10,C_t_l);putc_oled(11,C_s_l);
+                    puts_oled(10, oled_display_y, FONT_SMALL, 11, text_color);
+                } else if (item_idx == 2) {
+                    clear_oled_char_buffer(6);
+                    putc_oled(1,C_E);putc_oled(2,C_X);putc_oled(3,C_T);putc_oled(4,C_R);putc_oled(5,C_A);putc_oled(6,C_S);
+                    puts_oled(10, oled_display_y, FONT_SMALL, 6, text_color);
+                } else if (item_idx == 3) {
+                    clear_oled_char_buffer(8);
+                    putc_oled(1,C_S);putc_oled(2,C_e_l);putc_oled(3,C_t_l);putc_oled(4,C_t_l);putc_oled(5,C_i_l);putc_oled(6,C_n_l);putc_oled(7,C_g_l);putc_oled(8,C_s_l);
+                    puts_oled(10, oled_display_y, FONT_SMALL, 8, text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == RECOIL_MENU_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(11);
+        putc_oled(1,C_R);putc_oled(2,C_E);putc_oled(3,C_C);putc_oled(4,C_O);putc_oled(5,C_I);putc_oled(6,C_L);
+        putc_oled(7,C_SPACE);putc_oled(8,C_M);putc_oled(9,C_E);putc_oled(10,C_N);putc_oled(11,C_U);
+        puts_oled(31, 2, FONT_SMALL, 11, 0);
+
+        if (max_recoil_items > MAX_VISIBLE_MENU_ITEMS) {
+            scrollbar_h = 49;
+            thumb_h = (MAX_VISIBLE_MENU_ITEMS * scrollbar_h) / max_recoil_items;
+            if (thumb_h < 5) thumb_h = 5;
+            thumb_y = (recoil_menu_scroll_offset * (scrollbar_h - thumb_h)) / (max_recoil_items - MAX_VISIBLE_MENU_ITEMS);
+            line_oled(126, 14, 126, 63, COLOR_WHITE, 1);
+            rect_oled(124, 14 + thumb_y, 3, thumb_h, 1, COLOR_WHITE);
+        }
+
+        for(slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++){
+            item_idx = recoil_menu_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if(item_idx < max_recoil_items){
+                text_color = COLOR_WHITE;
+                if(recoil_menu_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 122, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if(item_idx == 0){
+                    clear_oled_char_buffer(11);
+                    putc_oled(1,C_A);putc_oled(2,C_n_l);putc_oled(3,C_t_l);putc_oled(4,C_i_l);putc_oled(5,C_HYPHEN);putc_oled(6,C_R);
+                    putc_oled(7,C_e_l);putc_oled(8,C_c);putc_oled(9,C_o_l);putc_oled(10,C_i_l);putc_oled(11,C_l_l);
+                    puts_oled(10,oled_display_y,FONT_SMALL,11,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_anti_recoil_toggle);
+                }
+                else if(item_idx == 1){
+                    clear_oled_char_buffer(9);
+                    putc_oled(1,C_V);putc_oled(2,C_e_l);putc_oled(3,C_r_l);putc_oled(4,C_t_l);putc_oled(5,C_i_l);putc_oled(6,C_c);
+                    putc_oled(7,C_a);putc_oled(8,C_l_l);putc_oled(9,C_COLON);
+                    puts_oled(10,oled_display_y,FONT_SMALL,9,text_color);
+                    print_number(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_recoil_vertical);
+                }
+                else if(item_idx == 2){
+                    clear_oled_char_buffer(11);
+                    putc_oled(1,C_H);putc_oled(2,C_o_l);putc_oled(3,C_r_l);putc_oled(4,C_i_l);putc_oled(5,C_z_l);putc_oled(6,C_o_l);
+                    putc_oled(7,C_n_l);putc_oled(8,C_t_l);putc_oled(9,C_a);putc_oled(10,C_l_l);putc_oled(11,C_COLON);
+                    puts_oled(10,oled_display_y,FONT_SMALL,11,text_color);
+                    print_number(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_recoil_horizontal);
+                }
+                else if(item_idx == 3) {
+                    clear_oled_char_buffer(4);
+                    putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k);
+                    puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == AIM_ASSISTS_LIST_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(11);
+        putc_oled(1,C_A);putc_oled(2,C_i_l);putc_oled(3,C_m_l);putc_oled(4,C_SPACE);putc_oled(5,C_A);putc_oled(6,C_s_l);
+        putc_oled(7,C_s_l);putc_oled(8,C_i_l);putc_oled(9,C_s_l);putc_oled(10,C_t_l);putc_oled(11,C_s_l);
+        puts_oled(31, 2, FONT_SMALL, 11, 0);
+
+        if (max_aim_assists_list_items > MAX_VISIBLE_MENU_ITEMS) {
+            scrollbar_h = 49;
+            thumb_h = (MAX_VISIBLE_MENU_ITEMS * scrollbar_h) / max_aim_assists_list_items;
+            if (thumb_h < 5) thumb_h = 5;
+            thumb_y = (aim_assists_list_scroll_offset * (scrollbar_h - thumb_h)) / (max_aim_assists_list_items - MAX_VISIBLE_MENU_ITEMS);
+            line_oled(126, 14, 126, 63, COLOR_WHITE, 1);
+            rect_oled(124, 14 + thumb_y, 3, thumb_h, 1, COLOR_WHITE);
+        }
+
+        for(slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++){
+            item_idx = aim_assists_list_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if(item_idx < max_aim_assists_list_items){
+                text_color = COLOR_WHITE;
+                if(aim_assists_list_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 122, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if(item_idx == 0){
+                    clear_oled_char_buffer(7);
+                    putc_oled(1,C_A);putc_oled(2,C_i_l);putc_oled(3,C_m_l);putc_oled(4,C_l_l);putc_oled(5,C_o_l);putc_oled(6,C_c);putc_oled(7,C_k);
+                    puts_oled(10,oled_display_y,FONT_SMALL,7,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_aimlock_toggle);
+                }
+                else if(item_idx == 1){
+                    clear_oled_char_buffer(9);
+                    putc_oled(1,C_P);putc_oled(2,C_o_l);putc_oled(3,C_l_l);putc_oled(4,C_a);putc_oled(5,C_r_l);
+                    putc_oled(6,C_SPACE);putc_oled(7,C_A);putc_oled(8,C_i_l);putc_oled(9,C_m_l);
+                    puts_oled(10,oled_display_y,FONT_SMALL,9,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_polar_aim_toggle);
+                }
+                else if(item_idx == 2){
+                    clear_oled_char_buffer(10);
+                    putc_oled(1,C_S);putc_oled(2,C_t_l);putc_oled(3,C_i_l);putc_oled(4,C_c);putc_oled(5,C_k);putc_oled(6,C_y_l);
+                    putc_oled(7,C_SPACE);putc_oled(8,C_A);putc_oled(9,C_i_l);putc_oled(10,C_m_l);
+                    puts_oled(10,oled_display_y,FONT_SMALL,10,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_ads_sticky_aim_toggle);
+                }
+                else if(item_idx == 3){
+                    clear_oled_char_buffer(8);
+                    putc_oled(1,C_A);putc_oled(2,C_i_l);putc_oled(3,C_m_l);putc_oled(4,C_SPACE);putc_oled(5,C_D);
+                    putc_oled(6,C_r_l);putc_oled(7,C_a);putc_oled(8,C_g_l);
+                    puts_oled(10,oled_display_y,FONT_SMALL,8,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_aim_drag_toggle);
+                }
+                else if(item_idx == 4){
+                    clear_oled_char_buffer(10);
+                    putc_oled(1,C_J);putc_oled(2,C_i_l);putc_oled(3,C_t_l);putc_oled(4,C_t_l);putc_oled(5,C_e_l);putc_oled(6,C_r_l);
+                    putc_oled(7,C_SPACE);putc_oled(8,C_A);putc_oled(9,C_i_l);putc_oled(10,C_m_l);
+                    puts_oled(10,oled_display_y,FONT_SMALL,10,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_jitter_aim_toggle);
+                }
+                else if(item_idx == 5){
+                    clear_oled_char_buffer(11);
+                    putc_oled(1,C_C);putc_oled(2,C_o_l);putc_oled(3,C_r_l);putc_oled(4,C_r_l);putc_oled(5,C_e_l);putc_oled(6,C_c);
+                    putc_oled(7,C_t_l);putc_oled(8,C_i_l);putc_oled(9,C_v_l);putc_oled(10,C_e_l);
+                    puts_oled(10,oled_display_y,FONT_SMALL,10,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_corrective_aim_toggle);
+                }
+                else if(item_idx == 6) {
+                    clear_oled_char_buffer(4);
+                    putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k);
+                    puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == EXTRAS_MENU_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(11);
+        putc_oled(1,C_E);putc_oled(2,C_X);putc_oled(3,C_T);putc_oled(4,C_R);putc_oled(5,C_A);putc_oled(6,C_S);
+        putc_oled(7,C_SPACE);putc_oled(8,C_M);putc_oled(9,C_E);putc_oled(10,C_N);putc_oled(11,C_U);
+        puts_oled(31, 2, FONT_SMALL, 11, 0);
+
+        if (max_extras_items > MAX_VISIBLE_MENU_ITEMS) {
+            scrollbar_h = 49;
+            thumb_h = (MAX_VISIBLE_MENU_ITEMS * scrollbar_h) / max_extras_items;
+            if (thumb_h < 5) thumb_h = 5;
+            thumb_y = (extras_menu_scroll_offset * (scrollbar_h - thumb_h)) / (max_extras_items - MAX_VISIBLE_MENU_ITEMS);
+            line_oled(126, 14, 126, 63, COLOR_WHITE, 1);
+            rect_oled(124, 14 + thumb_y, 3, thumb_h, 1, COLOR_WHITE);
+        }
+
+        for(slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++){
+            item_idx = extras_menu_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if(item_idx < max_extras_items){
+                text_color = COLOR_WHITE;
+                if(extras_menu_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 122, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if (item_idx == 0){
+                    clear_oled_char_buffer(6);
+                    putc_oled(1,C_S);putc_oled(2,C_t_l);putc_oled(3,C_r_l);putc_oled(4,C_a);putc_oled(5,C_f_l);putc_oled(6,C_e_l);
+                    puts_oled(10,oled_display_y,FONT_SMALL,6,text_color);
+                } else if (item_idx == 1) {
+                    clear_oled_char_buffer(11);
+                    putc_oled(1,C_F);putc_oled(2,C_a);putc_oled(3,C_s_l);putc_oled(4,C_t_l);putc_oled(5,C_SPACE);
+                    putc_oled(6,C_P);putc_oled(7,C_i_l);putc_oled(8,C_c);putc_oled(9,C_k);putc_oled(10,C_u_l);putc_oled(11,C_p_l);
+                    puts_oled(10,oled_display_y,FONT_SMALL,11,text_color);
+                } else if (item_idx == 2) {
+                    clear_oled_char_buffer(4);
+                    putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k);
+                    puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == SETTINGS_MENU_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(13);
+        putc_oled(1,C_S);putc_oled(2,C_E);putc_oled(3,C_T);putc_oled(4,C_T);putc_oled(5,C_I);putc_oled(6,C_N);
+        putc_oled(7,C_G);putc_oled(8,C_S);putc_oled(9,C_SPACE);putc_oled(10,C_M);putc_oled(11,C_E);
+        putc_oled(12,C_N);putc_oled(13,C_U);
+        puts_oled(25, 2, FONT_SMALL, 13, 0);
+
+        if (max_settings_items > MAX_VISIBLE_MENU_ITEMS) {
+            scrollbar_h = 49;
+            thumb_h = (MAX_VISIBLE_MENU_ITEMS * scrollbar_h) / max_settings_items;
+            if (thumb_h < 5) thumb_h = 5;
+            thumb_y = (settings_menu_scroll_offset * (scrollbar_h - thumb_h)) / (max_settings_items - MAX_VISIBLE_MENU_ITEMS);
+            line_oled(126, 14, 126, 63, COLOR_WHITE, 1);
+            rect_oled(124, 14 + thumb_y, 3, thumb_h, 1, COLOR_WHITE);
+        }
+
+        for (slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++) {
+            item_idx = settings_menu_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if (item_idx < max_settings_items) {
+                text_color = COLOR_WHITE;
+                if (settings_menu_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 122, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if (item_idx == 0) {
+                    clear_oled_char_buffer(11);
+                    putc_oled(1,C_L);putc_oled(2,C_SPACE);putc_oled(3,C_S);putc_oled(4,C_t_l);putc_oled(5,C_i_l);putc_oled(6,C_c);
+                    putc_oled(7,C_k);putc_oled(8,C_SPACE);putc_oled(9,C_D);putc_oled(10,C_Z);putc_oled(11,C_COLON);
+                    puts_oled(10,oled_display_y,FONT_SMALL,11,text_color);
+                    print_number(VALUE_X_POS,oled_display_y,FONT_SMALL,text_color,setting_left_stick_deadzone);
+                } else if (item_idx == 1) {
+                    clear_oled_char_buffer(11);
+                    putc_oled(1,C_R);putc_oled(2,C_SPACE);putc_oled(3,C_S);putc_oled(4,C_t_l);putc_oled(5,C_i_l);putc_oled(6,C_c);
+                    putc_oled(7,C_k);putc_oled(8,C_SPACE);putc_oled(9,C_D);putc_oled(10,C_Z);putc_oled(11,C_COLON);
+                    puts_oled(10,oled_display_y,FONT_SMALL,11,text_color);
+                    print_number(VALUE_X_POS,oled_display_y,FONT_SMALL,text_color,setting_right_stick_deadzone);
+                } else if (item_idx == 2) {
+                    clear_oled_char_buffer(4);
+                    putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k);
+                    puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == STICKY_AIM_CONFIG_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(10);
+        putc_oled(1,C_S);putc_oled(2,C_t_l);putc_oled(3,C_i_l);putc_oled(4,C_c);putc_oled(5,C_k);
+        putc_oled(6,C_y_l);putc_oled(7,C_SPACE);putc_oled(8,C_A);putc_oled(9,C_i_l);putc_oled(10,C_m_l);
+        puts_oled(34, 2, FONT_SMALL, 10, 0);
+
+        for(slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++){
+            item_idx = sticky_aim_config_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if(item_idx < max_sticky_aim_config_items){
+                text_color = COLOR_WHITE;
+                if(sticky_aim_config_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 128, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if(item_idx == 0){
+                    clear_oled_char_buffer(9);
+                    putc_oled(1,C_S);putc_oled(2,C_t_l);putc_oled(3,C_r_l);putc_oled(4,C_e_l);putc_oled(5,C_n_l);
+                    putc_oled(6,C_g_l);putc_oled(7,C_t_l);putc_oled(8,C_h_l);putc_oled(9,C_COLON);
+                    puts_oled(10,oled_display_y,FONT_SMALL,9,text_color);
+                    print_number(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_ads_sticky_aim_strength);
+                    clear_oled_char_buffer(1);
+                    putc_oled(1, C_PERCENT);
+                    puts_oled(VALUE_X_POS + (count * 6) + 2, oled_display_y, FONT_SMALL, 1, text_color);
+                }
+                else if(item_idx == 1) {
+                    clear_oled_char_buffer(4);
+                    putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k);
+                    puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == AIM_DRAG_CONFIG_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(8);
+        putc_oled(1,C_A);putc_oled(2,C_i_l);putc_oled(3,C_m_l);putc_oled(4,C_SPACE);
+        putc_oled(5,C_D);putc_oled(6,C_r_l);putc_oled(7,C_a);putc_oled(8,C_g_l);
+        puts_oled(40, 2, FONT_SMALL, 8, 0);
+
+        for(slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++){
+            item_idx = aim_drag_config_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if(item_idx < max_aim_drag_config_items){
+                text_color = COLOR_WHITE;
+                if(aim_drag_config_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 128, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if(item_idx == 0){
+                    clear_oled_char_buffer(9);
+                    putc_oled(1,C_S);putc_oled(2,C_t_l);putc_oled(3,C_r_l);putc_oled(4,C_e_l);putc_oled(5,C_n_l);
+                    putc_oled(6,C_g_l);putc_oled(7,C_t_l);putc_oled(8,C_h_l);putc_oled(9,C_COLON);
+                    puts_oled(10,oled_display_y,FONT_SMALL,9,text_color);
+                    print_number(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_aim_drag_strength);
+                }
+                else if(item_idx == 1){
+                    clear_oled_char_buffer(10);
+                    putc_oled(1,C_T);putc_oled(2,C_h_l);putc_oled(3,C_r_l);putc_oled(4,C_e_l);putc_oled(5,C_s_l);putc_oled(6,C_h_l);
+                    putc_oled(7,C_o_l);putc_oled(8,C_l_l);putc_oled(9,C_d_l);putc_oled(10,C_COLON);
+                    puts_oled(10,oled_display_y,FONT_SMALL,10,text_color);
+                    print_number(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_aim_drag_threshold);
+                }
+                else if(item_idx == 2) {
+                    clear_oled_char_buffer(4);
+                    putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k);
+                    puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == POLAR_AIM_CONFIG_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(9);
+        putc_oled(1,C_P);putc_oled(2,C_o_l);putc_oled(3,C_l_l);putc_oled(4,C_a);putc_oled(5,C_r_l);
+        putc_oled(6,C_SPACE);putc_oled(7,C_A);putc_oled(8,C_i_l);putc_oled(9,C_m_l);
+        puts_oled(37, 2, FONT_SMALL, 9, 0);
+
+        for(slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++){
+            item_idx = polar_aim_config_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if(item_idx < max_polar_aim_config_items){
+                text_color = COLOR_WHITE;
+                if(polar_aim_config_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 128, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if(item_idx == 0){
+                    clear_oled_char_buffer(7);
+                    putc_oled(1,C_R);putc_oled(2,C_a);putc_oled(3,C_d_l);putc_oled(4,C_i_l);putc_oled(5,C_u_l);putc_oled(6,C_s_l);putc_oled(7,C_COLON);
+                    puts_oled(10,oled_display_y,FONT_SMALL,7,text_color);
+                    print_number(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_polar_aim_radius);
+                }
+                else if(item_idx == 1){
+                    clear_oled_char_buffer(6);
+                    putc_oled(1,C_S);putc_oled(2,C_p_l);putc_oled(3,C_e_l);putc_oled(4,C_e_l);putc_oled(5,C_d_l);putc_oled(6,C_COLON);
+                    puts_oled(10,oled_display_y,FONT_SMALL,6,text_color);
+                    print_number(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_polar_aim_speed);
+                }
+                else if(item_idx == 2){
+                    clear_oled_char_buffer(12);
+                    putc_oled(1,C_A);putc_oled(2,C_c);putc_oled(3,C_t_l);putc_oled(4,C_i_l);putc_oled(5,C_v_l);
+                    putc_oled(6,C_a);putc_oled(7,C_t_l);putc_oled(8,C_i_l);putc_oled(9,C_o_l);putc_oled(10,C_n_l);
+                    putc_oled(11,C_SPACE);putc_oled(12,C_GT);
+                    puts_oled(10,oled_display_y,FONT_SMALL,12,text_color);
+                }
+                else if(item_idx == 3) {
+                    clear_oled_char_buffer(4);
+                    putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k);
+                    puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == AIMLOCK_CONFIG_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(7);
+        putc_oled(1,C_A);putc_oled(2,C_i_l);putc_oled(3,C_m_l);putc_oled(4,C_l_l);
+        putc_oled(5,C_o_l);putc_oled(6,C_c);putc_oled(7,C_k);
+        puts_oled(43, 2, FONT_SMALL, 7, 0);
+
+        for(slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++){
+            item_idx = aimlock_config_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if(item_idx < max_aimlock_config_items){
+                text_color = COLOR_WHITE;
+                if(aimlock_config_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 128, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if(item_idx == 0){
+                    clear_oled_char_buffer(9);
+                    putc_oled(1,C_S);putc_oled(2,C_t_l);putc_oled(3,C_r_l);putc_oled(4,C_e_l);putc_oled(5,C_n_l);
+                    putc_oled(6,C_g_l);putc_oled(7,C_t_l);putc_oled(8,C_h_l);putc_oled(9,C_COLON);
+                    puts_oled(10,oled_display_y,FONT_SMALL,9,text_color);
+                    print_number(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_aimlock_strength);
+                }
+                else if(item_idx == 1) {
+                    clear_oled_char_buffer(4);
+                    putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k);
+                    puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == STRAFE_CONFIG_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(6);
+        putc_oled(1,C_S);putc_oled(2,C_t_l);putc_oled(3,C_r_l);putc_oled(4,C_a);putc_oled(5,C_f_l);putc_oled(6,C_e_l);
+        puts_oled(46, 2, FONT_SMALL, 6, 0);
+
+        for(slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++){
+            item_idx = strafe_config_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if(item_idx < max_strafe_config_items){
+                text_color = COLOR_WHITE;
+                if(strafe_config_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 128, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if(item_idx == 0){
+                    clear_oled_char_buffer(6);
+                    putc_oled(1,C_S);putc_oled(2,C_t_l);putc_oled(3,C_r_l);putc_oled(4,C_a);putc_oled(5,C_f_l);putc_oled(6,C_e_l);
+                    puts_oled(10,oled_display_y,FONT_SMALL,6,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_strafe_toggle);
+                }
+                else if(item_idx == 1){
+                    clear_oled_char_buffer(12);
+                    putc_oled(1,C_A);putc_oled(2,C_c);putc_oled(3,C_t_l);putc_oled(4,C_i_l);putc_oled(5,C_v_l);
+                    putc_oled(6,C_a);putc_oled(7,C_t_l);putc_oled(8,C_i_l);putc_oled(9,C_o_l);putc_oled(10,C_n_l);
+                    putc_oled(11,C_SPACE);putc_oled(12,C_GT);
+                    puts_oled(10,oled_display_y,FONT_SMALL,12,text_color);
+                }
+                else if(item_idx == 2) {
+                    clear_oled_char_buffer(4);
+                    putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k);
+                    puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == FAST_PICKUP_CONFIG_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(11);
+        putc_oled(1,C_F);putc_oled(2,C_a);putc_oled(3,C_s_l);putc_oled(4,C_t_l);putc_oled(5,C_SPACE);
+        putc_oled(6,C_P);putc_oled(7,C_i_l);putc_oled(8,C_c);putc_oled(9,C_k);putc_oled(10,C_u_l);putc_oled(11,C_p_l);
+        puts_oled(31, 2, FONT_SMALL, 11, 0);
+
+        for(slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++){
+            item_idx = fast_pickup_config_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if(item_idx < max_fast_pickup_config_items){
+                text_color = COLOR_WHITE;
+                if(fast_pickup_config_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 128, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if(item_idx == 0){
+                    clear_oled_char_buffer(6);
+                    putc_oled(1,C_T);putc_oled(2,C_o_l);putc_oled(3,C_g_l);putc_oled(4,C_g_l);putc_oled(5,C_l_l);putc_oled(6,C_e_l);
+                    puts_oled(10,oled_display_y,FONT_SMALL,6,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_fast_pickup_toggle);
+                }
+                else if(item_idx == 1){
+                    clear_oled_char_buffer(10);
+                    putc_oled(1,C_P);putc_oled(2,C_r_l);putc_oled(3,C_e_l);putc_oled(4,C_s_l);putc_oled(5,C_s_l);
+                    putc_oled(6,C_SPACE);putc_oled(7,C_T);putc_oled(8,C_i_l);putc_oled(9,C_m_l);putc_oled(10,C_e_l);
+                    puts_oled(10,oled_display_y,FONT_SMALL,10,text_color);
+                    print_number(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_fast_pickup_press_time);
+                }
+                else if(item_idx == 2){
+                    clear_oled_char_buffer(10);
+                    putc_oled(1,C_R);putc_oled(2,C_e_l);putc_oled(3,C_l_l);putc_oled(4,C_e_l);putc_oled(5,C_a);
+                    putc_oled(6,C_s_l);putc_oled(7,C_e_l);putc_oled(8,C_SPACE);putc_oled(9,C_T);putc_oled(10,C_i_l);
+                    puts_oled(10,oled_display_y,FONT_SMALL,10,text_color);
+                    print_number(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_fast_pickup_release_time);
+                }
+                else if(item_idx == 3) {
+                    clear_oled_char_buffer(4);
+                    putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k);
+                    puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == JITTER_AIM_CONFIG_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(10);
+        putc_oled(1,C_J);putc_oled(2,C_i_l);putc_oled(3,C_t_l);putc_oled(4,C_t_l);putc_oled(5,C_e_l);putc_oled(6,C_r_l);
+        putc_oled(7,C_SPACE);putc_oled(8,C_A);putc_oled(9,C_i_l);putc_oled(10,C_m_l);
+        puts_oled(34, 2, FONT_SMALL, 10, 0);
+
+        for(slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++){
+            item_idx = jitter_aim_config_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if(item_idx < max_jitter_aim_config_items){
+                text_color = COLOR_WHITE;
+                if(jitter_aim_config_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 128, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if(item_idx == 0){
+                    clear_oled_char_buffer(9);
+                    putc_oled(1,C_S);putc_oled(2,C_t_l);putc_oled(3,C_r_l);putc_oled(4,C_e_l);putc_oled(5,C_n_l);
+                    putc_oled(6,C_g_l);putc_oled(7,C_t_l);putc_oled(8,C_h_l);putc_oled(9,C_COLON);
+                    puts_oled(10,oled_display_y,FONT_SMALL,9,text_color);
+                    print_number(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_jitter_aim_strength);
+                }
+                else if(item_idx == 1) {
+                    clear_oled_char_buffer(12);
+                    putc_oled(1,C_A);putc_oled(2,C_c);putc_oled(3,C_t_l);putc_oled(4,C_i_l);putc_oled(5,C_v_l);
+                    putc_oled(6,C_a);putc_oled(7,C_t_l);putc_oled(8,C_i_l);putc_oled(9,C_o_l);putc_oled(10,C_n_l);
+                    putc_oled(11,C_SPACE);putc_oled(12,C_GT);
+                    puts_oled(10,oled_display_y,FONT_SMALL,12,text_color);
+                }
+                else if(item_idx == 2) {
+                    clear_oled_char_buffer(4);
+                    putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k);
+                    puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == CORRECTIVE_AIM_CONFIG_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(14);
+        putc_oled(1,C_C);putc_oled(2,C_o_l);putc_oled(3,C_r_l);putc_oled(4,C_r_l);putc_oled(5,C_e_l);putc_oled(6,C_c);
+        putc_oled(7,C_t_l);putc_oled(8,C_i_l);putc_oled(9,C_v_l);putc_oled(10,C_e_l);
+        putc_oled(11,C_SPACE);putc_oled(12,C_A);putc_oled(13,C_i_l);putc_oled(14,C_m_l);
+        puts_oled(22, 2, FONT_SMALL, 14, 0);
+
+        for(slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++){
+            item_idx = corrective_aim_config_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if(item_idx < max_corrective_aim_config_items){
+                text_color = COLOR_WHITE;
+                if(corrective_aim_config_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 128, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if(item_idx == 0){
+                    clear_oled_char_buffer(9);
+                    putc_oled(1,C_S);putc_oled(2,C_t_l);putc_oled(3,C_r_l);putc_oled(4,C_e_l);putc_oled(5,C_n_l);
+                    putc_oled(6,C_g_l);putc_oled(7,C_t_l);putc_oled(8,C_h_l);putc_oled(9,C_COLON);
+                    puts_oled(10,oled_display_y,FONT_SMALL,9,text_color);
+                    print_number(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_corrective_aim_strength);
+                } else if (item_idx == 1){
+                    clear_oled_char_buffer(10);
+                    putc_oled(1,C_S);putc_oled(2,C_m_l);putc_oled(3,C_o_l);putc_oled(4,C_o_l);putc_oled(5,C_t_l);putc_oled(6,C_h_l);
+                    putc_oled(7,C_i_l);putc_oled(8,C_n_l);putc_oled(9,C_g_l);putc_oled(10,C_COLON);
+                    puts_oled(10,oled_display_y,FONT_SMALL,10,text_color);
+                    print_number(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_corrective_aim_smoothing);
+                }
+                else if(item_idx == 2) {
+                    clear_oled_char_buffer(4);
+                    putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k);
+                    puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == POLAR_ACTIVATION_MENU_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(10);
+        putc_oled(1,C_A);putc_oled(2,C_c);putc_oled(3,C_t_l);putc_oled(4,C_i_l);putc_oled(5,C_v_l);
+        putc_oled(6,C_a);putc_oled(7,C_t_l);putc_oled(8,C_i_l);putc_oled(9,C_o_l);putc_oled(10,C_n_l);
+        puts_oled(34, 2, FONT_SMALL, 10, 0);
+        
+        if (max_polar_activation_items > MAX_VISIBLE_MENU_ITEMS) {
+            scrollbar_h = 49;
+            thumb_h = (MAX_VISIBLE_MENU_ITEMS * scrollbar_h) / max_polar_activation_items;
+            if (thumb_h < 5) thumb_h = 5;
+            thumb_y = (polar_activation_scroll_offset * (scrollbar_h - thumb_h)) / (max_polar_activation_items - MAX_VISIBLE_MENU_ITEMS);
+            line_oled(126, 14, 126, 63, COLOR_WHITE, 1);
+            rect_oled(124, 14 + thumb_y, 3, thumb_h, 1, COLOR_WHITE);
+        }
+
+        for(slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++){
+            item_idx = polar_activation_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if(item_idx < max_polar_activation_items){
+                text_color = COLOR_WHITE;
+                if(polar_activation_menu_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 122, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if (item_idx == 0) {
+                    clear_oled_char_buffer(4); putc_oled(1,C_I);putc_oled(2,C_d_l);putc_oled(3,C_l_l);putc_oled(4,C_e_l); puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_polar_activation_idle);
+                } else if (item_idx == 1) {
+                    clear_oled_char_buffer(3); putc_oled(1,C_A);putc_oled(2,C_D);putc_oled(3,C_S); puts_oled(10,oled_display_y,FONT_SMALL,3,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_polar_activation_ads);
+                } else if (item_idx == 2) {
+                    clear_oled_char_buffer(10); putc_oled(1,C_A);putc_oled(2,C_D);putc_oled(3,C_S);putc_oled(4,C_SPACE);putc_oled(5,C_PLUS);putc_oled(6,C_SPACE);putc_oled(7,C_F);putc_oled(8,C_I);putc_oled(9,C_R);putc_oled(10,C_E); puts_oled(10,oled_display_y,FONT_SMALL,10,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_polar_activation_ads_fire);
+                } else if (item_idx == 3) {
+                    clear_oled_char_buffer(6); putc_oled(1,C_A);putc_oled(2,C_l_l);putc_oled(3,C_w_l);putc_oled(4,C_a);putc_oled(5,C_y_l);putc_oled(6,C_s_l); puts_oled(10,oled_display_y,FONT_SMALL,6,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_polar_activation_always);
+                } else if (item_idx == 4) {
+                    clear_oled_char_buffer(4); putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k); puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == STRAFE_ACTIVATION_MENU_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(10);
+        putc_oled(1,C_A);putc_oled(2,C_c);putc_oled(3,C_t_l);putc_oled(4,C_i_l);putc_oled(5,C_v_l);
+        putc_oled(6,C_a);putc_oled(7,C_t_l);putc_oled(8,C_i_l);putc_oled(9,C_o_l);putc_oled(10,C_n_l);
+        puts_oled(34, 2, FONT_SMALL, 10, 0);
+
+        if (max_strafe_activation_items > MAX_VISIBLE_MENU_ITEMS) {
+            scrollbar_h = 49;
+            thumb_h = (MAX_VISIBLE_MENU_ITEMS * scrollbar_h) / max_strafe_activation_items;
+            if (thumb_h < 5) thumb_h = 5;
+            thumb_y = (strafe_activation_scroll_offset * (scrollbar_h - thumb_h)) / (max_strafe_activation_items - MAX_VISIBLE_MENU_ITEMS);
+            line_oled(126, 14, 126, 63, COLOR_WHITE, 1);
+            rect_oled(124, 14 + thumb_y, 3, thumb_h, 1, COLOR_WHITE);
+        }
+        
+        for(slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++){
+            item_idx = strafe_activation_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if(item_idx < max_strafe_activation_items){
+                text_color = COLOR_WHITE;
+                if(strafe_activation_menu_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 122, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if (item_idx == 0) {
+                    clear_oled_char_buffer(4); putc_oled(1,C_I);putc_oled(2,C_d_l);putc_oled(3,C_l_l);putc_oled(4,C_e_l); puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_strafe_activation_idle);
+                } else if (item_idx == 1) {
+                    clear_oled_char_buffer(3); putc_oled(1,C_A);putc_oled(2,C_D);putc_oled(3,C_S); puts_oled(10,oled_display_y,FONT_SMALL,3,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_strafe_activation_ads);
+                } else if (item_idx == 2) {
+                    clear_oled_char_buffer(10); putc_oled(1,C_A);putc_oled(2,C_D);putc_oled(3,C_S);putc_oled(4,C_SPACE);putc_oled(5,C_PLUS);putc_oled(6,C_SPACE);putc_oled(7,C_F);putc_oled(8,C_I);putc_oled(9,C_R);putc_oled(10,C_E); puts_oled(10,oled_display_y,FONT_SMALL,10,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_strafe_activation_ads_fire);
+                } else if (item_idx == 3) {
+                    clear_oled_char_buffer(6); putc_oled(1,C_A);putc_oled(2,C_l_l);putc_oled(3,C_w_l);putc_oled(4,C_a);putc_oled(5,C_y_l);putc_oled(6,C_s_l); puts_oled(10,oled_display_y,FONT_SMALL,6,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_strafe_activation_always);
+                } else if (item_idx == 4) {
+                    clear_oled_char_buffer(4); putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k); puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+    else if(current_menu_level == JITTER_ACTIVATION_MENU_LEVEL) {
+        rect_oled(0, 0, 128, 12, 1, COLOR_WHITE);
+        clear_oled_char_buffer(10);
+        putc_oled(1,C_A);putc_oled(2,C_c);putc_oled(3,C_t_l);putc_oled(4,C_i_l);putc_oled(5,C_v_l);
+        putc_oled(6,C_a);putc_oled(7,C_t_l);putc_oled(8,C_i_l);putc_oled(9,C_o_l);putc_oled(10,C_n_l);
+        puts_oled(34, 2, FONT_SMALL, 10, 0);
+        
+        if (max_jitter_activation_items > MAX_VISIBLE_MENU_ITEMS) {
+            scrollbar_h = 49;
+            thumb_h = (MAX_VISIBLE_MENU_ITEMS * scrollbar_h) / max_jitter_activation_items;
+            if (thumb_h < 5) thumb_h = 5;
+            thumb_y = (jitter_activation_scroll_offset * (scrollbar_h - thumb_h)) / (max_jitter_activation_items - MAX_VISIBLE_MENU_ITEMS);
+            line_oled(126, 14, 126, 63, COLOR_WHITE, 1);
+            rect_oled(124, 14 + thumb_y, 3, thumb_h, 1, COLOR_WHITE);
+        }
+
+        for(slot_iter = 0; slot_iter < MAX_VISIBLE_MENU_ITEMS; slot_iter++){
+            item_idx = jitter_activation_scroll_offset + slot_iter;
+            oled_display_y = y_pos + (slot_iter * y_step);
+            if(item_idx < max_jitter_activation_items){
+                text_color = COLOR_WHITE;
+                if(jitter_activation_menu_selection == item_idx) {
+                    rect_oled(0, oled_display_y - 2, 122, y_step - 2, 1, COLOR_WHITE);
+                    text_color = 0;
+                }
+                if (item_idx == 0) {
+                    clear_oled_char_buffer(4); putc_oled(1,C_I);putc_oled(2,C_d_l);putc_oled(3,C_l_l);putc_oled(4,C_e_l); puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_jitter_activation_idle);
+                } else if (item_idx == 1) {
+                    clear_oled_char_buffer(3); putc_oled(1,C_A);putc_oled(2,C_D);putc_oled(3,C_S); puts_oled(10,oled_display_y,FONT_SMALL,3,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_jitter_activation_ads);
+                } else if (item_idx == 2) {
+                    clear_oled_char_buffer(10); putc_oled(1,C_A);putc_oled(2,C_D);putc_oled(3,C_S);putc_oled(4,C_SPACE);putc_oled(5,C_PLUS);putc_oled(6,C_SPACE);putc_oled(7,C_F);putc_oled(8,C_I);putc_oled(9,C_R);putc_oled(10,C_E); puts_oled(10,oled_display_y,FONT_SMALL,10,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_jitter_activation_ads_fire);
+                } else if (item_idx == 3) {
+                    clear_oled_char_buffer(6); putc_oled(1,C_A);putc_oled(2,C_l_l);putc_oled(3,C_w_l);putc_oled(4,C_a);putc_oled(5,C_y_l);putc_oled(6,C_s_l); puts_oled(10,oled_display_y,FONT_SMALL,6,text_color);
+                    print_on_off(VALUE_X_POS, oled_display_y, FONT_SMALL, text_color, setting_jitter_activation_always);
+                } else if (item_idx == 4) {
+                    clear_oled_char_buffer(4); putc_oled(1,C_B);putc_oled(2,C_a);putc_oled(3,C_c);putc_oled(4,C_k); puts_oled(10,oled_display_y,FONT_SMALL,4,text_color);
+                }
+            }
+        }
+    }
+}
+
+
+function handle_menu_input(){
+    if(event_press(BUTTON_BACK)) {
+        if(current_menu_level == MAIN_MENU_LEVEL) {
+            menu_active = FALSE;
+            show_image_on_exit = TRUE;
+            image_display_timer = 0;
+            
+            set_pvar(SPVAR_1, setting_anti_recoil_toggle);
+            set_pvar(SPVAR_2, setting_recoil_vertical);
+            set_pvar(SPVAR_3, setting_ads_sticky_aim_toggle);
+            set_pvar(SPVAR_4, setting_ads_sticky_aim_strength);
+            set_pvar(SPVAR_5, setting_aim_drag_toggle);
+            set_pvar(SPVAR_6, setting_aim_drag_strength);
+            set_pvar(SPVAR_7, setting_aim_drag_threshold);
+            set_pvar(SPVAR_8, setting_polar_aim_toggle);
+            set_pvar(SPVAR_9, setting_polar_aim_radius);
+            set_pvar(SPVAR_10, setting_polar_aim_speed);
+            set_pvar(SPVAR_11, setting_left_stick_deadzone);
+            set_pvar(SPVAR_12, setting_right_stick_deadzone);
+            set_pvar(SPVAR_13, setting_aimlock_toggle);
+            set_pvar(SPVAR_14, setting_aimlock_strength);
+            set_pvar(SPVAR_15, setting_fast_pickup_toggle);
+            set_pvar(SPVAR_16, setting_recoil_horizontal);
+            set_pvar(SPVAR_17, setting_jitter_aim_toggle);
+            set_pvar(SPVAR_18, setting_jitter_aim_strength);
+            set_pvar(SPVAR_19, setting_corrective_aim_toggle);
+            set_pvar(SPVAR_20, setting_corrective_aim_strength);
+            set_pvar(SPVAR_21, setting_corrective_aim_smoothing);
+            set_pvar(SPVAR_22, setting_polar_activation_idle);
+            set_pvar(SPVAR_23, setting_polar_activation_ads);
+            set_pvar(SPVAR_24, setting_polar_activation_ads_fire);
+            set_pvar(SPVAR_25, setting_polar_activation_always);
+            set_pvar(SPVAR_26, setting_strafe_activation_idle);
+            set_pvar(SPVAR_27, setting_strafe_activation_ads);
+            set_pvar(SPVAR_28, setting_strafe_activation_ads_fire);
+            set_pvar(SPVAR_29, setting_strafe_activation_always);
+            set_pvar(SPVAR_30, setting_jitter_activation_idle);
+            set_pvar(SPVAR_31, setting_jitter_activation_ads);
+            set_pvar(SPVAR_32, setting_jitter_activation_ads_fire);
+            set_pvar(SPVAR_33, setting_jitter_activation_always);
+            cls_oled(0);
+        } else if (current_menu_level == JITTER_ACTIVATION_MENU_LEVEL) {
+            current_menu_level = JITTER_AIM_CONFIG_LEVEL;
+        } else if (current_menu_level == POLAR_ACTIVATION_MENU_LEVEL) {
+            current_menu_level = POLAR_AIM_CONFIG_LEVEL;
+        } else if (current_menu_level == STRAFE_ACTIVATION_MENU_LEVEL) {
+            current_menu_level = STRAFE_CONFIG_LEVEL;
+        } else if (current_menu_level == CORRECTIVE_AIM_CONFIG_LEVEL) {
+            current_menu_level = AIM_ASSISTS_LIST_LEVEL;
+            aim_assists_list_selection = 5;
+        } else if (current_menu_level == JITTER_AIM_CONFIG_LEVEL) {
+            current_menu_level = AIM_ASSISTS_LIST_LEVEL;
+            aim_assists_list_selection = 4;
+        } else if (current_menu_level == FAST_PICKUP_CONFIG_LEVEL) {
+            current_menu_level = EXTRAS_MENU_LEVEL;
+            extras_menu_selection = 1;
+        } else if (current_menu_level == STRAFE_CONFIG_LEVEL) {
+            current_menu_level = EXTRAS_MENU_LEVEL;
+            extras_menu_selection = 0;
+        } else if (current_menu_level == AIMLOCK_CONFIG_LEVEL) {
+            current_menu_level = AIM_ASSISTS_LIST_LEVEL;
+            aim_assists_list_selection = 0;
+        } else if (current_menu_level == POLAR_AIM_CONFIG_LEVEL) {
+            current_menu_level = AIM_ASSISTS_LIST_LEVEL;
+            aim_assists_list_selection = 1;
+        } else if (current_menu_level == STICKY_AIM_CONFIG_LEVEL) {
+            current_menu_level = AIM_ASSISTS_LIST_LEVEL;
+            aim_assists_list_selection = 2;
+        } else if (current_menu_level == AIM_DRAG_CONFIG_LEVEL) {
+            current_menu_level = AIM_ASSISTS_LIST_LEVEL;
+            aim_assists_list_selection = 3;
+        } else {
+            if (current_menu_level == RECOIL_MENU_LEVEL) { main_menu_selection = 0; }
+            else if (current_menu_level == AIM_ASSISTS_LIST_LEVEL) { main_menu_selection = 1; }
+            else if (current_menu_level == EXTRAS_MENU_LEVEL) { main_menu_selection = 2; }
+            else if (current_menu_level == SETTINGS_MENU_LEVEL) { main_menu_selection = 3; }
+            current_menu_level = MAIN_MENU_LEVEL;
+        }
+
+        if (menu_active) {
+            if (current_menu_level == MAIN_MENU_LEVEL) {
+                if (main_menu_selection < main_menu_scroll_offset) main_menu_scroll_offset = main_menu_selection;
+                else if (main_menu_selection >= (main_menu_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) main_menu_scroll_offset = main_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+                if (main_menu_selection == 0) main_menu_scroll_offset = 0;
+                else if (main_menu_selection == (max_main_items - 1) && max_main_items > MAX_VISIBLE_MENU_ITEMS) main_menu_scroll_offset = max_main_items - MAX_VISIBLE_MENU_ITEMS;
+            } else if (current_menu_level == AIM_ASSISTS_LIST_LEVEL) {
+                if (aim_assists_list_selection < aim_assists_list_scroll_offset) aim_assists_list_scroll_offset = aim_assists_list_selection;
+                else if (aim_assists_list_selection >= (aim_assists_list_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) aim_assists_list_scroll_offset = aim_assists_list_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+                if (aim_assists_list_selection == 0) aim_assists_list_scroll_offset = 0;
+                else if (aim_assists_list_selection == (max_aim_assists_list_items - 1) && max_aim_assists_list_items > MAX_VISIBLE_MENU_ITEMS) aim_assists_list_scroll_offset = max_aim_assists_list_items - MAX_VISIBLE_MENU_ITEMS;
+            } else if (current_menu_level == EXTRAS_MENU_LEVEL) {
+                if (extras_menu_selection < extras_menu_scroll_offset) extras_menu_scroll_offset = extras_menu_selection;
+                else if (extras_menu_selection >= (extras_menu_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) extras_menu_scroll_offset = extras_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+                if (extras_menu_selection == 0) extras_menu_scroll_offset = 0;
+                else if (extras_menu_selection == (max_extras_items - 1) && max_extras_items > MAX_VISIBLE_MENU_ITEMS) extras_menu_scroll_offset = max_extras_items - MAX_VISIBLE_MENU_ITEMS;
+            }
+        }
+        return;
+    }
+
+    if(current_menu_level == MAIN_MENU_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            main_menu_selection --;
+            if(main_menu_selection < 0) main_menu_selection = max_main_items - 1;
+            if(main_menu_selection < main_menu_scroll_offset) main_menu_scroll_offset = main_menu_selection;
+            else if (main_menu_selection == (max_main_items - 1) && max_main_items > MAX_VISIBLE_MENU_ITEMS) main_menu_scroll_offset = max_main_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            main_menu_selection ++;
+            if(main_menu_selection >= max_main_items) main_menu_selection = 0;
+            if(main_menu_selection >= (main_menu_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) main_menu_scroll_offset = main_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if (main_menu_selection == 0) main_menu_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+            if (main_menu_selection == 0) { current_menu_level = RECOIL_MENU_LEVEL; recoil_menu_selection = 0; recoil_menu_scroll_offset = 0; }
+            else if (main_menu_selection == 1) { current_menu_level = AIM_ASSISTS_LIST_LEVEL; aim_assists_list_selection = 0; aim_assists_list_scroll_offset = 0; }
+            else if (main_menu_selection == 2) { current_menu_level = EXTRAS_MENU_LEVEL; extras_menu_selection = 0; extras_menu_scroll_offset = 0; }
+            else if (main_menu_selection == 3) { current_menu_level = SETTINGS_MENU_LEVEL; settings_menu_selection = 0; settings_menu_scroll_offset = 0; }
+        }
+    }
+    else if(current_menu_level == RECOIL_MENU_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            recoil_menu_selection --;
+            if(recoil_menu_selection < 0) recoil_menu_selection = max_recoil_items - 1;
+            if(recoil_menu_selection < recoil_menu_scroll_offset) recoil_menu_scroll_offset = recoil_menu_selection;
+            else if (recoil_menu_selection == (max_recoil_items - 1) && max_recoil_items > MAX_VISIBLE_MENU_ITEMS) recoil_menu_scroll_offset = max_recoil_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            recoil_menu_selection ++;
+            if(recoil_menu_selection >= max_recoil_items) recoil_menu_selection = 0;
+            if(recoil_menu_selection >= (recoil_menu_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) recoil_menu_scroll_offset = recoil_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if (recoil_menu_selection == 0) recoil_menu_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+            if(recoil_menu_selection == 0) setting_anti_recoil_toggle = !setting_anti_recoil_toggle;
+            else if(recoil_menu_selection == (max_recoil_items - 1)) {
+                current_menu_level = MAIN_MENU_LEVEL; main_menu_selection = 0;
+                if (main_menu_selection < main_menu_scroll_offset) main_menu_scroll_offset = main_menu_selection;
+                else if (main_menu_selection >= (main_menu_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) main_menu_scroll_offset = main_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            }
+        }
+        if(recoil_menu_selection == 1) {
+            if(event_press(BUTTON_LEFT)) { setting_recoil_vertical--; if(setting_recoil_vertical < 0) setting_recoil_vertical = 0; }
+            if(event_press(BUTTON_RIGHT)) { setting_recoil_vertical++; if(setting_recoil_vertical > 99) setting_recoil_vertical = 99; }
+        } else if(recoil_menu_selection == 2) {
+            if(event_press(BUTTON_LEFT)) { setting_recoil_horizontal--; if(setting_recoil_horizontal < -99) setting_recoil_horizontal = -99; }
+            if(event_press(BUTTON_RIGHT)) { setting_recoil_horizontal++; if(setting_recoil_horizontal > 99) setting_recoil_horizontal = 99; }
+        }
+    }
+    else if(current_menu_level == AIM_ASSISTS_LIST_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            aim_assists_list_selection --;
+            if(aim_assists_list_selection < 0) aim_assists_list_selection = max_aim_assists_list_items - 1;
+            if(aim_assists_list_selection < aim_assists_list_scroll_offset) aim_assists_list_scroll_offset = aim_assists_list_selection;
+            else if (aim_assists_list_selection == (max_aim_assists_list_items - 1) && max_aim_assists_list_items > MAX_VISIBLE_MENU_ITEMS) aim_assists_list_scroll_offset = max_aim_assists_list_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            aim_assists_list_selection ++;
+            if(aim_assists_list_selection >= max_aim_assists_list_items) aim_assists_list_selection = 0;
+            if(aim_assists_list_selection >= (aim_assists_list_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) aim_assists_list_scroll_offset = aim_assists_list_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if (aim_assists_list_selection == 0) aim_assists_list_scroll_offset = 0;
+        }
+
+        if (aim_assists_list_selection == 0) {
+            if(event_press(BUTTON_LEFT) || event_press(BUTTON_RIGHT)) setting_aimlock_toggle = !setting_aimlock_toggle;
+            if(event_press(BUTTON_ENTER)) { current_menu_level = AIMLOCK_CONFIG_LEVEL; aimlock_config_selection = 0; aimlock_config_scroll_offset = 0; }
+        } else if (aim_assists_list_selection == 1) {
+            if(event_press(BUTTON_LEFT) || event_press(BUTTON_RIGHT)) setting_polar_aim_toggle = !setting_polar_aim_toggle;
+            if(event_press(BUTTON_ENTER)) { current_menu_level = POLAR_AIM_CONFIG_LEVEL; polar_aim_config_selection = 0; polar_aim_config_scroll_offset = 0; }
+        } else if (aim_assists_list_selection == 2) {
+            if(event_press(BUTTON_LEFT) || event_press(BUTTON_RIGHT)) setting_ads_sticky_aim_toggle = !setting_ads_sticky_aim_toggle;
+            if(event_press(BUTTON_ENTER)) { current_menu_level = STICKY_AIM_CONFIG_LEVEL; sticky_aim_config_selection = 0; sticky_aim_config_scroll_offset = 0; }
+        } else if (aim_assists_list_selection == 3) {
+            if(event_press(BUTTON_LEFT) || event_press(BUTTON_RIGHT)) setting_aim_drag_toggle = !setting_aim_drag_toggle;
+            if(event_press(BUTTON_ENTER)) { current_menu_level = AIM_DRAG_CONFIG_LEVEL; aim_drag_config_selection = 0; aim_drag_config_scroll_offset = 0; }
+        } else if (aim_assists_list_selection == 4) {
+            if(event_press(BUTTON_LEFT) || event_press(BUTTON_RIGHT)) setting_jitter_aim_toggle = !setting_jitter_aim_toggle;
+            if(event_press(BUTTON_ENTER)) { current_menu_level = JITTER_AIM_CONFIG_LEVEL; jitter_aim_config_selection = 0; jitter_aim_config_scroll_offset = 0; }
+        } else if (aim_assists_list_selection == 5) {
+            if(event_press(BUTTON_LEFT) || event_press(BUTTON_RIGHT)) setting_corrective_aim_toggle = !setting_corrective_aim_toggle;
+            if(event_press(BUTTON_ENTER)) { current_menu_level = CORRECTIVE_AIM_CONFIG_LEVEL; corrective_aim_config_selection = 0; corrective_aim_config_scroll_offset = 0; }
+        } else if (aim_assists_list_selection == (max_aim_assists_list_items - 1)) {
+            if(event_press(BUTTON_ENTER)) {
+                current_menu_level = MAIN_MENU_LEVEL; main_menu_selection = 1;
+                if (main_menu_selection < main_menu_scroll_offset) main_menu_scroll_offset = main_menu_selection;
+                else if (main_menu_selection >= (main_menu_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) main_menu_scroll_offset = main_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            }
+        }
+    }
+    else if(current_menu_level == EXTRAS_MENU_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            extras_menu_selection --;
+            if(extras_menu_selection < 0) extras_menu_selection = max_extras_items - 1;
+            if(extras_menu_selection < extras_menu_scroll_offset) extras_menu_scroll_offset = extras_menu_selection;
+            else if (extras_menu_selection == (max_extras_items - 1) && max_extras_items > MAX_VISIBLE_MENU_ITEMS) extras_menu_scroll_offset = max_extras_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            extras_menu_selection ++;
+            if(extras_menu_selection >= max_extras_items) extras_menu_selection = 0;
+            if(extras_menu_selection >= (extras_menu_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) extras_menu_scroll_offset = extras_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if (extras_menu_selection == 0) extras_menu_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+            if(extras_menu_selection == 0) {
+                current_menu_level = STRAFE_CONFIG_LEVEL; strafe_config_selection = 0; strafe_config_scroll_offset = 0;
+            } else if (extras_menu_selection == 1) {
+                current_menu_level = FAST_PICKUP_CONFIG_LEVEL; fast_pickup_config_selection = 0; fast_pickup_config_scroll_offset = 0;
+            } else if (extras_menu_selection == (max_extras_items - 1)) {
+                current_menu_level = MAIN_MENU_LEVEL; main_menu_selection = 2;
+                if (main_menu_selection < main_menu_scroll_offset) main_menu_scroll_offset = main_menu_selection;
+                else if (main_menu_selection >= (main_menu_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) main_menu_scroll_offset = main_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            }
+        }
+    }
+    else if(current_menu_level == SETTINGS_MENU_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            settings_menu_selection --;
+            if(settings_menu_selection < 0) settings_menu_selection = max_settings_items - 1;
+            if(settings_menu_selection < settings_menu_scroll_offset) settings_menu_scroll_offset = settings_menu_selection;
+            else if(settings_menu_selection == (max_settings_items - 1) && max_settings_items > MAX_VISIBLE_MENU_ITEMS) settings_menu_scroll_offset = max_settings_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            settings_menu_selection ++;
+            if(settings_menu_selection >= max_settings_items) settings_menu_selection = 0;
+            if(settings_menu_selection >= (settings_menu_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) settings_menu_scroll_offset = settings_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if(settings_menu_selection == 0) settings_menu_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+            if(settings_menu_selection == (max_settings_items - 1)){
+                current_menu_level = MAIN_MENU_LEVEL; main_menu_selection = 3;
+                if(main_menu_selection < main_menu_scroll_offset) main_menu_scroll_offset = main_menu_selection;
+                else if(main_menu_selection >= (main_menu_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) main_menu_scroll_offset = main_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            }
+        }
+        if(settings_menu_selection == 0){
+            if(event_press(BUTTON_LEFT)){setting_left_stick_deadzone--;if(setting_left_stick_deadzone < 0)setting_left_stick_deadzone = 0;}
+            if(event_press(BUTTON_RIGHT)){setting_left_stick_deadzone++;if(setting_left_stick_deadzone > 100)setting_left_stick_deadzone = 100;}
+        }
+        else if(settings_menu_selection == 1){
+            if(event_press(BUTTON_LEFT)){setting_right_stick_deadzone--;if(setting_right_stick_deadzone < 0)setting_right_stick_deadzone = 0;}
+            if(event_press(BUTTON_RIGHT)){setting_right_stick_deadzone++;if(setting_right_stick_deadzone > 100)setting_right_stick_deadzone = 100;}
+        }
+    }
+    else if(current_menu_level == STICKY_AIM_CONFIG_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            sticky_aim_config_selection --;
+            if(sticky_aim_config_selection < 0) sticky_aim_config_selection = max_sticky_aim_config_items - 1;
+            if(sticky_aim_config_selection < sticky_aim_config_scroll_offset) sticky_aim_config_scroll_offset = sticky_aim_config_selection;
+            else if (sticky_aim_config_selection == (max_sticky_aim_config_items - 1) && max_sticky_aim_config_items > MAX_VISIBLE_MENU_ITEMS) sticky_aim_config_scroll_offset = max_sticky_aim_config_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            sticky_aim_config_selection ++;
+            if(sticky_aim_config_selection >= max_sticky_aim_config_items) sticky_aim_config_selection = 0;
+            if(sticky_aim_config_selection >= (sticky_aim_config_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) sticky_aim_config_scroll_offset = sticky_aim_config_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if (sticky_aim_config_selection == 0) sticky_aim_config_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+            if(sticky_aim_config_selection == (max_sticky_aim_config_items - 1)){
+                current_menu_level = AIM_ASSISTS_LIST_LEVEL; aim_assists_list_selection = 2;
+                if (aim_assists_list_selection < aim_assists_list_scroll_offset) aim_assists_list_scroll_offset = aim_assists_list_selection;
+                else if (aim_assists_list_selection >= (aim_assists_list_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) aim_assists_list_scroll_offset = aim_assists_list_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            }
+        }
+        if(sticky_aim_config_selection == 0){
+            if(event_press(BUTTON_LEFT)){setting_ads_sticky_aim_strength -= 5;if(setting_ads_sticky_aim_strength < 0)setting_ads_sticky_aim_strength = 0;}
+            if(event_press(BUTTON_RIGHT)){setting_ads_sticky_aim_strength += 5;if(setting_ads_sticky_aim_strength > 100)setting_ads_sticky_aim_strength = 100;}
+        }
+    }
+    else if(current_menu_level == AIM_DRAG_CONFIG_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            aim_drag_config_selection --;
+            if(aim_drag_config_selection < 0) aim_drag_config_selection = max_aim_drag_config_items - 1;
+            if(aim_drag_config_selection < aim_drag_config_scroll_offset) aim_drag_config_scroll_offset = aim_drag_config_selection;
+            else if(aim_drag_config_selection == (max_aim_drag_config_items - 1) && max_aim_drag_config_items > MAX_VISIBLE_MENU_ITEMS) aim_drag_config_scroll_offset = max_aim_drag_config_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            aim_drag_config_selection ++;
+            if(aim_drag_config_selection >= max_aim_drag_config_items) aim_drag_config_selection = 0;
+            if(aim_drag_config_selection >= (aim_drag_config_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) aim_drag_config_scroll_offset = aim_drag_config_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if(aim_drag_config_selection == 0) aim_drag_config_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+            if(aim_drag_config_selection == (max_aim_drag_config_items - 1)){
+                current_menu_level = AIM_ASSISTS_LIST_LEVEL; aim_assists_list_selection = 3;
+                if(aim_assists_list_selection < aim_assists_list_scroll_offset) aim_assists_list_scroll_offset = aim_assists_list_selection;
+                else if(aim_assists_list_selection >= (aim_assists_list_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) aim_assists_list_scroll_offset = aim_assists_list_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            }
+        }
+        if(aim_drag_config_selection == 0){
+            if(event_press(BUTTON_LEFT)){setting_aim_drag_strength--;if(setting_aim_drag_strength < 0)setting_aim_drag_strength = 0;}
+            if(event_press(BUTTON_RIGHT)){setting_aim_drag_strength++;if(setting_aim_drag_strength > 30)setting_aim_drag_strength = 30;}
+        }
+        else if(aim_drag_config_selection == 1){
+            if(event_press(BUTTON_LEFT)){setting_aim_drag_threshold--;if(setting_aim_drag_threshold < 0)setting_aim_drag_threshold = 0;}
+            if(event_press(BUTTON_RIGHT)){setting_aim_drag_threshold++;if(setting_aim_drag_threshold > 50)setting_aim_drag_threshold = 50;}
+        }
+    }
+    else if(current_menu_level == POLAR_AIM_CONFIG_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            polar_aim_config_selection --;
+            if(polar_aim_config_selection < 0) polar_aim_config_selection = max_polar_aim_config_items - 1;
+            if(polar_aim_config_selection < polar_aim_config_scroll_offset) polar_aim_config_scroll_offset = polar_aim_config_selection;
+            else if(polar_aim_config_selection == (max_polar_aim_config_items - 1) && max_polar_aim_config_items > MAX_VISIBLE_MENU_ITEMS) polar_aim_config_scroll_offset = max_polar_aim_config_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            polar_aim_config_selection ++;
+            if(polar_aim_config_selection >= max_polar_aim_config_items) polar_aim_config_selection = 0;
+            if(polar_aim_config_selection >= (polar_aim_config_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) polar_aim_config_scroll_offset = polar_aim_config_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if(polar_aim_config_selection == 0) polar_aim_config_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+             if(polar_aim_config_selection == 2) {
+                current_menu_level = POLAR_ACTIVATION_MENU_LEVEL;
+                polar_activation_menu_selection = 0;
+                polar_activation_scroll_offset = 0;
+            }
+            else if(polar_aim_config_selection == (max_polar_aim_config_items - 1)){
+                current_menu_level = AIM_ASSISTS_LIST_LEVEL; aim_assists_list_selection = 1;
+                if(aim_assists_list_selection < aim_assists_list_scroll_offset) aim_assists_list_scroll_offset = aim_assists_list_selection;
+                else if(aim_assists_list_selection >= (aim_assists_list_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) aim_assists_list_scroll_offset = aim_assists_list_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            }
+        }
+        if(polar_aim_config_selection == 0){
+            if(event_press(BUTTON_LEFT)){ if(get_val(BUTTON_MENU_1)) setting_polar_aim_radius -= 10; else setting_polar_aim_radius--; if(setting_polar_aim_radius < 0) setting_polar_aim_radius = 0; }
+            if(event_press(BUTTON_RIGHT)){ if(get_val(BUTTON_MENU_1)) setting_polar_aim_radius += 10; else setting_polar_aim_radius++; if(setting_polar_aim_radius > 100) setting_polar_aim_radius = 100; }
+        }
+        else if(polar_aim_config_selection == 1){
+            if(event_press(BUTTON_LEFT)){ if(get_val(BUTTON_MENU_1)) setting_polar_aim_speed -= 10; else setting_polar_aim_speed--; if(setting_polar_aim_speed < 0) setting_polar_aim_speed = 0; }
+            if(event_press(BUTTON_RIGHT)){ if(get_val(BUTTON_MENU_1)) setting_polar_aim_speed += 10; else setting_polar_aim_speed++; if(setting_polar_aim_speed > 100) setting_polar_aim_speed = 100; }
+        }
+    }
+    else if(current_menu_level == AIMLOCK_CONFIG_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            aimlock_config_selection --;
+            if(aimlock_config_selection < 0) aimlock_config_selection = max_aimlock_config_items - 1;
+            if(aimlock_config_selection < aimlock_config_scroll_offset) aimlock_config_scroll_offset = aimlock_config_selection;
+            else if (aimlock_config_selection == (max_aimlock_config_items - 1) && max_aimlock_config_items > MAX_VISIBLE_MENU_ITEMS) aimlock_config_scroll_offset = max_aimlock_config_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            aimlock_config_selection ++;
+            if(aimlock_config_selection >= max_aimlock_config_items) aimlock_config_selection = 0;
+            if(aimlock_config_selection >= (aimlock_config_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) aimlock_config_scroll_offset = aimlock_config_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if (aimlock_config_selection == 0) aimlock_config_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+            if(aimlock_config_selection == (max_aimlock_config_items - 1)){
+                current_menu_level = AIM_ASSISTS_LIST_LEVEL; aim_assists_list_selection = 0;
+                if (aim_assists_list_selection < aim_assists_list_scroll_offset) aim_assists_list_scroll_offset = aim_assists_list_selection;
+                else if (aim_assists_list_selection >= (aim_assists_list_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) aim_assists_list_scroll_offset = aim_assists_list_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            }
+        }
+        if(aimlock_config_selection == 0){
+            if(event_press(BUTTON_LEFT)){setting_aimlock_strength -= 5;if(setting_aimlock_strength < 0)setting_aimlock_strength = 0;}
+            if(event_press(BUTTON_RIGHT)){setting_aimlock_strength += 5;if(setting_aimlock_strength > 100)setting_aimlock_strength = 100;}
+        }
+    }
+    else if(current_menu_level == STRAFE_CONFIG_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            strafe_config_selection --;
+            if(strafe_config_selection < 0) strafe_config_selection = max_strafe_config_items - 1;
+            if(strafe_config_selection < strafe_config_scroll_offset) strafe_config_scroll_offset = strafe_config_selection;
+            else if (strafe_config_selection == (max_strafe_config_items - 1) && max_strafe_config_items > MAX_VISIBLE_MENU_ITEMS) strafe_config_scroll_offset = max_strafe_config_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            strafe_config_selection ++;
+            if(strafe_config_selection >= max_strafe_config_items) strafe_config_selection = 0;
+            if(strafe_config_selection >= (strafe_config_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) strafe_config_scroll_offset = strafe_config_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if (strafe_config_selection == 0) strafe_config_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+            if(strafe_config_selection == 0) setting_strafe_toggle = !setting_strafe_toggle;
+            else if(strafe_config_selection == 1) {
+                current_menu_level = STRAFE_ACTIVATION_MENU_LEVEL;
+                strafe_activation_menu_selection = 0;
+                strafe_activation_scroll_offset = 0;
+            }
+            else if(strafe_config_selection == (max_strafe_config_items - 1)){
+                current_menu_level = EXTRAS_MENU_LEVEL; extras_menu_selection = 0;
+                 if (extras_menu_selection < extras_menu_scroll_offset) extras_menu_scroll_offset = extras_menu_selection;
+                else if (extras_menu_selection >= (extras_menu_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) extras_menu_scroll_offset = extras_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            }
+        }
+    }
+    else if(current_menu_level == FAST_PICKUP_CONFIG_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            fast_pickup_config_selection --;
+            if(fast_pickup_config_selection < 0) fast_pickup_config_selection = max_fast_pickup_config_items - 1;
+            if(fast_pickup_config_selection < fast_pickup_config_scroll_offset) fast_pickup_config_scroll_offset = fast_pickup_config_selection;
+            else if (fast_pickup_config_selection == (max_fast_pickup_config_items - 1) && max_fast_pickup_config_items > MAX_VISIBLE_MENU_ITEMS) fast_pickup_config_scroll_offset = max_fast_pickup_config_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            fast_pickup_config_selection ++;
+            if(fast_pickup_config_selection >= max_fast_pickup_config_items) fast_pickup_config_selection = 0;
+            if(fast_pickup_config_selection >= (fast_pickup_config_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) fast_pickup_config_scroll_offset = fast_pickup_config_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if (fast_pickup_config_selection == 0) fast_pickup_config_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+            if(fast_pickup_config_selection == 0) setting_fast_pickup_toggle = !setting_fast_pickup_toggle;
+            else if(fast_pickup_config_selection == (max_fast_pickup_config_items - 1)){
+                current_menu_level = EXTRAS_MENU_LEVEL; extras_menu_selection = 1;
+                if (extras_menu_selection < extras_menu_scroll_offset) extras_menu_scroll_offset = extras_menu_selection;
+                else if (extras_menu_selection >= (extras_menu_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) extras_menu_scroll_offset = extras_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            }
+        }
+        if (fast_pickup_config_selection == 1) {
+            if(event_press(BUTTON_LEFT)){setting_fast_pickup_press_time -= 10; if (setting_fast_pickup_press_time < 20) setting_fast_pickup_press_time = 20;}
+            if(event_press(BUTTON_RIGHT)){setting_fast_pickup_press_time += 10; if (setting_fast_pickup_press_time > 200) setting_fast_pickup_press_time = 200;}
+        }
+        else if (fast_pickup_config_selection == 2) {
+            if(event_press(BUTTON_LEFT)){setting_fast_pickup_release_time -= 10; if (setting_fast_pickup_release_time < 20) setting_fast_pickup_release_time = 20;}
+            if(event_press(BUTTON_RIGHT)){setting_fast_pickup_release_time += 10; if (setting_fast_pickup_release_time > 200) setting_fast_pickup_release_time = 200;}
+        }
+    }
+    else if(current_menu_level == JITTER_AIM_CONFIG_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            jitter_aim_config_selection --;
+            if(jitter_aim_config_selection < 0) jitter_aim_config_selection = max_jitter_aim_config_items - 1;
+            if(jitter_aim_config_selection < jitter_aim_config_scroll_offset) jitter_aim_config_scroll_offset = jitter_aim_config_selection;
+            else if (jitter_aim_config_selection == (max_jitter_aim_config_items - 1) && max_jitter_aim_config_items > MAX_VISIBLE_MENU_ITEMS) jitter_aim_config_scroll_offset = max_jitter_aim_config_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            jitter_aim_config_selection ++;
+            if(jitter_aim_config_selection >= max_jitter_aim_config_items) jitter_aim_config_selection = 0;
+            if(jitter_aim_config_selection >= (jitter_aim_config_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) jitter_aim_config_scroll_offset = jitter_aim_config_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if (jitter_aim_config_selection == 0) jitter_aim_config_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+            if (jitter_aim_config_selection == 1) {
+                current_menu_level = JITTER_ACTIVATION_MENU_LEVEL;
+                jitter_activation_menu_selection = 0;
+                jitter_activation_scroll_offset = 0;
+            }
+            else if(jitter_aim_config_selection == 2){
+                current_menu_level = AIM_ASSISTS_LIST_LEVEL; aim_assists_list_selection = 4;
+                if (aim_assists_list_selection < aim_assists_list_scroll_offset) aim_assists_list_scroll_offset = aim_assists_list_selection;
+                else if (aim_assists_list_selection >= (aim_assists_list_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) aim_assists_list_scroll_offset = aim_assists_list_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            }
+        }
+        if(jitter_aim_config_selection == 0){
+            if(event_press(BUTTON_LEFT)){setting_jitter_aim_strength--;if(setting_jitter_aim_strength < 0)setting_jitter_aim_strength = 0;}
+            if(event_press(BUTTON_RIGHT)){setting_jitter_aim_strength++;if(setting_jitter_aim_strength > 30)setting_jitter_aim_strength = 30;}
+        }
+    }
+    else if(current_menu_level == CORRECTIVE_AIM_CONFIG_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            corrective_aim_config_selection --;
+            if(corrective_aim_config_selection < 0) corrective_aim_config_selection = max_corrective_aim_config_items - 1;
+            if(corrective_aim_config_selection < corrective_aim_config_scroll_offset) corrective_aim_config_scroll_offset = corrective_aim_config_selection;
+            else if(corrective_aim_config_selection == (max_corrective_aim_config_items - 1) && max_corrective_aim_config_items > MAX_VISIBLE_MENU_ITEMS) corrective_aim_config_scroll_offset = max_corrective_aim_config_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            corrective_aim_config_selection ++;
+            if(corrective_aim_config_selection >= max_corrective_aim_config_items) corrective_aim_config_selection = 0;
+            if(corrective_aim_config_selection >= (corrective_aim_config_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) corrective_aim_config_scroll_offset = corrective_aim_config_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if(corrective_aim_config_selection == 0) corrective_aim_config_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+            if(corrective_aim_config_selection == (max_corrective_aim_config_items - 1)){
+                current_menu_level = AIM_ASSISTS_LIST_LEVEL; aim_assists_list_selection = 5;
+                if(aim_assists_list_selection < aim_assists_list_scroll_offset) aim_assists_list_scroll_offset = aim_assists_list_selection;
+                else if(aim_assists_list_selection >= (aim_assists_list_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) aim_assists_list_scroll_offset = aim_assists_list_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            }
+        }
+        if(corrective_aim_config_selection == 0){
+            if(event_press(BUTTON_LEFT)){setting_corrective_aim_strength--;if(setting_corrective_aim_strength < 0)setting_corrective_aim_strength = 0;}
+            if(event_press(BUTTON_RIGHT)){setting_corrective_aim_strength++;if(setting_corrective_aim_strength > 100)setting_corrective_aim_strength = 100;}
+        }
+        else if(corrective_aim_config_selection == 1){
+            if(event_press(BUTTON_LEFT)){setting_corrective_aim_smoothing--;if(setting_corrective_aim_smoothing < 0)setting_corrective_aim_smoothing = 0;}
+            if(event_press(BUTTON_RIGHT)){setting_corrective_aim_smoothing++;if(setting_corrective_aim_smoothing > 99)setting_corrective_aim_smoothing = 99;}
+        }
+    }
+    else if(current_menu_level == POLAR_ACTIVATION_MENU_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            polar_activation_menu_selection --;
+            if (polar_activation_menu_selection < 0) polar_activation_menu_selection = max_polar_activation_items - 1;
+            if(polar_activation_menu_selection < polar_activation_scroll_offset) polar_activation_scroll_offset = polar_activation_menu_selection;
+            else if (polar_activation_menu_selection == (max_polar_activation_items - 1) && max_polar_activation_items > MAX_VISIBLE_MENU_ITEMS) polar_activation_scroll_offset = max_polar_activation_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            polar_activation_menu_selection ++;
+            if (polar_activation_menu_selection >= max_polar_activation_items) polar_activation_menu_selection = 0;
+            if(polar_activation_menu_selection >= (polar_activation_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) polar_activation_scroll_offset = polar_activation_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if (polar_activation_menu_selection == 0) polar_activation_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+            if (polar_activation_menu_selection == 0) {
+                setting_polar_activation_idle = !setting_polar_activation_idle;
+                if (setting_polar_activation_idle) setting_polar_activation_always = FALSE;
+            }
+            else if (polar_activation_menu_selection == 1) {
+                setting_polar_activation_ads = !setting_polar_activation_ads;
+                if (setting_polar_activation_ads) setting_polar_activation_always = FALSE;
+            }
+            else if (polar_activation_menu_selection == 2) {
+                setting_polar_activation_ads_fire = !setting_polar_activation_ads_fire;
+                if (setting_polar_activation_ads_fire) setting_polar_activation_always = FALSE;
+            }
+            else if (polar_activation_menu_selection == 3) {
+                setting_polar_activation_always = !setting_polar_activation_always;
+                if (setting_polar_activation_always) {
+                    setting_polar_activation_idle = FALSE;
+                    setting_polar_activation_ads = FALSE;
+                    setting_polar_activation_ads_fire = FALSE;
+                }
+            }
+            else if (polar_activation_menu_selection == 4) {
+                current_menu_level = POLAR_AIM_CONFIG_LEVEL;
+            }
+        }
+    }
+    else if(current_menu_level == STRAFE_ACTIVATION_MENU_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            strafe_activation_menu_selection --;
+            if (strafe_activation_menu_selection < 0) strafe_activation_menu_selection = max_strafe_activation_items - 1;
+            if(strafe_activation_menu_selection < strafe_activation_scroll_offset) strafe_activation_scroll_offset = strafe_activation_menu_selection;
+            else if (strafe_activation_menu_selection == (max_strafe_activation_items - 1) && max_strafe_activation_items > MAX_VISIBLE_MENU_ITEMS) strafe_activation_scroll_offset = max_strafe_activation_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            strafe_activation_menu_selection ++;
+            if (strafe_activation_menu_selection >= max_strafe_activation_items) strafe_activation_menu_selection = 0;
+            if(strafe_activation_menu_selection >= (strafe_activation_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) strafe_activation_scroll_offset = strafe_activation_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if (strafe_activation_menu_selection == 0) strafe_activation_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+            if (strafe_activation_menu_selection == 0) {
+                setting_strafe_activation_idle = !setting_strafe_activation_idle;
+                if (setting_strafe_activation_idle) setting_strafe_activation_always = FALSE;
+            }
+            else if (strafe_activation_menu_selection == 1) {
+                setting_strafe_activation_ads = !setting_strafe_activation_ads;
+                if (setting_strafe_activation_ads) setting_strafe_activation_always = FALSE;
+            }
+            else if (strafe_activation_menu_selection == 2) {
+                setting_strafe_activation_ads_fire = !setting_strafe_activation_ads_fire;
+                if (setting_strafe_activation_ads_fire) setting_strafe_activation_always = FALSE;
+            }
+            else if (strafe_activation_menu_selection == 3) {
+                setting_strafe_activation_always = !setting_strafe_activation_always;
+                if (setting_strafe_activation_always) {
+                    setting_strafe_activation_idle = FALSE;
+                    setting_strafe_activation_ads = FALSE;
+                    setting_strafe_activation_ads_fire = FALSE;
+                }
+            }
+            else if (strafe_activation_menu_selection == 4) {
+                current_menu_level = STRAFE_CONFIG_LEVEL;
+            }
+        }
+    }
+    else if(current_menu_level == JITTER_ACTIVATION_MENU_LEVEL) {
+        if(event_press(BUTTON_UP)) {
+            jitter_activation_menu_selection --;
+            if (jitter_activation_menu_selection < 0) jitter_activation_menu_selection = max_jitter_activation_items - 1;
+            if(jitter_activation_menu_selection < jitter_activation_scroll_offset) jitter_activation_scroll_offset = jitter_activation_menu_selection;
+            else if (jitter_activation_menu_selection == (max_jitter_activation_items - 1) && max_jitter_activation_items > MAX_VISIBLE_MENU_ITEMS) jitter_activation_scroll_offset = max_jitter_activation_items - MAX_VISIBLE_MENU_ITEMS;
+        }
+        if(event_press(BUTTON_DOWN)) {
+            jitter_activation_menu_selection ++;
+            if (jitter_activation_menu_selection >= max_jitter_activation_items) jitter_activation_menu_selection = 0;
+            if(jitter_activation_menu_selection >= (jitter_activation_scroll_offset + MAX_VISIBLE_MENU_ITEMS)) jitter_activation_scroll_offset = jitter_activation_menu_selection - MAX_VISIBLE_MENU_ITEMS + 1;
+            else if (jitter_activation_menu_selection == 0) jitter_activation_scroll_offset = 0;
+        }
+        if(event_press(BUTTON_ENTER)) {
+            if (jitter_activation_menu_selection == 0) {
+                setting_jitter_activation_idle = !setting_jitter_activation_idle;
+                if (setting_jitter_activation_idle) setting_jitter_activation_always = FALSE;
+            }
+            else if (jitter_activation_menu_selection == 1) {
+                setting_jitter_activation_ads = !setting_jitter_activation_ads;
+                if (setting_jitter_activation_ads) setting_jitter_activation_always = FALSE;
+            }
+            else if (jitter_activation_menu_selection == 2) {
+                setting_jitter_activation_ads_fire = !setting_jitter_activation_ads_fire;
+                if (setting_jitter_activation_ads_fire) setting_jitter_activation_always = FALSE;
+            }
+            else if (jitter_activation_menu_selection == 3) {
+                setting_jitter_activation_always = !setting_jitter_activation_always;
+                if (setting_jitter_activation_always) {
+                    setting_jitter_activation_idle = FALSE;
+                    setting_jitter_activation_ads = FALSE;
+                    setting_jitter_activation_ads_fire = FALSE;
+                }
+            }
+            else if (jitter_activation_menu_selection == 4) {
+                current_menu_level = JITTER_AIM_CONFIG_LEVEL;
+            }
+        }
+    }
+}
+
+function apply_jitter_aim() {
+    if (jitter_active_condition) {
+        if (abs(raw_rx) < 25 && abs(raw_ry_stick) < 25) {
+            jitter_timer += get_rtime();
+            if (jitter_timer >= 20) {
+                jitter_timer = 0;
+                jitter_direction = !jitter_direction;
+            }
+            jitter_val = setting_jitter_aim_strength;
+            if (jitter_direction) {
+                final_rx = clamp(final_rx + jitter_val, -100, 100);
+                final_ry = clamp(final_ry - jitter_val, -100, 100);
+            } else {
+                final_rx = clamp(final_rx - jitter_val, -100, 100);
+                final_ry = clamp(final_ry + jitter_val, -100, 100);
+            }
+        }
+    }
+}
+
+function apply_corrective_aim() {
+    if (setting_corrective_aim_toggle && get_val(BUTTON_ADS_GAME)) {
+        corrective_current_x = final_rx;
+        corrective_current_y = final_ry;
+        if (abs(corrective_current_x) < 7 && abs(corrective_current_y) < 7) {
+            corrective_oscillate_direction = !corrective_oscillate_direction;
+            corrective_min_input = 7;
+            if (corrective_oscillate_direction) {
+                corrective_current_x += corrective_min_input;
+                corrective_current_y += corrective_min_input;
+            } else {
+                corrective_current_x -= corrective_min_input;
+                corrective_current_y -= corrective_min_input;
+            }
+        }
+        corrective_current_x = corrective_current_x + (corrective_current_x * setting_corrective_aim_strength / 100);
+        corrective_current_y = corrective_current_y + (corrective_current_y * setting_corrective_aim_strength / 100);
+        corrective_current_x = (corrective_current_x * (100 - setting_corrective_aim_smoothing) + corrective_previous_x * setting_corrective_aim_smoothing) / 100;
+        corrective_current_y = (corrective_current_y * (100 - setting_corrective_aim_smoothing) + corrective_previous_y * setting_corrective_aim_smoothing) / 100;
+        corrective_previous_x = corrective_current_x;
+        corrective_previous_y = corrective_current_y;
+        final_rx = clamp(corrective_current_x, -100, 100);
+        final_ry = clamp(corrective_current_y, -100, 100);
+    }
+}
+
+init {
+    setting_anti_recoil_toggle = get_pvar(SPVAR_1, 0, 1, TRUE);
+    setting_recoil_vertical = get_pvar(SPVAR_2, 0, 99, 15);
+    setting_ads_sticky_aim_toggle = get_pvar(SPVAR_3, 0, 1, TRUE);
+    setting_ads_sticky_aim_strength = get_pvar(SPVAR_4, 0, 100, 20);
+    setting_aim_drag_toggle = get_pvar(SPVAR_5, 0, 1, TRUE);
+    setting_aim_drag_strength = get_pvar(SPVAR_6, 0, 30, 2);
+    setting_aim_drag_threshold = get_pvar(SPVAR_7, 0, 50, 10);
+    setting_polar_aim_toggle = get_pvar(SPVAR_8, 0, 1, TRUE);
+    setting_polar_aim_radius = get_pvar(SPVAR_9, 0, 100, 10);
+    setting_polar_aim_speed = get_pvar(SPVAR_10, 0, 100, 30);
+    setting_left_stick_deadzone = get_pvar(SPVAR_11, 0, 100, 5);
+    setting_right_stick_deadzone = get_pvar(SPVAR_12, 0, 100, 5);
+    setting_aimlock_toggle = get_pvar(SPVAR_13, 0, 1, FALSE);
+    setting_aimlock_strength = get_pvar(SPVAR_14, 0, 100, 75);
+    setting_fast_pickup_toggle = get_pvar(SPVAR_15, 0, 1, FALSE);
+    setting_recoil_horizontal = get_pvar(SPVAR_16, -99, 99, 0);
+    setting_jitter_aim_toggle = get_pvar(SPVAR_17, 0, 1, FALSE);
+    setting_jitter_aim_strength = get_pvar(SPVAR_18, 0, 30, 8);
+    setting_corrective_aim_toggle = get_pvar(SPVAR_19, 0, 1, FALSE);
+    setting_corrective_aim_strength = get_pvar(SPVAR_20, 0, 100, 15);
+    setting_corrective_aim_smoothing = get_pvar(SPVAR_21, 0, 99, 20);
+    setting_polar_activation_idle = get_pvar(SPVAR_22, 0, 1, FALSE);
+    setting_polar_activation_ads = get_pvar(SPVAR_23, 0, 1, FALSE);
+    setting_polar_activation_ads_fire = get_pvar(SPVAR_24, 0, 1, FALSE);
+    setting_polar_activation_always = get_pvar(SPVAR_25, 0, 1, TRUE);
+    setting_strafe_activation_idle = get_pvar(SPVAR_26, 0, 1, FALSE);
+    setting_strafe_activation_ads = get_pvar(SPVAR_27, 0, 1, FALSE);
+    setting_strafe_activation_ads_fire = get_pvar(SPVAR_28, 0, 1, TRUE);
+    setting_strafe_activation_always = get_pvar(SPVAR_29, 0, 1, FALSE);
+    setting_jitter_activation_idle = get_pvar(SPVAR_30, 0, 1, FALSE);
+    setting_jitter_activation_ads = get_pvar(SPVAR_31, 0, 1, TRUE);
+    setting_jitter_activation_ads_fire = get_pvar(SPVAR_32, 0, 1, FALSE);
+    setting_jitter_activation_always = get_pvar(SPVAR_33, 0, 1, FALSE);
+    
+    spammable_buttons[0] = PS4_SQUARE;
+    spammable_buttons[1] = PS4_CROSS;
+    spammable_buttons[2] = PS4_CIRCLE;
+    spammable_buttons[3] = PS4_TRIANGLE;
+    spammable_buttons[4] = PS4_UP;
+    spammable_buttons[5] = PS4_DOWN;
+    spammable_buttons[6] = PS4_LEFT;
+    spammable_buttons[7] = PS4_RIGHT;
+    spammable_buttons[8] = PS4_L2;
+    spammable_buttons[9] = PS4_R2;
+    spammable_buttons[10] = PS4_L3;
+    spammable_buttons[11] = PS4_R3;
+    
+    strafe_timer_cycles = STRAFE_INTERVAL_CYCLES;
+
+    corrective_previous_x = 0;
+    corrective_previous_y = 0;
+    corrective_oscillate_direction = 0;
+    jitter_timer = 0;
+    jitter_direction = 0;
+    jitter_val = 0;
+    corrective_current_x = 0;
+    corrective_current_y = 0;
+    corrective_min_input = 0;
+}
+
+main {
+    if (get_val(BUTTON_MENU_1) && event_press(BUTTON_MENU_2)) {
+        menu_active = !menu_active;
+        if (!menu_active) {
+            show_image_on_exit = TRUE;
+            image_display_timer = 0;
+            set_pvar(SPVAR_1, setting_anti_recoil_toggle);
+            set_pvar(SPVAR_2, setting_recoil_vertical);
+            set_pvar(SPVAR_3, setting_ads_sticky_aim_toggle);
+            set_pvar(SPVAR_4, setting_ads_sticky_aim_strength);
+            set_pvar(SPVAR_5, setting_aim_drag_toggle);
+            set_pvar(SPVAR_6, setting_aim_drag_strength);
+            set_pvar(SPVAR_7, setting_aim_drag_threshold);
+            set_pvar(SPVAR_8, setting_polar_aim_toggle);
+            set_pvar(SPVAR_9, setting_polar_aim_radius);
+            set_pvar(SPVAR_10, setting_polar_aim_speed);
+            set_pvar(SPVAR_11, setting_left_stick_deadzone);
+            set_pvar(SPVAR_12, setting_right_stick_deadzone);
+            set_pvar(SPVAR_13, setting_aimlock_toggle);
+            set_pvar(SPVAR_14, setting_aimlock_strength);
+            set_pvar(SPVAR_15, setting_fast_pickup_toggle);
+            set_pvar(SPVAR_16, setting_recoil_horizontal);
+            set_pvar(SPVAR_17, setting_jitter_aim_toggle);
+            set_pvar(SPVAR_18, setting_jitter_aim_strength);
+            set_pvar(SPVAR_19, setting_corrective_aim_toggle);
+            set_pvar(SPVAR_20, setting_corrective_aim_strength);
+            set_pvar(SPVAR_21, setting_corrective_aim_smoothing);
+            set_pvar(SPVAR_22, setting_polar_activation_idle);
+            set_pvar(SPVAR_23, setting_polar_activation_ads);
+            set_pvar(SPVAR_24, setting_polar_activation_ads_fire);
+            set_pvar(SPVAR_25, setting_polar_activation_always);
+            set_pvar(SPVAR_26, setting_strafe_activation_idle);
+            set_pvar(SPVAR_27, setting_strafe_activation_ads);
+            set_pvar(SPVAR_28, setting_strafe_activation_ads_fire);
+            set_pvar(SPVAR_29, setting_strafe_activation_always);
+            set_pvar(SPVAR_30, setting_jitter_activation_idle);
+            set_pvar(SPVAR_31, setting_jitter_activation_ads);
+            set_pvar(SPVAR_32, setting_jitter_activation_ads_fire);
+            set_pvar(SPVAR_33, setting_jitter_activation_always);
+            cls_oled(0);
+        }
+    }
+
+    if (menu_active) {
+        suppress_all_inputs();
+        handle_menu_input();
+        if (menu_active) {
+            draw_oled_menu();
+        }
+    } else {
+        if (show_image_on_exit) {
+            combo_run(oled);
+            image_display_timer += get_rtime();
+            if (image_display_timer >= 15000) {
+                show_image_on_exit = FALSE;
+                cls_oled(0);
+            }
+        }
+        
+        raw_lx = get_val(PS4_LX);
+        raw_ly = get_val(PS4_LY);
+        raw_rx = get_val(PS4_RX);
+        raw_ry_stick = get_val(PS4_RY);
+
+        final_lx = raw_lx;
+        final_ly = raw_ly;
+        final_rx = raw_rx;
+        final_ry = raw_ry_stick;
+
+        if (abs(raw_lx) < setting_left_stick_deadzone) final_lx = 0;
+        if (abs(raw_ly) < setting_left_stick_deadzone) final_ly = 0;
+        if (abs(raw_rx) < setting_right_stick_deadzone) final_rx = 0;
+        if (abs(raw_ry_stick) < setting_right_stick_deadzone) final_ry = 0;
+        
+        strafe_active_condition = FALSE;
+        if (setting_strafe_toggle) {
+            if (setting_strafe_activation_always) strafe_active_condition = TRUE;
+            if (setting_strafe_activation_idle && !get_val(BUTTON_ADS_GAME) && !get_val(BUTTON_FIRE_GAME)) strafe_active_condition = TRUE;
+            if (setting_strafe_activation_ads && get_val(BUTTON_ADS_GAME)) strafe_active_condition = TRUE;
+            if (setting_strafe_activation_ads_fire && get_val(BUTTON_ADS_GAME) && get_val(BUTTON_FIRE_GAME)) strafe_active_condition = TRUE;
+        }
+
+        if (strafe_active_condition) {
+            if (abs(raw_lx) < setting_left_stick_deadzone) {
+                strafe_timer_cycles = strafe_timer_cycles - 1;
+                if (strafe_timer_cycles <= 0) {
+                    strafe_direction_flag = !strafe_direction_flag;
+                    strafe_timer_cycles = STRAFE_INTERVAL_CYCLES;
+                }
+                if (strafe_direction_flag == 0) {
+                    final_lx = -100;
+                } else {
+                    final_lx = 100;
+                }
+            }
+        }
+
+        detected_button_this_cycle_fp = 0;
+        if (setting_fast_pickup_toggle && get_val(PS4_L1) && get_val(PS4_R1)) {
+            for (g_fp_loop_idx = 0; g_fp_loop_idx < 12; g_fp_loop_idx++) {
+                if (get_val(spammable_buttons[g_fp_loop_idx])) {
+                    if (spammable_buttons[g_fp_loop_idx] != PS4_L1 && spammable_buttons[g_fp_loop_idx] != PS4_R1) {
+                        detected_button_this_cycle_fp = spammable_buttons[g_fp_loop_idx];
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (button_being_spammed != detected_button_this_cycle_fp) {
+            if (button_being_spammed != 0) {
+                set_val(button_being_spammed, 0);
+            }
+            button_being_spammed = detected_button_this_cycle_fp;
+            fast_pickup_spam_state = 0;
+            fast_pickup_timer = 0;
+        }
+
+        if (button_being_spammed != 0) {
+            fast_pickup_timer += get_rtime();
+            if (fast_pickup_spam_state == 0) {
+                if (fast_pickup_timer >= setting_fast_pickup_release_time) {
+                    set_val(button_being_spammed, 100);
+                    fast_pickup_spam_state = 1;
+                    fast_pickup_timer = 0;
+                }
+            } else {
+                if (fast_pickup_timer >= setting_fast_pickup_press_time) {
+                    set_val(button_being_spammed, 0);
+                    fast_pickup_spam_state = 0;
+                    fast_pickup_timer = 0;
+                }
+            }
+        } else {
+            if (fast_pickup_spam_state == 1 && button_being_spammed != 0) {
+                 set_val(button_being_spammed, 0);
+            }
+            fast_pickup_spam_state = 0;
+            fast_pickup_timer = 0;
+            button_being_spammed = 0;
+        }
+
+        apply_corrective_aim();
+        
+        jitter_active_condition = FALSE;
+        if (setting_jitter_aim_toggle) {
+            if (setting_jitter_activation_always) jitter_active_condition = TRUE;
+            if (setting_jitter_activation_idle && !get_val(BUTTON_ADS_GAME) && !get_val(BUTTON_FIRE_GAME)) jitter_active_condition = TRUE;
+            if (setting_jitter_activation_ads && get_val(BUTTON_ADS_GAME)) jitter_active_condition = TRUE;
+            if (setting_jitter_activation_ads_fire && get_val(BUTTON_ADS_GAME) && get_val(BUTTON_FIRE_GAME)) jitter_active_condition = TRUE;
+        }
+        apply_jitter_aim();
+        
+        if (setting_ads_sticky_aim_toggle && get_val(BUTTON_ADS_GAME)) {
+            final_rx = (final_rx * (100 - setting_ads_sticky_aim_strength)) / 100;
+            final_ry = (final_ry * (100 - setting_ads_sticky_aim_strength)) / 100;
+        }
+
+        if (setting_aim_drag_toggle && get_val(BUTTON_ADS_GAME)) {
+            if (abs(final_rx) > setting_aim_drag_threshold) {
+                if (final_rx > 0) final_rx = clamp(final_rx + setting_aim_drag_strength, -100, 100);
+                else if (final_rx < 0) final_rx = clamp(final_rx - setting_aim_drag_strength, -100, 100);
+            }
+            if (abs(final_ry) > setting_aim_drag_threshold) {
+                if (final_ry > 0) final_ry = clamp(final_ry + setting_aim_drag_strength, -100, 100);
+                else if (final_ry < 0) final_ry = clamp(final_ry - setting_aim_drag_strength, -100, 100);
+            }
+        }
+
+        if (setting_polar_aim_toggle) {
+            polar_aim_active_condition = FALSE;
+            if (setting_polar_activation_always) polar_aim_active_condition = TRUE;
+            if (setting_polar_activation_idle && !get_val(BUTTON_ADS_GAME) && !get_val(BUTTON_FIRE_GAME)) polar_aim_active_condition = TRUE;
+            if (setting_polar_activation_ads && get_val(BUTTON_ADS_GAME)) polar_aim_active_condition = TRUE;
+            if (setting_polar_activation_ads_fire && get_val(BUTTON_ADS_GAME) && get_val(BUTTON_FIRE_GAME)) polar_aim_active_condition = TRUE;
+
+            if (polar_aim_active_condition) {
+                stick_magnitude = isqrt(pow(final_rx, 2) + pow(final_ry, 2));
+                
+                polar_angle_accumulator += setting_polar_aim_speed;
+                polar_angle_accumulator = polar_angle_accumulator % 360;
+
+                sin_val = POLAR_ASSIST_DATA[polar_angle_accumulator];
+                cos_val = POLAR_ASSIST_DATA[(polar_angle_accumulator + 270) % 360];
+
+                cos_val = (cos_val * setting_polar_aim_radius) / 100;
+                sin_val = (sin_val * setting_polar_aim_radius) / 100;
+
+                if (stick_magnitude <= setting_polar_aim_radius) {
+                    sin_val -= final_ry;
+                    cos_val -= final_rx;
+                } else {
+                    if (stick_magnitude < 100) {
+                        range = 100 - setting_polar_aim_radius;
+                        if (range > 0) {
+                            fade_factor = 100 * (100 - stick_magnitude) / range;
+                            if (fade_factor < 0) {
+                                 fade_factor = 0;
+                            }
+                            sin_val = sin_val * fade_factor / 100;
+                            cos_val = cos_val * fade_factor / 100;
+                        } else {
+                            sin_val = 0;
+                            cos_val = 0;
+                        }
+                    } else {
+                        sin_val = 0;
+                        cos_val = 0;
+                    }
+                }
+                final_rx = clamp(final_rx + cos_val, -100, 100);
+                final_ry = clamp(final_ry + sin_val, -100, 100);
+            }
+        }
+
+        if (setting_aimlock_toggle && get_val(BUTTON_ADS_GAME) && get_val(BUTTON_FIRE_GAME)) {
+            final_rx = (final_rx * (100 - setting_aimlock_strength)) / 100;
+            final_ry = (final_ry * (100 - setting_aimlock_strength)) / 100;
+        }
+
+        set_val(PS4_LX, final_lx);
+        set_val(PS4_LY, final_ly);
+
+        if (setting_anti_recoil_toggle && get_val(BUTTON_ADS_GAME) && get_val(BUTTON_FIRE_GAME)) {
+            current_rx_recoil = final_rx;
+            recoil_adjustment_x = setting_recoil_horizontal;
+            temp_value_for_clamp_x = current_rx_recoil + recoil_adjustment_x;
+            final_rx = clamp(temp_value_for_clamp_x, -100, 100);
+            
+            current_ry_recoil = final_ry;
+            recoil_adjustment = setting_recoil_vertical;
+            temp_value_for_clamp = current_ry_recoil + recoil_adjustment;
+            final_ry = clamp(temp_value_for_clamp, -100, 100);
+        }
+        set_val(PS4_RX, final_rx);
+        set_val(PS4_RY, final_ry);
+    }
+}
+init {cls_oled(0);combo_run(oled)set_rgb(255, 150, 0);}combo oled {image_oled(0, 0, TRUE, TRUE, picture[0])}
+const image picture = {99, 59, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF0, 0x00, 0x00, 0x00, 0x00, 0x70, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3F, 0x00, 0x00, 0x00, 0x00, 0x1F, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x07, 0xF0, 0x00, 0xC0, 0x00, 0x03, 0xFC, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x1C, 0x00, 0x00, 0x7F, 0xF8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1F, 0xF0, 0x03, 0xC0, 0x00, 0x0F, 0xFF, 0xE0, 0x00, 0x00, 0x00, 0x00, 0x03, 0xFE, 0x00, 0x7C, 0x01, 0xFD, 0xFF, 0xFE, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7F, 0xC0, 0x0F, 0xF0, 0x3F, 0xBF, 0xFF, 0xE0, 0x00, 0x00, 0x00, 0x00, 0x0F, 0xFC, 0x01, 0xFF, 0x07, 0xF7, 0xFF, 0xFE, 0x00, 0x00, 0x00, 0x00, 0x01, 0xFF, 0x80, 0x7F, 0xF8, 0xFE, 0xFF, 0xFF, 0xE0, 0x00, 0x00, 0x00, 0x00, 0x3F, 0xF0, 0x0F, 0xFF, 0x9F, 0xDF, 0xFF, 0xFE, 0x00, 0x00, 0x00, 0x00, 0x0F, 0xFE, 0x07, 0xFF, 0xF3, 0xF9, 0xFF, 0xFF, 0xE0, 0x00, 0x00, 0x00, 0x01, 0xFF, 0xE1, 0xFF, 0xFF, 0x7F, 0x3F, 0xFF, 0xFE, 0x00, 0x00, 0x00, 0x00, 0x3F, 0xFC, 0x3F, 0xFF, 0xEF, 0xE7, 0xF9, 0xFF, 0xC0, 0x00, 0x00, 0x00, 0x07, 0xFF, 0x8F, 0xFF, 0xFD, 0xFC, 0xFF, 0x0F, 0xFC, 0x00, 0x00, 0x00, 0x01, 0xFF, 0xF1, 0xFF, 0x9F, 0xBF, 0x9F, 0xE0, 0xFF, 0x80, 0x00, 0x00, 0x00, 0x3F, 0xFE, 0x3F, 0x83, 0xF7, 0xF3, 0xFC, 0x1F, 0xF0, 0x00, 0x00, 0x00, 0x07, 0xFF, 0xE7, 0xF0, 0x7C, 0xFE, 0x7F, 0x81, 0xFE, 0x00, 0x00, 0x00, 0x01, 0xFD, 0xFC, 0xFE, 0x0F, 0x1F, 0xCF, 0xF0, 0x3F, 0xC0, 0x00, 0x00, 0x00, 0x7F, 0xBF, 0x9F, 0x81, 0xC3, 0xF9, 0xFE, 0x07, 0xF8, 0x00, 0x00, 0x00, 0x0F, 0xE3, 0xFB, 0xF0, 0x00, 0x7F, 0x3F, 0xC0, 0xFF, 0x00, 0x00, 0x00, 0x01, 0xFC, 0x7F, 0x7E, 0x00, 0x07, 0xE7, 0xF8, 0x1F, 0xE0, 0x00, 0x00, 0x00, 0x3F, 0xFF, 0xEF, 0xC0, 0x00, 0xFC, 0xFF, 0x07, 0xF8, 0x00, 0x00, 0x00, 0x07, 0xFF, 0xFC, 0xFC, 0x03, 0x9F, 0x8F, 0xE1, 0xFF, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xDF, 0xE1, 0xFB, 0xF1, 0xFC, 0xFF, 0xC0, 0x00, 0x00, 0x00, 0x1F, 0xFF, 0xFB, 0xFF, 0xFF, 0x7F, 0x3F, 0xFF, 0xF8, 0x00, 0x00, 0x00, 0x07, 0xFF, 0xFF, 0x7F, 0xFF, 0xEF, 0xE7, 0xFF, 0xFE, 0x00, 0x00, 0x00, 0x00, 0xFE, 0x0F, 0xE7, 0xFF, 0xFD, 0xFC, 0xFF, 0xFF, 0x80, 0x00, 0x00, 0x00, 0x1F, 0xC1, 0xFE, 0x7F, 0xFF, 0x3F, 0x9F, 0xFF, 0xE0, 0x00, 0x00, 0x00, 0x05, 0x50, 0x2A, 0xA5, 0x55, 0x42, 0xA1, 0x55, 0x54, 0x00, 0x00, 0x00, 0x01, 0x55, 0x02, 0xAA, 0x55, 0x50, 0xAA, 0x55, 0x55, 0x00, 0x00, 0x00, 0x00, 0x15, 0x40, 0xAA, 0xA5, 0x54, 0x0A, 0x85, 0x55, 0x40, 0x00, 0x00, 0x00, 0x05, 0x54, 0x0A, 0xA8, 0x77, 0x00, 0xA1, 0x55, 0x40, 0x00, 0x00, 0x00, 0x00, 0x51, 0x02, 0x8A, 0x81, 0x00, 0x08, 0x05, 0x54, 0x00, 0x00, 0x00, 0x00, 0x04, 0x50, 0x20, 0xA0, 0x10, 0x02, 0x81, 0x41, 0x00, 0x00, 0x00, 0x00, 0x00, 0x44, 0x02, 0x0A, 0x04, 0x00, 0x20, 0x14, 0x10, 0x00, 0x00, 0x00, 0x00, 0x11, 0x40, 0x82, 0x00, 0x40, 0x02, 0x01, 0x04, 0x00, 0x00, 0x00, 0x00, 0x01, 0x10, 0x08, 0x20, 0x10, 0x00, 0x80, 0x40, 0x40, 0x00, 0x00, 0x00, 0x00, 0x04, 0x02, 0x08, 0x01, 0x00, 0x08, 0x04, 0x10, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x20, 0x80, 0x40, 0x02, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x20, 0x14, 0x00, 0x20, 0x10, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x82, 0x01, 0x00, 0x08, 0x04, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x50, 0x00, 0x80, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x05, 0x00, 0x28, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x01, 0x40, 0x0A, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x10, 0x00, 0xA0, 0x50, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x28, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x81, 0x40, 0x00, 0x00};

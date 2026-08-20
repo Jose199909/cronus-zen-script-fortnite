@@ -1,0 +1,86 @@
+// Define buttons 
+define AIM_BUTTON = PS4_L2;
+define SHOOT_BUTTON = PS4_R2;
+
+define DEADZONE = 10;
+
+// ADS 4 Optimized Aim Strengths
+define RECOIL_ADJUST = 45;                // Very strong + early correction
+define LONG_RANGE_AIM_INTENSITY = 55;     // Lower for shake-free micro aim
+define AIM_SMOOTHNESS = 10;               // Much smoother motion
+define PREDICTIVE_ADJUST = 8;
+define HEADSHOT_SENSITIVITY = 10;         // Small vertical correction only
+define AFK_TRACKING_SENSITIVITY = 16;     // Still magnet but stable
+define STICKY_AIM_INTENSITY = 20;         // Prevents jitter while aiming
+
+// Toggles
+int aim_assist = TRUE;
+int anti_recoil = TRUE;
+int long_range_aim = TRUE;
+int predictive_aiming = TRUE;
+int headshot_mode = TRUE;
+int afk_tracking = TRUE;
+int sticky_aim = TRUE;
+
+// State
+int prev_x, prev_y, cx, cy, ex, ey;
+int recoil_strength;
+
+main {
+    cx = get_val(PS4_RX);
+    cy = get_val(PS4_RY);
+
+    ex = (cx - prev_x) / 2;
+    ey = (cy - prev_y) / 2;
+
+    // *** Strong + Smooth Anti-Recoil FIRST ***
+    if (anti_recoil && get_val(SHOOT_BUTTON)) {
+        recoil_strength = RECOIL_ADJUST;
+        combo_run(DynamicAntiRecoil);
+    }
+
+    // Long range aim assist (ADS only, inside DZ)
+    if (aim_assist && get_val(AIM_BUTTON) && abs(cx) <= DEADZONE && abs(cy) <= DEADZONE) {
+        if (long_range_aim) combo_run(LongRangeSmooth);
+    }
+
+    // Predictive motion tracking
+    if (predictive_aiming && get_val(AIM_BUTTON)) {
+        set_val(PS4_RX, cx + ex / PREDICTIVE_ADJUST);
+        set_val(PS4_RY, cy + ey / PREDICTIVE_ADJUST);
+    }
+
+    // Very light headshot correction
+    if (headshot_mode && get_val(AIM_BUTTON)) {
+        set_val(PS4_RY, cy - HEADSHOT_SENSITIVITY);
+    }
+
+    // AFK Tracking (no ADS)
+    if (afk_tracking && !get_val(AIM_BUTTON)) {
+        set_val(PS4_RX, cx + ex / AFK_TRACKING_SENSITIVITY);
+        set_val(PS4_RY, cy + ey / AFK_TRACKING_SENSITIVITY);
+    }
+
+    // Gentle sticky aim magnet
+    if (sticky_aim && get_val(AIM_BUTTON) && abs(cx) < 9 && abs(cy) < 9) {
+        set_val(PS4_RX, cx + ex / STICKY_AIM_INTENSITY);
+        set_val(PS4_RY, cy + ey / STICKY_AIM_INTENSITY);
+    }
+
+    prev_x = cx;
+    prev_y = cy;
+}
+
+// Extremely smooth long-range assist
+combo LongRangeSmooth {
+    set_val(PS4_RX,  LONG_RANGE_AIM_INTENSITY / AIM_SMOOTHNESS);
+    wait(90);
+    set_val(PS4_RX, -LONG_RANGE_AIM_INTENSITY / AIM_SMOOTHNESS);
+    wait(90);
+}
+
+// Strong & early anti-recoil
+combo DynamicAntiRecoil {
+    set_val(PS4_RY, get_val(PS4_RY) - recoil_strength);
+    wait(8);
+}

@@ -1,0 +1,1068 @@
+																																																									/*
+███████╗███████╗ █████╗ ████████╗██╗   ██╗██████╗ ███████╗███████╗███████╗███╗   ██╗███████╗
+██╔════╝██╔════╝██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██╔════╝╚══███╔╝██╔════╝████╗  ██║██╔════╝
+█████╗  █████╗  ███████║   ██║   ██║   ██║██████╔╝█████╗    ███╔╝ █████╗  ██╔██╗ ██║███████╗
+██╔══╝  ██╔══╝  ██╔══██║   ██║   ██║   ██║██╔══██╗██╔══╝   ███╔╝  ██╔══╝  ██║╚██╗██║╚════██║
+██║     ███████╗██║  ██║   ██║   ╚██████╔╝██║  ██║███████╗███████╗███████╗██║ ╚████║███████║
+╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝																																		/*
+
+Welcome to Nova! — This is the BEST Fortnite Cronus Zen script, giving you everything you could ever want and more!
+
+To protect the quality of our scripts and community, all guides and settings are private.
+To unlock full access, open a ticket in our Discord and verify your order. Once verified, you’ll unlock private guides, fast support and personalized help.
+
+Support:
+Discord.GG/Scripts | https://FeatureZens.com																																													*/
+
+
+																																																									/*
+Setting up this script is super easy and we'd be more than happy to do it for you! Firstly, we need to define some binds.
+These are the buttons you use in-game for different actions, please match them below! If you need help finding what your
+bind is called, check out our free setup tutorials in https://discord.gg/featurezens!
+
+So, let's begin! 																																																					*/
+
+define ADS 				= PS5_L2;			// Aiming In
+define Fire 			= PS5_R2;			// Shooting
+define Interact			= PS5_SQUARE;		// Interacting and Reloading
+define Crouch 			= PS5_R3;			// Crouching
+
+define Edit 			= PS5_L3;			// Editing a Building
+define Reset 			= PS5_R3;			// Resetting an Edit
+define Confirm 			= PS5_CIRCLE;		// Confirming an Edit
+
+define InstantReset 	= PS5_DOWN;			// Activates "Instant Reset" Macro
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+																																																									/*
+██╗ ██████╗ ███╗   ██╗ ██████╗ ██████╗ ███████╗    ██████╗ ███████╗██╗      ██████╗ ██╗    ██╗
+██║██╔════╝ ████╗  ██║██╔═══██╗██╔══██╗██╔════╝    ██╔══██╗██╔════╝██║     ██╔═══██╗██║    ██║
+██║██║  ███╗██╔██╗ ██║██║   ██║██████╔╝█████╗      ██████╔╝█████╗  ██║     ██║   ██║██║ █╗ ██║
+██║██║   ██║██║╚██╗██║██║   ██║██╔══██╗██╔══╝      ██╔══██╗██╔══╝  ██║     ██║   ██║██║███╗██║
+██║╚██████╔╝██║ ╚████║╚██████╔╝██║  ██║███████╗    ██████╔╝███████╗███████╗╚██████╔╝╚███╔███╔╝
+╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝    ╚═════╝ ╚══════╝╚══════╝ ╚═════╝  ╚══╝╚══╝ 
+																																																									*/
+int AutoTrackingToggle = 1;        
+int AutoTrackingPower = 60;       
+int AutoTrackingLevel = 0;
+int ConstantAAToggle = 1;          
+int ConstantAAPower = 0;           
+int L2AssistToggle = 0;            
+int PolarPower = 0;               
+int R2AssistToggle = 0;            
+int R2AssistPower = 0;             
+int AntiBloomToggle = 0;           
+int AntiRecoilToggle = 0;          
+int AntiRecoilPower = 0;           
+int PickupMacroToggle = 0;         
+int InstaResetToggle = 0;          
+int DropShotToggle = 0;            
+int DropShotDelay = 0;            
+int InstantTriggersToggle = 0;     
+int ControllerOverclockToggle = 0; 
+int OLEDColour = 0;                
+
+int MENU_OPEN = 0;
+int CURRENT_PAGE = 1;
+int TOTAL_PAGES = 18; 
+int VALUE_HOLD_TIMER = 0;
+int RAPID_CHANGE_TIMER = 0;
+int SELECTION = 0;
+int TOGGLE_TYPE = 0;
+int FLASH_TOGGLE = 0;
+int IS_XBOX = 0;
+int CURRENT_BUILD = 1;
+
+int HoldingADS = 0;
+int HoldingFire = 0;
+
+int e8_stars = 15;
+int e8_star_x[15];
+int e8_star_y[15];
+int e8_star_speed[15];
+int e8_i;
+int display_NOVA = FALSE;
+int startup_screen_shown = FALSE;
+int was_menu_enabled = FALSE;
+
+int time, STEP_INTERVAL = 1, STEPS = 20, actual_X, actual_Y, actual_Magnitude, max_Magnitude;
+int angle, cos_angle, sin_angle;
+
+const string NOVA_BRAND = "FEATUREZENS.COM";
+const string NOVA_LABEL = "NOVA FN";
+const string NOVA_VERSION = "V1";
+
+const string MOD_HEADERS[] = {
+    "Auto-Tracking AI+", 
+    "Auto-Track Power",
+    "Constant AA", 
+    "Constant AA Power",
+    "L2 Assist", 
+    "L2 Assist Power",
+    "R2 Assist", 
+    "R2 Assist Power",
+    "Anti-Bloom", 
+    "Anti-Recoil", 
+    "Anti-Recoil Power",
+    "Pickup Macro", 
+    "Instant Reset", 
+    "Dropshot", 
+    "Dropshot Delay",
+    "Instant Triggers",
+    "Overclock AI",
+    "OLED Colour"  
+};
+const string ON_OFF_TEXT[] = {"OFF", "ON"};
+const string COLOUR_NAMES[] = {"PURPLE", "YELLOW", "BLUE", "GREEN", "WHITE"};
+
+int GRAPH_WIDTH, X_START, MID_X, BAR_POS;
+int BUFFER_INDEX, DIGIT_INDEX, CHAR_INDEX;
+int LOG_VAL;
+int STRING_LENGTH;
+int i;
+
+const int16 sin[] = { 
+	0, 6, 11, 17, 23, 29, 34, 40, 46, 51, 57, 63, 68, 74, 79, 85, 90, 96,
+	101, 107, 112, 117, 123, 128, 133, 138, 144, 149, 154, 159, 164, 169, 174, 178, 183, 188,
+	193, 197, 202, 206, 211, 215, 219, 223, 228, 232, 236, 240, 244, 247, 251, 255, 258, 262,
+	265, 268, 272, 275, 278, 281, 284, 287, 289, 292, 295, 297, 299, 302, 304, 306, 308, 310,
+	312, 313, 315, 317, 318, 319, 321, 322, 323, 324, 324, 325, 326, 326, 327, 327, 327, 328,
+	328, 328, 327, 327, 327, 326, 326, 325, 324, 324, 323, 322, 321, 319, 318, 317, 315, 313,
+	312, 310, 308, 306, 304, 302, 299, 297, 295, 292, 289, 287, 284, 281, 278, 275, 272, 268,
+	265, 262, 258, 255, 251, 247, 244, 240, 236, 232, 228, 223, 219, 215, 211, 206, 202, 197,
+	193, 188, 183, 178, 174, 169, 164, 159, 154, 149, 144, 138, 133, 128, 123, 117, 112, 107,
+	101, 96, 90, 85, 79, 74, 68, 63, 57, 51, 46, 40, 34, 29, 23, 17, 11, 6,
+	0, -6, -11, -17, -23, -29, -34, -40, -46, -51, -57, -63, -68, -74, -79, -85, -90, -96,
+	-101, -107, -112, -117, -123, -128, -133, -138, -144, -149, -154, -159, -164, -169, -174, -178, -183, -188,
+	-193, -197, -202, -206, -211, -215, 219, 223, 228, 232, 236, 240, 244, 247, 251, 255, 258, 262,
+	265, 268, 272, 275, 278, 281, 284, 287, 289, 292, 295, 297, 299, 302, 304, 306, 308, 310,
+	312, 313, 315, 317, 318, 319, 321, 322, 323, 324, 324, 325, 326, 326, 327, 327, 327, 328,
+	328, 328, 327, 327, 327, 326, 326, 325, 324, 324, 323, 322, 321, 319, -318, -317, -315, -313,
+	-312, -310, -308, -306, -304, -302, -299, -297, -295, -292, -289, -287, -284, -281, -278, -275, -272, -268,
+	-265, -262, -258, -255, -251, -247, -244, -240, -236, -232, -228, -223, -219, -215, -211, -206, -202, -197,
+	-193, -188, -183, -178, -174, -169, -164, -159, -154, -149, -144, -138, -133, -128, -123, -117, -112, -107,
+	-101, -96, -90, -85, -79, -74, -68, -63, -57, -51, -46, -40, -34, -29, -23, -17, -11, -6
+};
+
+const int16 cos[] = { 
+	328, 328, 327, 327, 327, 326, 326, 325, 324, 324, 323, 322, 321, 319, 318, 317, 315, 313,
+	312, 310, 308, 306, 304, 302, 299, 297, 295, 292, 289, 287, 284, 281, 278, 275, 272, 268,
+	265, 262, 258, 255, 251, 247, 244, 240, 236, 232, 228, 223, 219, 215, 211, 206, 202, 197,
+	193, 188, 183, 178, 174, 169, 164, 159, 154, 149, 144, 138, 133, 128, 123, 117, 112, 107,
+	101, 96, 90, 85, 79, 74, 68, 63, 57, 51, 46, 40, 34, 29, 23, 17, 11, 6,
+	0, -6, -11, -17, -23, -29, -34, -40, -46, -51, -57, -63, -68, -74, -79, -85, -90, -96,
+	-101, -107, -112, -117, -123, -128, -133, -138, -144, -149, -154, -159, -164, -169, -174, -178, -183, -188,
+	-193, -197, -202, -206, -211, -215, -219, -223, -228, -232, -236, -240, -244, -247, -251, -255, -258, -262,
+	-265, -268, -272, -275, -278, -281, -284, -287, -289, -292, -295, -297, -299, -302, -304, -306, -308, -310,
+	-312, -313, -315, -317, -318, -319, -321, -322, -323, -324, -324, -325, -326, -326, -327, -327, -327, -328,
+	-328, -328, -327, -327, -327, -326, -326, -325, -324, -324, -323, -322, -321, -319, -318, -317, -315, -313,
+	-312, -310, -308, -306, -304, -302, -299, -297, -295, -292, -289, -287, -284, -281, -278, -275, -272, -268,
+	-265, -262, -258, -255, -251, -247, -244, -240, -236, -232, -228, -223, -219, -215, -211, -206, -202, -197,
+	-193, -188, -183, -178, -174, -169, -164, -159, -154, -149, -144, -138, -133, -128, -123, -117, -112, -107,
+	-101, -96, -90, -85, -79, -74, -68, -63, -57, -51, -46, -40, -34, -29, -23, -17, -11, -6,
+	0, 6, 11, 17, 23, 29, 34, 40, 46, 51, 57, 63, 68, 74, 79, 85, 90, 96,
+	101, 107, 112, 117, 123, 128, 133, 138, 144, 149, 154, 159, 164, 169, 174, 178, 183, 188,
+	193, 197, 202, 206, 211, 215, 219, 223, 228, 232, 236, 240, 244, 247, 251, 255, 258, 262,
+	265, 268, 272, 275, 278, 281, 284, 287, 289, 292, 295, 297, 299, 302, 304, 306, 308, 310,
+	312, 313, 315, 317, 318, 319, 321, 322, 323, 324, 324, 325, 326, 326, 327, 327, 327, 328
+};
+
+const int16 PolarArray[] = { 
+    100,100,100,100,100,100,100,100,99,99,99,99,98,98,97,97,97,96,
+    95,95,94,94,93,92,92,91,90,89,89,88,87,86,85,84,83,82,
+    81,80,79,78,77,75,74,73,72,71,70,69,67,66,65,63,62,61,
+    59,58,56,55,53,52,50,49,47,46,44,43,41,40,38,36,35,33,
+    31,30,28,26,25,23,21,20,18,16,14,13,11,9,7,6,4,2,
+    0,-2,-4,-6,-7,-9,-11,-13,-14,-16,-18,-20,-21,-23,-25,-26,-28,-30,
+    -31,-33,-35,-36,-38,-40,-41,-43,-44,-46,-47,-49,-50,-52,-53,-55,-56,-58,
+    -59,-61,-62,-63,-65,-66,-67,-69,-70,-71,-72,-73,-74,-75,-77,-78,-79,-80,
+    -81,-82,-83,-84,-85,-86,-87,-88,-89,-89,-90,-91,-92,-93,-94,-94,-95,
+    -95,-96,-97,-97,-97,-98,-98,-99,-99,-99,-99,-100,-100,-100,-100,-100,-100,-100,
+    -100,-100,-100,-100,-100,-100,-100,-99,-99,-99,-98,-98,-98,-97,-97,-96,-96,-95,
+    -94,-94,-93,-93,-92,-91,-90,-90,-89,-88,-87,-86,-85,-84,-83,-82,-81,-80,
+    -79,-78,-77,-76,-75,-74,-72,-71,-70,-69,-67,-66,-65,-63,-62,-61,-59,-58,
+    -56,-55,-53,-52,-50,-49,-47,-46,-44,-43,-41,-40,-38,-36,-35,-33,-31,-30,
+    -28,-26,-25,-23,-21,-20,-18,-16,-14,-13,-11,-9,-7,-6,-4,-2,0,2,
+    4,6,7,9,11,13,14,16,18,20,21,23,25,26,28,30,31,33,
+    35,36,38,40,41,43,44,46,47,49,50,52,53,55,56,58,59,61,
+    62,63,65,66,67,69,70,71,72,73,74,75,77,78,79,80,81,82,
+    83,84,85,86,87,88,89,89,90,91,92,92,93,94,94,95,95,96,
+    97,97,97,98,98,99,99,99,99,100,100,100,100,100,100,100,100,100
+};
+
+function update_starfield() {
+    for (e8_i = 0; e8_i < e8_stars; e8_i++) {
+        e8_star_y[e8_i] += e8_star_speed[e8_i];
+        if (e8_star_y[e8_i] > 63) {
+            e8_star_y[e8_i] = 0;
+            e8_star_x[e8_i] = random(0, 127);
+            e8_star_speed[e8_i] = random(1, 3);
+        }
+    }
+}
+
+function draw_starfield() {
+    for (e8_i = 0; e8_i < e8_stars; e8_i++) {
+        pixel_oled(e8_star_x[e8_i], e8_star_y[e8_i], 1);
+    }
+}
+
+function draw_NOVA_logo() {
+    print(
+        center_x(15, OLED_FONT_SMALL_WIDTH),
+        10,
+        OLED_FONT_SMALL,
+        OLED_WHITE,
+        NOVA_BRAND[0]
+    );
+
+    print(
+        center_x(7, OLED_FONT_MEDIUM_WIDTH),
+        25,
+        OLED_FONT_MEDIUM,
+        OLED_WHITE,
+        NOVA_LABEL[0]
+    );
+
+    print(
+        center_x(2, OLED_FONT_SMALL_WIDTH),
+        50,
+        OLED_FONT_SMALL,
+        OLED_WHITE,
+        NOVA_VERSION[0]
+    );
+}
+
+function center_x(f_chars, f_font) {
+    return (OLED_WIDTH / 2) - ((f_chars * f_font) / 2);
+}
+
+function CENTER_X(f_chars, f_font) { return (OLED_WIDTH / 2) - ((f_chars * f_font) / 2); }
+function MAP(val, in_min, in_max, out_min, out_max) { return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; }
+function FIND_DIGITS(num) { LOG_VAL = 0; do { num /= 10; LOG_VAL++; } while(num); return LOG_VAL; }
+function GET_STRING_LENGTH(offset) { STRING_LENGTH = 0; while(duint8(offset++)) { STRING_LENGTH++; } return STRING_LENGTH + 1; }
+
+function DRAW_LOGO() { 
+    cls_oled(OLED_BLACK);
+    draw_NOVA_logo();
+    draw_starfield();
+}
+
+function DRAW_X_GRAPH(value, min_val, max_val, y_pos) {
+    GRAPH_WIDTH = 100; X_START = (OLED_WIDTH - GRAPH_WIDTH) / 2; MID_X = X_START + GRAPH_WIDTH / 2; 
+    BAR_POS = MAP(value, min_val, max_val, 0, GRAPH_WIDTH);
+    if(BAR_POS < 0) BAR_POS = 0; if(BAR_POS > 100) BAR_POS = 100;
+    line_oled(X_START, y_pos, X_START + GRAPH_WIDTH, y_pos, 1, OLED_WHITE);
+    line_oled(MID_X, y_pos - 3, MID_X, y_pos + 3, 1, OLED_WHITE);
+    line_oled(X_START, y_pos - 2, X_START, y_pos + 2, 1, OLED_WHITE);
+    line_oled(X_START + GRAPH_WIDTH, y_pos - 2, X_START + GRAPH_WIDTH, y_pos + 2, 1, OLED_WHITE);
+    rect_oled(X_START, y_pos - 2, BAR_POS, 4, 1, OLED_WHITE);
+}
+
+function NUMBER_TO_STRING(f_val, f_digits) {
+    BUFFER_INDEX = 1; DIGIT_INDEX = 10000;
+    if(f_val < 0) { putc_oled(BUFFER_INDEX, 45); BUFFER_INDEX += 1; f_val = abs(f_val); }
+    for(CHAR_INDEX = 5; CHAR_INDEX >= 1; CHAR_INDEX--) {
+        if(f_digits >= CHAR_INDEX) {
+            putc_oled(BUFFER_INDEX, (f_val / DIGIT_INDEX) + 48); f_val %= DIGIT_INDEX; BUFFER_INDEX++;
+        }
+        DIGIT_INDEX /= 10;
+    }
+    puts_oled(CENTER_X(BUFFER_INDEX - 1, OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, BUFFER_INDEX - 1, OLED_WHITE);
+}
+
+function UPDATE_LED_FOR_MOD_STATE(is_mod_on) {
+    if(is_mod_on) { 
+        if (OLEDColour == 0) {    
+            set_rgb(128, 0, 128);
+        } else if (OLEDColour == 1) { 
+            set_rgb(255, 153, 0);
+        } else if (OLEDColour == 2) { 
+            set_rgb(0, 0, 255);
+        } else if (OLEDColour == 3) { 
+            set_rgb(0, 255, 0);
+        } else if (OLEDColour == 4) { 
+            set_rgb(255, 255, 255);
+        }
+    } else { 
+        set_rgb(0, 0, 0); 
+    }
+}
+
+function CONVERT_AUTO_TRACKING_POWER(level) {
+    if(level == 1) return 60;
+    if(level == 2) return 70;
+    if(level == 3) return 80;
+    if(level == 4) return 90;
+    if(level == 5) return 100;
+    return 100;
+}
+
+combo VIBRATION_ON { set_rumble(RUMBLE_A, 100); wait(50); set_rumble(RUMBLE_A, 0); }
+combo VIBRATION_OFF { set_rumble(RUMBLE_A, 50); wait(50); set_rumble(RUMBLE_A, 0); }
+combo VIBRATION_CHANGE { set_rumble(RUMBLE_A, 50); wait(13); set_rumble(RUMBLE_A, 0); }
+combo VIBRATION_MOD_ON { set_rumble(RUMBLE_A, 70); wait(6); set_rumble(RUMBLE_A, 40); wait(5); set_rumble(RUMBLE_A, 0); }
+combo VIBRATION_MOD_OFF { set_rumble(RUMBLE_A, 100); wait(4); set_rumble(RUMBLE_A, 0); wait(3); set_rumble(RUMBLE_A, 80); wait(3); set_rumble(RUMBLE_A, 0); }
+combo VIBRATION_EDGE { set_rumble(RUMBLE_A, 100); wait(50); set_rumble(RUMBLE_A, 0); wait(50); set_rumble(RUMBLE_A, 100); wait(50); set_rumble(RUMBLE_A, 0); }
+
+combo FLASH_TOGGLE_ONOFF {
+    if(!FLASH_TOGGLE) { 
+        set_rgb(0, 0, 0); 
+        combo_run(VIBRATION_MOD_OFF); 
+    }
+    else { 
+        UPDATE_LED_FOR_MOD_STATE(TRUE);
+        combo_run(VIBRATION_MOD_ON); 
+    }
+    wait(500);
+    if(FLASH_TOGGLE) { 
+        UPDATE_LED_FOR_MOD_STATE(TRUE);
+    } else { 
+        set_rgb(0, 0, 0); 
+    }
+}
+
+combo PickupMacro {
+    set_val(Interact, 100);
+    wait(10);
+    set_val(Interact, 0);
+}
+
+combo AntiRecoil {
+    if(get_val(Fire) && get_val(ADS)) {
+        set_val(PS5_RY, get_ival(PS5_RY) + AntiRecoilPower);
+    }
+}
+
+combo RumbleActivate {
+    set_rgb(7, 134, 170);
+    set_rumble(RUMBLE_B, 50);
+    wait(150);
+    reset_rumble();
+    wait(100);
+    set_rumble(RUMBLE_B, 50);
+    wait(150);
+    reset_rumble();
+}
+
+combo RumbleDeactivate {
+    set_rgb(255, 0, 0);
+    set_rumble(RUMBLE_A, 50);
+    wait(300);
+    reset_rumble();
+    wait(400);
+}
+
+combo DropShot {
+    set_val(Crouch, 60);
+    wait(DropShotDelay);
+    set_val(Crouch, 0);
+    wait(DropShotDelay);
+}
+
+combo AutoTracking {
+    set_val(PS5_LX, -AutoTrackingPower);
+    wait(1);
+    set_val(PS5_LX, AutoTrackingPower);
+}
+
+combo ConstantAA {
+    actual_X = get_val(PS5_RX);
+    actual_Y = get_val(PS5_RY);
+    actual_Magnitude = isqrt(pow(actual_X, 2) + pow(actual_Y, 2));
+    max_Magnitude = (actual_Magnitude < 100);
+    if(!(time++ % STEP_INTERVAL)){
+        angle += STEPS;
+    }
+    angle = angle % 360;
+    sin_angle = PolarArray[angle % 360];
+    cos_angle = PolarArray[(angle * 2) % 360];
+    cos_angle = (cos_angle * ConstantAAPower) / 200;
+    sin_angle = (sin_angle * ConstantAAPower) / 100;
+    
+    if(actual_Magnitude <= ConstantAAPower) {
+        sin_angle -= actual_Y;
+        cos_angle -= actual_X;
+    } else {
+        sin_angle = (sin_angle * (200 - ((abs(actual_Y) + actual_Magnitude) / 10) * 10) / 200) * max_Magnitude;
+        cos_angle = (cos_angle * (200 - ((abs(actual_X) + actual_Magnitude) / 10) * 10) / 200) * max_Magnitude;
+    }
+    set_val(PS5_RX, clamp(actual_X + cos_angle, -100, 100));
+    set_val(PS5_RY, clamp(actual_Y + sin_angle, -100, 100));
+}
+
+combo L2Assist {
+    actual_X = get_val(PS5_RX);
+    actual_Y = get_val(PS5_RY);
+    actual_Magnitude = isqrt(pow(actual_X, 2) + pow(actual_Y, 2));
+    max_Magnitude = (actual_Magnitude < 100);
+    if(!(time++ % STEP_INTERVAL)){
+        angle += STEPS;
+    }
+    angle = angle % 360;
+    sin_angle = PolarArray[angle % 360];
+    cos_angle = PolarArray[(angle * 2) % 360];
+    cos_angle = (cos_angle * PolarPower) / 200;
+    sin_angle = (sin_angle * PolarPower) / 100;
+    if(get_val(ADS) || get_val(Fire)) {
+        if(actual_Magnitude <= PolarPower) {
+            sin_angle -= actual_Y;
+            cos_angle -= actual_X;
+        } else {
+            sin_angle = (sin_angle * (200 - ((abs(actual_Y) + actual_Magnitude) / 10) * 10) / 200) * max_Magnitude;
+            cos_angle = (cos_angle * (200 - ((abs(actual_X) + actual_Magnitude) / 10) * 10) / 200) * max_Magnitude;
+        }
+        set_val(PS5_RX, clamp(actual_X + cos_angle, -100, 100));
+        set_val(PS5_RY, clamp(actual_Y + sin_angle, -100, 100));
+    }
+}
+
+combo R2Assist {
+    if (get_val(Fire)) { 
+        set_val(PS5_RX, (get_ival(PS5_RX) + random(0x1 * -1, 0x1) * 2));
+        set_val(PS5_RY, (get_ival(PS5_RY) + random(0x1 * -2, 0x1) * 2)); 
+        combo_run(AA1);
+        combo_run(AA2);
+    }
+}
+
+combo AA1 {
+    set_val(PS5_RY, get_ival(PS5_RY) - R2AssistPower - 2);
+    wait(1);
+    set_val(PS5_RY, get_ival(PS5_RY) + R2AssistPower + 2);
+    wait(1);
+}
+
+combo AA2 {
+    set_val(PS5_RX, get_ival(PS5_RX) + R2AssistPower + 1);
+    wait(2);
+    set_val(PS5_RX, get_ival(PS5_RX) - R2AssistPower - 1);
+    wait(2);
+}
+
+combo InstantReset {
+    set_val(Edit,100);
+    wait(11);
+    set_val(Reset,100);
+    wait(11);
+    set_val(Confirm,100);
+    wait(11);
+    set_val(Confirm,0);
+    wait(11);
+}
+
+init {
+    AutoTrackingToggle = get_pvar(SPVAR_1, 0, 1, 1);
+    AutoTrackingPower = get_pvar(SPVAR_2, 0, 100, 100);
+    if(AutoTrackingPower <= 60) AutoTrackingLevel = 1;
+    else if(AutoTrackingPower <= 70) AutoTrackingLevel = 2;
+    else if(AutoTrackingPower <= 80) AutoTrackingLevel = 3;
+    else if(AutoTrackingPower <= 90) AutoTrackingLevel = 4;
+    else AutoTrackingLevel = 5;
+    
+    ConstantAAToggle = get_pvar(SPVAR_3, 0, 1, 1);
+    ConstantAAPower = get_pvar(SPVAR_4, 0, 30, 6);
+    L2AssistToggle = get_pvar(SPVAR_5, 0, 1, 0);
+    PolarPower = get_pvar(SPVAR_6, 0, 30, 20);
+    R2AssistToggle = get_pvar(SPVAR_7, 0, 1, 0);
+    R2AssistPower = get_pvar(SPVAR_8, 0, 30, 5);
+    AntiBloomToggle = get_pvar(SPVAR_9, 0, 1, 0);
+    AntiRecoilToggle = get_pvar(SPVAR_10, 0, 1, 0);
+    AntiRecoilPower = get_pvar(SPVAR_11, 0, 100, 0);
+    PickupMacroToggle = get_pvar(SPVAR_12, 0, 1, 0);
+    InstaResetToggle = get_pvar(SPVAR_13, 0, 1, 0);
+    DropShotToggle = get_pvar(SPVAR_14, 0, 1, 0);
+    DropShotDelay = get_pvar(SPVAR_15, 0, 100, 40);
+    InstantTriggersToggle = get_pvar(SPVAR_16, 0, 1, 0);
+    ControllerOverclockToggle = get_pvar(SPVAR_17, 0, 1, 0);
+    OLEDColour = get_pvar(SPVAR_18, 0, 4, 0); 
+    
+    CURRENT_PAGE = get_pvar(SPVAR_19, 1, TOTAL_PAGES, 1); 
+    
+    vm_tctrl(-2);
+    
+    for (e8_i = 0; e8_i < e8_stars; e8_i++) {
+        e8_star_x[e8_i] = random(0, 127);
+        e8_star_y[e8_i] = random(0, 63);
+        e8_star_speed[e8_i] = random(1, 2);
+    }
+    
+    cls_oled(OLED_BLACK);
+    draw_NOVA_logo();
+    draw_starfield();
+    
+    UPDATE_LED_FOR_MOD_STATE(TRUE);
+}
+
+main {
+    if(get_console() == PIO_XB1) { IS_XBOX = 1; } else { IS_XBOX = 0; }
+    
+    update_starfield();
+    
+    if (was_menu_enabled && !MENU_OPEN) {
+        cls_oled(OLED_BLACK);
+        draw_NOVA_logo();
+        draw_starfield();
+        startup_screen_shown = TRUE;
+    }
+    was_menu_enabled = MENU_OPEN;
+    
+    if(!MENU_OPEN && get_val(PS5_L2) && event_press(PS5_OPTIONS) || !MENU_OPEN && get_val(XB1_LT) && event_press(XB1_MENU)) {
+        MENU_OPEN = 1;
+        startup_screen_shown = FALSE;
+        combo_run(VIBRATION_ON);
+    } else if(MENU_OPEN && get_val(PS5_L2) && event_press(PS5_OPTIONS) || MENU_OPEN && get_val(XB1_LT) && event_press(XB1_MENU)) {
+        set_pvar(SPVAR_1, AutoTrackingToggle);
+        set_pvar(SPVAR_2, AutoTrackingPower);
+        set_pvar(SPVAR_3, ConstantAAToggle);
+        set_pvar(SPVAR_4, ConstantAAPower);
+        set_pvar(SPVAR_5, L2AssistToggle);
+        set_pvar(SPVAR_6, PolarPower);
+        set_pvar(SPVAR_7, R2AssistToggle);
+        set_pvar(SPVAR_8, R2AssistPower);
+        set_pvar(SPVAR_9, AntiBloomToggle);
+        set_pvar(SPVAR_10, AntiRecoilToggle);
+        set_pvar(SPVAR_11, AntiRecoilPower);
+        set_pvar(SPVAR_12, PickupMacroToggle);
+        set_pvar(SPVAR_13, InstaResetToggle);
+        set_pvar(SPVAR_14, DropShotToggle);
+        set_pvar(SPVAR_15, DropShotDelay);
+        set_pvar(SPVAR_16, InstantTriggersToggle);
+        set_pvar(SPVAR_17, ControllerOverclockToggle);
+        set_pvar(SPVAR_18, OLEDColour); 
+        set_pvar(SPVAR_19, CURRENT_PAGE); 
+        
+        MENU_OPEN = 0;
+        combo_run(VIBRATION_OFF);
+        UPDATE_LED_FOR_MOD_STATE(TRUE);
+        cls_oled(OLED_BLACK);
+        draw_NOVA_logo();
+        draw_starfield();
+        startup_screen_shown = TRUE;
+    }
+    
+    if(MENU_OPEN) {
+        cls_oled(OLED_BLACK);
+        line_oled(0, 15, OLED_WIDTH - 1, 15, 1, OLED_WHITE);
+        print(CENTER_X(GET_STRING_LENGTH(MOD_HEADERS[CURRENT_PAGE - 1]), OLED_FONT_SMALL_WIDTH), 4, OLED_FONT_SMALL, OLED_WHITE, MOD_HEADERS[CURRENT_PAGE - 1]);
+        
+        set_val(PS5_SQUARE, 0); set_val(PS5_CROSS, 0); set_val(PS5_CIRCLE, 0); set_val(PS5_TRIANGLE, 0);
+        set_val(PS5_L1, 0); set_val(PS5_R1, 0); set_val(PS5_L3, 0); set_val(PS5_R3, 0);
+        set_val(PS5_SHARE, 0); set_val(PS5_PS, 0); set_val(PS5_TOUCH, 0);
+        set_val(PS5_LX, 0); set_val(PS5_LY, 0); set_val(PS5_RX, 0); set_val(PS5_RY, 0);
+        
+        if(event_press(PS5_LEFT) || event_press(XB1_LEFT)) {
+            if(CURRENT_PAGE > 1) { CURRENT_PAGE--; combo_run(VIBRATION_CHANGE); }
+            else { combo_run(VIBRATION_EDGE); }
+        }
+        if(event_press(PS5_RIGHT) || event_press(XB1_RIGHT)) {
+            if(CURRENT_PAGE < TOTAL_PAGES) { CURRENT_PAGE++; combo_run(VIBRATION_CHANGE); }
+            else { combo_run(VIBRATION_EDGE); }
+        }
+        
+        if(CURRENT_PAGE == 1) {
+            SELECTION = AutoTrackingToggle; TOGGLE_TYPE = 0;
+            UPDATE_LED_FOR_MOD_STATE(AutoTrackingToggle);
+            print(CENTER_X(GET_STRING_LENGTH(ON_OFF_TEXT[SELECTION]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ON_OFF_TEXT[SELECTION]);
+            if(event_press(PS5_UP) || event_press(XB1_UP) || event_press(PS5_DOWN) || event_press(XB1_DOWN)) { 
+                AutoTrackingToggle = !AutoTrackingToggle; 
+                FLASH_TOGGLE = AutoTrackingToggle; 
+                combo_run(VIBRATION_CHANGE); 
+                combo_run(FLASH_TOGGLE_ONOFF); 
+            }
+        }
+        
+        if(CURRENT_PAGE == 2) {
+            SELECTION = 2; TOGGLE_TYPE = 0; 
+            UPDATE_LED_FOR_MOD_STATE(TRUE);
+            NUMBER_TO_STRING(AutoTrackingLevel, FIND_DIGITS(AutoTrackingLevel));
+            DRAW_X_GRAPH(AutoTrackingLevel, 1, 5, 52);
+            
+            if(get_val(PS5_L2) || get_val(XB1_LT)) {
+                if(event_press(PS5_UP) || event_press(XB1_UP)) {
+                    AutoTrackingLevel++;
+                    if(AutoTrackingLevel > 5) AutoTrackingLevel = 5;
+                    AutoTrackingPower = CONVERT_AUTO_TRACKING_POWER(AutoTrackingLevel);
+                    combo_run(VIBRATION_CHANGE);
+                }
+                if(event_press(PS5_DOWN) || event_press(XB1_DOWN)) {
+                    AutoTrackingLevel--;
+                    if(AutoTrackingLevel < 1) AutoTrackingLevel = 1;
+                    AutoTrackingPower = CONVERT_AUTO_TRACKING_POWER(AutoTrackingLevel);
+                    combo_run(VIBRATION_CHANGE);
+                }
+            } else {
+                if(get_val(PS5_UP) || get_val(XB1_UP)) {
+                    VALUE_HOLD_TIMER += get_rtime();
+                    if(event_press(PS5_UP) || event_press(XB1_UP) || (VALUE_HOLD_TIMER > 300 && RAPID_CHANGE_TIMER > 25)) {
+                        AutoTrackingLevel++;
+                        if(AutoTrackingLevel > 5) AutoTrackingLevel = 5;
+                        AutoTrackingPower = CONVERT_AUTO_TRACKING_POWER(AutoTrackingLevel);
+                        combo_run(VIBRATION_CHANGE);
+                        RAPID_CHANGE_TIMER = 0;
+                    }
+                    RAPID_CHANGE_TIMER += get_rtime();
+                } else if(get_val(PS5_DOWN) || get_val(XB1_DOWN)) {
+                    VALUE_HOLD_TIMER += get_rtime();
+                    if(event_press(PS5_DOWN) || event_press(XB1_DOWN) || (VALUE_HOLD_TIMER > 300 && RAPID_CHANGE_TIMER > 25)) {
+                        AutoTrackingLevel--;
+                        if(AutoTrackingLevel < 1) AutoTrackingLevel = 1;
+                        AutoTrackingPower = CONVERT_AUTO_TRACKING_POWER(AutoTrackingLevel);
+                        combo_run(VIBRATION_CHANGE);
+                        RAPID_CHANGE_TIMER = 0;
+                    }
+                    RAPID_CHANGE_TIMER += get_rtime();
+                } else { VALUE_HOLD_TIMER = 0; RAPID_CHANGE_TIMER = 0; }
+            }
+        }
+        
+        if(CURRENT_PAGE == 3) {
+            SELECTION = ConstantAAToggle; TOGGLE_TYPE = 0;
+            UPDATE_LED_FOR_MOD_STATE(ConstantAAToggle);
+            print(CENTER_X(GET_STRING_LENGTH(ON_OFF_TEXT[SELECTION]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ON_OFF_TEXT[SELECTION]);
+            if(event_press(PS5_UP) || event_press(XB1_UP) || event_press(PS5_DOWN) || event_press(XB1_DOWN)) { 
+                ConstantAAToggle = !ConstantAAToggle; 
+                FLASH_TOGGLE = ConstantAAToggle; 
+                combo_run(VIBRATION_CHANGE); 
+                combo_run(FLASH_TOGGLE_ONOFF); 
+            }
+        }
+        
+        if(CURRENT_PAGE == 4) {
+            SELECTION = 2; TOGGLE_TYPE = 0; 
+            UPDATE_LED_FOR_MOD_STATE(TRUE);
+            NUMBER_TO_STRING(ConstantAAPower, FIND_DIGITS(ConstantAAPower));
+            DRAW_X_GRAPH(ConstantAAPower, 0, 30, 52);
+            
+            if(get_val(PS5_L2) || get_val(XB1_LT)) {
+                if(event_press(PS5_UP) || event_press(XB1_UP)) {
+                    ConstantAAPower += 5;
+                    if(ConstantAAPower > 30) ConstantAAPower = 30;
+                    combo_run(VIBRATION_CHANGE);
+                }
+                if(event_press(PS5_DOWN) || event_press(XB1_DOWN)) {
+                    ConstantAAPower -= 5;
+                    if(ConstantAAPower < 0) ConstantAAPower = 0;
+                    combo_run(VIBRATION_CHANGE);
+                }
+            } else {
+                if(get_val(PS5_UP) || get_val(XB1_UP)) {
+                    VALUE_HOLD_TIMER += get_rtime();
+                    if(event_press(PS5_UP) || event_press(XB1_UP) || (VALUE_HOLD_TIMER > 300 && RAPID_CHANGE_TIMER > 25)) {
+                        ConstantAAPower++;
+                        if(ConstantAAPower > 30) ConstantAAPower = 30;
+                        combo_run(VIBRATION_CHANGE);
+                        RAPID_CHANGE_TIMER = 0;
+                    }
+                    RAPID_CHANGE_TIMER += get_rtime();
+                } else if(get_val(PS5_DOWN) || get_val(XB1_DOWN)) {
+                    VALUE_HOLD_TIMER += get_rtime();
+                    if(event_press(PS5_DOWN) || event_press(XB1_DOWN) || (VALUE_HOLD_TIMER > 300 && RAPID_CHANGE_TIMER > 25)) {
+                        ConstantAAPower--;
+                        if(ConstantAAPower < 0) ConstantAAPower = 0;
+                        combo_run(VIBRATION_CHANGE);
+                        RAPID_CHANGE_TIMER = 0;
+                    }
+                    RAPID_CHANGE_TIMER += get_rtime();
+                } else { VALUE_HOLD_TIMER = 0; RAPID_CHANGE_TIMER = 0; }
+            }
+        }
+        
+        if(CURRENT_PAGE == 5) {
+            SELECTION = L2AssistToggle; TOGGLE_TYPE = 0;
+            UPDATE_LED_FOR_MOD_STATE(L2AssistToggle);
+            print(CENTER_X(GET_STRING_LENGTH(ON_OFF_TEXT[SELECTION]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ON_OFF_TEXT[SELECTION]);
+            if(event_press(PS5_UP) || event_press(XB1_UP) || event_press(PS5_DOWN) || event_press(XB1_DOWN)) { 
+                L2AssistToggle = !L2AssistToggle; 
+                FLASH_TOGGLE = L2AssistToggle; 
+                combo_run(VIBRATION_CHANGE); 
+                combo_run(FLASH_TOGGLE_ONOFF); 
+            }
+        }
+        
+        if(CURRENT_PAGE == 6) {
+            SELECTION = 2; TOGGLE_TYPE = 0; 
+            UPDATE_LED_FOR_MOD_STATE(TRUE);
+            NUMBER_TO_STRING(PolarPower, FIND_DIGITS(PolarPower));
+            DRAW_X_GRAPH(PolarPower, 0, 30, 52);
+            
+            if(get_val(PS5_L2) || get_val(XB1_LT)) {
+                if(event_press(PS5_UP) || event_press(XB1_UP)) {
+                    PolarPower += 5;
+                    if(PolarPower > 30) PolarPower = 30;
+                    combo_run(VIBRATION_CHANGE);
+                }
+                if(event_press(PS5_DOWN) || event_press(XB1_DOWN)) {
+                    PolarPower -= 5;
+                    if(PolarPower < 0) PolarPower = 0;
+                    combo_run(VIBRATION_CHANGE);
+                }
+            } else {
+                if(get_val(PS5_UP) || get_val(XB1_UP)) {
+                    VALUE_HOLD_TIMER += get_rtime();
+                    if(event_press(PS5_UP) || event_press(XB1_UP) || (VALUE_HOLD_TIMER > 300 && RAPID_CHANGE_TIMER > 25)) {
+                        PolarPower++;
+                        if(PolarPower > 30) PolarPower = 30;
+                        combo_run(VIBRATION_CHANGE);
+                        RAPID_CHANGE_TIMER = 0;
+                    }
+                    RAPID_CHANGE_TIMER += get_rtime();
+                } else if(get_val(PS5_DOWN) || get_val(XB1_DOWN)) {
+                    VALUE_HOLD_TIMER += get_rtime();
+                    if(event_press(PS5_DOWN) || event_press(XB1_DOWN) || (VALUE_HOLD_TIMER > 300 && RAPID_CHANGE_TIMER > 25)) {
+                        PolarPower--;
+                        if(PolarPower < 0) PolarPower = 0;
+                        combo_run(VIBRATION_CHANGE);
+                        RAPID_CHANGE_TIMER = 0;
+                    }
+                    RAPID_CHANGE_TIMER += get_rtime();
+                } else { VALUE_HOLD_TIMER = 0; RAPID_CHANGE_TIMER = 0; }
+            }
+        }
+        
+        if(CURRENT_PAGE == 7) {
+            SELECTION = R2AssistToggle; TOGGLE_TYPE = 0;
+            UPDATE_LED_FOR_MOD_STATE(R2AssistToggle);
+            print(CENTER_X(GET_STRING_LENGTH(ON_OFF_TEXT[SELECTION]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ON_OFF_TEXT[SELECTION]);
+            if(event_press(PS5_UP) || event_press(XB1_UP) || event_press(PS5_DOWN) || event_press(XB1_DOWN)) { 
+                R2AssistToggle = !R2AssistToggle; 
+                FLASH_TOGGLE = R2AssistToggle; 
+                combo_run(VIBRATION_CHANGE); 
+                combo_run(FLASH_TOGGLE_ONOFF); 
+            }
+        }
+        
+        if(CURRENT_PAGE == 8) {
+            SELECTION = 2; TOGGLE_TYPE = 0; 
+            UPDATE_LED_FOR_MOD_STATE(TRUE);
+            NUMBER_TO_STRING(R2AssistPower, FIND_DIGITS(R2AssistPower));
+            DRAW_X_GRAPH(R2AssistPower, 0, 30, 52);
+            
+            if(get_val(PS5_L2) || get_val(XB1_LT)) {
+                if(event_press(PS5_UP) || event_press(XB1_UP)) {
+                    R2AssistPower += 5;
+                    if(R2AssistPower > 30) R2AssistPower = 30;
+                    combo_run(VIBRATION_CHANGE);
+                }
+                if(event_press(PS5_DOWN) || event_press(XB1_DOWN)) {
+                    R2AssistPower -= 5;
+                    if(R2AssistPower < 0) R2AssistPower = 0;
+                    combo_run(VIBRATION_CHANGE);
+                }
+            } else {
+                if(get_val(PS5_UP) || get_val(XB1_UP)) {
+                    VALUE_HOLD_TIMER += get_rtime();
+                    if(event_press(PS5_UP) || event_press(XB1_UP) || (VALUE_HOLD_TIMER > 300 && RAPID_CHANGE_TIMER > 25)) {
+                        R2AssistPower++;
+                        if(R2AssistPower > 30) R2AssistPower = 30;
+                        combo_run(VIBRATION_CHANGE);
+                        RAPID_CHANGE_TIMER = 0;
+                    }
+                    RAPID_CHANGE_TIMER += get_rtime();
+                } else if(get_val(PS5_DOWN) || get_val(XB1_DOWN)) {
+                    VALUE_HOLD_TIMER += get_rtime();
+                    if(event_press(PS5_DOWN) || event_press(XB1_DOWN) || (VALUE_HOLD_TIMER > 300 && RAPID_CHANGE_TIMER > 25)) {
+                        R2AssistPower--;
+                        if(R2AssistPower < 0) R2AssistPower = 0;
+                        combo_run(VIBRATION_CHANGE);
+                        RAPID_CHANGE_TIMER = 0;
+                    }
+                    RAPID_CHANGE_TIMER += get_rtime();
+                } else { VALUE_HOLD_TIMER = 0; RAPID_CHANGE_TIMER = 0; }
+            }
+        }
+        
+        if(CURRENT_PAGE == 9) {
+            SELECTION = AntiBloomToggle; TOGGLE_TYPE = 0;
+            UPDATE_LED_FOR_MOD_STATE(AntiBloomToggle);
+            print(CENTER_X(GET_STRING_LENGTH(ON_OFF_TEXT[SELECTION]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ON_OFF_TEXT[SELECTION]);
+            if(event_press(PS5_UP) || event_press(XB1_UP) || event_press(PS5_DOWN) || event_press(XB1_DOWN)) { 
+                AntiBloomToggle = !AntiBloomToggle; 
+                FLASH_TOGGLE = AntiBloomToggle; 
+                combo_run(VIBRATION_CHANGE); 
+                combo_run(FLASH_TOGGLE_ONOFF); 
+            }
+        }
+        
+        if(CURRENT_PAGE == 10) {
+            SELECTION = AntiRecoilToggle; TOGGLE_TYPE = 0;
+            UPDATE_LED_FOR_MOD_STATE(AntiRecoilToggle);
+            print(CENTER_X(GET_STRING_LENGTH(ON_OFF_TEXT[SELECTION]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ON_OFF_TEXT[SELECTION]);
+            if(event_press(PS5_UP) || event_press(XB1_UP) || event_press(PS5_DOWN) || event_press(XB1_DOWN)) { 
+                AntiRecoilToggle = !AntiRecoilToggle; 
+                FLASH_TOGGLE = AntiRecoilToggle; 
+                combo_run(VIBRATION_CHANGE); 
+                combo_run(FLASH_TOGGLE_ONOFF); 
+            }
+        }
+        
+        if(CURRENT_PAGE == 11) {
+            SELECTION = 2; TOGGLE_TYPE = 0; 
+            UPDATE_LED_FOR_MOD_STATE(TRUE);
+            NUMBER_TO_STRING(AntiRecoilPower, FIND_DIGITS(AntiRecoilPower));
+            DRAW_X_GRAPH(AntiRecoilPower, 0, 100, 52);
+            
+            if(get_val(PS5_L2) || get_val(XB1_LT)) {
+                if(event_press(PS5_UP) || event_press(XB1_UP)) {
+                    AntiRecoilPower += 10;
+                    if(AntiRecoilPower > 100) AntiRecoilPower = 100;
+                    combo_run(VIBRATION_CHANGE);
+                }
+                if(event_press(PS5_DOWN) || event_press(XB1_DOWN)) {
+                    AntiRecoilPower -= 10;
+                    if(AntiRecoilPower < 0) AntiRecoilPower = 0;
+                    combo_run(VIBRATION_CHANGE);
+                }
+            } else {
+                if(get_val(PS5_UP) || get_val(XB1_UP)) {
+                    VALUE_HOLD_TIMER += get_rtime();
+                    if(event_press(PS5_UP) || event_press(XB1_UP) || (VALUE_HOLD_TIMER > 300 && RAPID_CHANGE_TIMER > 25)) {
+                        AntiRecoilPower++;
+                        if(AntiRecoilPower > 100) AntiRecoilPower = 100;
+                        combo_run(VIBRATION_CHANGE);
+                        RAPID_CHANGE_TIMER = 0;
+                    }
+                    RAPID_CHANGE_TIMER += get_rtime();
+                } else if(get_val(PS5_DOWN) || get_val(XB1_DOWN)) {
+                    VALUE_HOLD_TIMER += get_rtime();
+                    if(event_press(PS5_DOWN) || event_press(XB1_DOWN) || (VALUE_HOLD_TIMER > 300 && RAPID_CHANGE_TIMER > 25)) {
+                        AntiRecoilPower--;
+                        if(AntiRecoilPower < 0) AntiRecoilPower = 0;
+                        combo_run(VIBRATION_CHANGE);
+                        RAPID_CHANGE_TIMER = 0;
+                    }
+                    RAPID_CHANGE_TIMER += get_rtime();
+                } else { VALUE_HOLD_TIMER = 0; RAPID_CHANGE_TIMER = 0; }
+            }
+        }
+        
+        if(CURRENT_PAGE == 12) {
+            SELECTION = PickupMacroToggle; TOGGLE_TYPE = 0;
+            UPDATE_LED_FOR_MOD_STATE(PickupMacroToggle);
+            print(CENTER_X(GET_STRING_LENGTH(ON_OFF_TEXT[SELECTION]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ON_OFF_TEXT[SELECTION]);
+            if(event_press(PS5_UP) || event_press(XB1_UP) || event_press(PS5_DOWN) || event_press(XB1_DOWN)) { 
+                PickupMacroToggle = !PickupMacroToggle; 
+                FLASH_TOGGLE = PickupMacroToggle; 
+                combo_run(VIBRATION_CHANGE); 
+                combo_run(FLASH_TOGGLE_ONOFF); 
+            }
+        }
+        
+        if(CURRENT_PAGE == 13) {
+            SELECTION = InstaResetToggle; TOGGLE_TYPE = 0;
+            UPDATE_LED_FOR_MOD_STATE(InstaResetToggle);
+            print(CENTER_X(GET_STRING_LENGTH(ON_OFF_TEXT[SELECTION]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ON_OFF_TEXT[SELECTION]);
+            if(event_press(PS5_UP) || event_press(XB1_UP) || event_press(PS5_DOWN) || event_press(XB1_DOWN)) { 
+                InstaResetToggle = !InstaResetToggle; 
+                FLASH_TOGGLE = InstaResetToggle; 
+                combo_run(VIBRATION_CHANGE); 
+                combo_run(FLASH_TOGGLE_ONOFF); 
+            }
+        }
+        
+        if(CURRENT_PAGE == 14) {
+            SELECTION = DropShotToggle; TOGGLE_TYPE = 0;
+            UPDATE_LED_FOR_MOD_STATE(DropShotToggle);
+            print(CENTER_X(GET_STRING_LENGTH(ON_OFF_TEXT[SELECTION]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ON_OFF_TEXT[SELECTION]);
+            if(event_press(PS5_UP) || event_press(XB1_UP) || event_press(PS5_DOWN) || event_press(XB1_DOWN)) { 
+                DropShotToggle = !DropShotToggle; 
+                FLASH_TOGGLE = DropShotToggle; 
+                combo_run(VIBRATION_CHANGE); 
+                combo_run(FLASH_TOGGLE_ONOFF); 
+            }
+        }
+        
+        if(CURRENT_PAGE == 15) {
+            SELECTION = 2; TOGGLE_TYPE = 0; 
+            UPDATE_LED_FOR_MOD_STATE(TRUE);
+            NUMBER_TO_STRING(DropShotDelay, FIND_DIGITS(DropShotDelay));
+            DRAW_X_GRAPH(DropShotDelay, 0, 100, 52);
+            
+            if(get_val(PS5_L2) || get_val(XB1_LT)) {
+                if(event_press(PS5_UP) || event_press(XB1_UP)) {
+                    DropShotDelay += 10;
+                    if(DropShotDelay > 100) DropShotDelay = 100;
+                    combo_run(VIBRATION_CHANGE);
+                }
+                if(event_press(PS5_DOWN) || event_press(XB1_DOWN)) {
+                    DropShotDelay -= 10;
+                    if(DropShotDelay < 0) DropShotDelay = 0;
+                    combo_run(VIBRATION_CHANGE);
+                }
+            } else {
+                if(get_val(PS5_UP) || get_val(XB1_UP)) {
+                    VALUE_HOLD_TIMER += get_rtime();
+                    if(event_press(PS5_UP) || event_press(XB1_UP) || (VALUE_HOLD_TIMER > 300 && RAPID_CHANGE_TIMER > 25)) {
+                        DropShotDelay++;
+                        if(DropShotDelay > 100) DropShotDelay = 100;
+                        combo_run(VIBRATION_CHANGE);
+                        RAPID_CHANGE_TIMER = 0;
+                    }
+                    RAPID_CHANGE_TIMER += get_rtime();
+                } else if(get_val(PS5_DOWN) || get_val(XB1_DOWN)) {
+                    VALUE_HOLD_TIMER += get_rtime();
+                    if(event_press(PS5_DOWN) || event_press(XB1_DOWN) || (VALUE_HOLD_TIMER > 300 && RAPID_CHANGE_TIMER > 25)) {
+                        DropShotDelay--;
+                        if(DropShotDelay < 0) DropShotDelay = 0;
+                        combo_run(VIBRATION_CHANGE);
+                        RAPID_CHANGE_TIMER = 0;
+                    }
+                    RAPID_CHANGE_TIMER += get_rtime();
+                } else { VALUE_HOLD_TIMER = 0; RAPID_CHANGE_TIMER = 0; }
+            }
+        }
+        
+        if(CURRENT_PAGE == 16) {
+            SELECTION = InstantTriggersToggle; TOGGLE_TYPE = 0;
+            UPDATE_LED_FOR_MOD_STATE(InstantTriggersToggle);
+            print(CENTER_X(GET_STRING_LENGTH(ON_OFF_TEXT[SELECTION]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ON_OFF_TEXT[SELECTION]);
+            if(event_press(PS5_UP) || event_press(XB1_UP) || event_press(PS5_DOWN) || event_press(XB1_DOWN)) { 
+                InstantTriggersToggle = !InstantTriggersToggle; 
+                FLASH_TOGGLE = InstantTriggersToggle; 
+                combo_run(VIBRATION_CHANGE); 
+                combo_run(FLASH_TOGGLE_ONOFF); 
+            }
+        }
+        
+        if(CURRENT_PAGE == 17) {
+            SELECTION = ControllerOverclockToggle; TOGGLE_TYPE = 0;
+            UPDATE_LED_FOR_MOD_STATE(ControllerOverclockToggle);
+            print(CENTER_X(GET_STRING_LENGTH(ON_OFF_TEXT[SELECTION]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ON_OFF_TEXT[SELECTION]);
+            if(event_press(PS5_UP) || event_press(XB1_UP) || event_press(PS5_DOWN) || event_press(XB1_DOWN)) { 
+                ControllerOverclockToggle = !ControllerOverclockToggle; 
+                FLASH_TOGGLE = ControllerOverclockToggle; 
+                combo_run(VIBRATION_CHANGE); 
+                combo_run(FLASH_TOGGLE_ONOFF); 
+            }
+        }
+        
+        if(CURRENT_PAGE == 18) {
+            SELECTION = 2; TOGGLE_TYPE = 0; 
+            UPDATE_LED_FOR_MOD_STATE(TRUE);
+            print(CENTER_X(GET_STRING_LENGTH(COLOUR_NAMES[OLEDColour]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, COLOUR_NAMES[OLEDColour]);
+            
+            if(event_press(PS5_UP) || event_press(XB1_UP)) {
+                OLEDColour++;
+                if(OLEDColour > 4) OLEDColour = 0;
+                combo_run(VIBRATION_CHANGE);
+                UPDATE_LED_FOR_MOD_STATE(TRUE);
+            }
+            if(event_press(PS5_DOWN) || event_press(XB1_DOWN)) {
+                OLEDColour--;
+                if(OLEDColour < 0) OLEDColour = 4;
+                combo_run(VIBRATION_CHANGE);
+                UPDATE_LED_FOR_MOD_STATE(TRUE);
+            }
+        }
+        
+        set_val(PS5_RIGHT, 0); set_val(PS5_LEFT, 0);
+        set_val(PS5_UP, 0); set_val(PS5_DOWN, 0);
+        set_val(PS5_L2, 0); set_val(PS5_R2, 0);
+        set_val(XB1_RIGHT, 0); set_val(XB1_LEFT, 0);
+        set_val(XB1_UP, 0); set_val(XB1_DOWN, 0);
+        set_val(XB1_LT, 0); set_val(XB1_RT, 0);
+        
+        draw_starfield();
+    } else {
+        cls_oled(OLED_BLACK);
+        draw_NOVA_logo();
+        draw_starfield();
+        
+        HoldingADS = get_ival(ADS);
+        HoldingFire = get_ival(Fire);
+        
+        if(InstantTriggersToggle) {
+            if(get_val(PS5_L2) > 0) {
+                set_val(PS5_L2, 100);
+            }
+            
+            if(get_val(PS5_R2) > 0) {
+                set_val(PS5_R2, 100);
+            }
+        }
+        
+        if(InstaResetToggle && event_press(InstantReset)) {
+            combo_run(InstantReset);
+        }
+        
+        if(AutoTrackingToggle && abs(get_ival(PS5_LX)) <= 35 && abs(get_ival(PS5_LY)) <= 35) {
+            combo_run(AutoTracking);
+        } else {
+            combo_stop(AutoTracking);
+        }
+        
+        if(AntiRecoilToggle && AntiRecoilPower > 0 && get_val(Fire) && get_val(ADS)) {
+            combo_run(AntiRecoil);
+        }
+        
+        if(ConstantAAToggle && ConstantAAPower > 0) {
+            combo_run(ConstantAA);
+        }
+        
+        if(L2AssistToggle && PolarPower > 0 && get_val(ADS)) {
+            combo_run(L2Assist);
+        }
+        
+        if(R2AssistToggle && R2AssistPower > 0 && get_val(Fire) && !(AntiRecoilToggle && get_val(ADS))) {
+            combo_run(R2Assist);
+        }
+        
+        if(PickupMacroToggle && get_val(Interact) && get_val(PS5_R1)) {
+            combo_run(PickupMacro);
+        }
+        
+        if(DropShotToggle && DropShotDelay > 0 && get_val(Fire) && get_val(ADS)) {
+            combo_run(DropShot);
+        }
+        
+        if(AutoTrackingToggle || ConstantAAToggle || L2AssistToggle || R2AssistToggle || AntiRecoilToggle || PickupMacroToggle || InstaResetToggle || DropShotToggle || InstantTriggersToggle || ControllerOverclockToggle) {
+            UPDATE_LED_FOR_MOD_STATE(TRUE);
+        }
+    }
+} ����������������

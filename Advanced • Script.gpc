@@ -1,0 +1,282 @@
+																																																									/* 
+ █████╗ ██████╗ ██╗   ██╗ █████╗ ███╗   ██╗ ██████╗███████╗██████╗ 
+██╔══██╗██╔══██╗██║   ██║██╔══██╗████╗  ██║██╔════╝██╔════╝██╔══██╗
+███████║██║  ██║██║   ██║███████║██╔██╗ ██║██║     █████╗  ██║  ██║
+██╔══██║██║  ██║╚██╗ ██╔╝██╔══██║██║╚██╗██║██║     ██╔══╝  ██║  ██║
+██║  ██║██████╔╝ ╚████╔╝ ██║  ██║██║ ╚████║╚██████╗███████╗██████╔╝
+╚═╝  ╚═╝╚═════╝   ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝╚═════╝ 
+																																																									*/
+																																																									/*
+Silent Zens – Advanced Tier Activated
+
+You’ve just unlocked the Advanced tier — more control, stronger assist and smarter logic behind every mod.
+
+This isn’t the standard script. You’re now running with enhanced features built for players who want more than just “decent.”
+Still, this isn’t everything.
+The Private tier is where it all comes together — precision, customization and full access to tools we don’t talk about openly.
+
+But for now?
+You’re ahead of most.
+																																																									*/
+																																																									/*
+ ___ ___  ___ _____ _  _ ___ _____ ___   ___ ___ _  _ ___  ___ 
+| __/ _ \| _ \_   _| \| |_ _|_   _| __| | _ )_ _| \| |   \/ __|
+| _| (_) |   / | | | .` || |  | | | _|  | _ \| || .` | |) \__ \
+|_| \___/|_|_\ |_| |_|\_|___| |_| |___| |___/___|_|\_|___/|___/
+																																																									*/
+																																																									define Strafe = PS5_LX; define Walk = PS5_LY; define RX = PS5_RX; define RY = PS5_RY; define LX = PS5_LX; define LY = PS5_LY; define aimY = PS5_RY; define aimX = PS5_RX;
+define AdsBtn = PS5_L2 		// Aiming
+define FireBtn = PS5_R2 	// Shooting
+																																																									/*
+ __  __ ___ ___  ___   ____  __   _   ___ ___  ___  ___ 
+|  \/  |_ _/ __|/ __| / /  \/  | /_\ / __| _ \/ _ \/ __|
+| |\/| || |\__ \ (__ / /| |\/| |/ _ \ (__|   / (_) \__ \
+|_|  |_|___|___/\___/_/ |_|  |_/_/ \_\___|_|_\\___/|___/
+																																																									*/
+
+// Toggle each mod: TRUE = ON, FALSE = OFF
+																																																									/*
+Input Delay Reducer	(NEW!)																																																			*/
+int DelayReducer = FALSE; // Input Delay Reducer cuts lag between input and action — faster response, smoother gameplay
+																																																									/*
+Hair Triggers (NEW!)																																																				*/
+int HairTriggers = FALSE; // Hair Triggers turns L2/LT and R2/RT into ultra-sensitive mouse clicks for faster reacting
+																																																									/*
+Bloom Reducer (NEW!)																																																				*/
+int BloomReducer = FALSE; // Bloom Reducer makes your legs shake when holding R2 which reduces bloom when shooting
+																																																									/*
+Anti Recoil (Recommend for Zero Build ONLY)																																															 */
+int antirecoil = TRUE; 
+int AR_Ver = 21; // I recommend using values between 15-25, but feel free to choose what works best for you.
+																																																									/*
+Pickup Macro																																																						*/
+int PickupMacro = FALSE;
+define Interact = PS5_SQUARE; // Interacting and Reloading
+																																																									/*
+Instant Reset Macro (Skip this if you play Zero Build)																																												*/
+int InstaReset = FALSE;
+define Edit = PS5_L3; // Editing a Building
+define Reset = PS5_R3; // Resetting an Edit
+define instareset = PS5_DOWN; // Activates "Instant Reset" Macro
+																																																									/*
+   
+   _   ___ __  __   __  __  ___  ___  ___ 
+  /_\ |_ _|  \/  | |  \/  |/ _ \|   \/ __|
+ / _ \ | || |\/| | | |\/| | (_) | |) \__ \
+/_/ \_\___|_|  |_| |_|  |_|\___/|___/|___/
+																																																									*/
+
+// Toggle each mod: TRUE = ON, FALSE = OFF
+																																																									/*
+Super Sticky Aim Assist 																																																			*/
+int StickyAA = FALSE; // Sticky Aim Assist keeps your aim glued to the target for easier tracking
+																																																									/*
+Strong Hip-Abuse																																																					*/
+int HipAbuse = FALSE; // Increased Hip-Abuse boosts aim assist for stronger target tracking
+																																																									/*
+Headshot Assist (NEW!)																																																				*/
+int HeadAssist = FALSE; // Headshot Assist boosts aim assist for stronger head assist
+																																																									/*
+Slide Tracking (NEW!)																																																				*/
+int SlideAssist = FALSE; // Slide Tracking gives you aim assist when you're sliding
+																																																									/*
+Auto Tracking																																																						*/
+int AutoAim = TRUE;
+define autoaimtoggle = PS5_SHARE; // Button to toggle AutoTracking
+
+int AimAssist_Strength = 15; // Keep values between 2–15 to reduce leg shake. It won’t remove it fully, but staying in that range helps a lot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+																																																									/*
+██╗ ██████╗ ███╗   ██╗ ██████╗ ██████╗ ███████╗    ██████╗ ███████╗██╗      ██████╗ ██╗    ██╗
+██║██╔════╝ ████╗  ██║██╔═══██╗██╔══██╗██╔════╝    ██╔══██╗██╔════╝██║     ██╔═══██╗██║    ██║
+██║██║  ███╗██╔██╗ ██║██║   ██║██████╔╝█████╗      ██████╔╝█████╗  ██║     ██║   ██║██║ █╗ ██║
+██║██║   ██║██║╚██╗██║██║   ██║██╔══██╗██╔══╝      ██╔══██╗██╔══╝  ██║     ██║   ██║██║███╗██║
+██║╚██████╔╝██║ ╚████║╚██████╔╝██║  ██║███████╗    ██████╔╝███████╗███████╗╚██████╔╝╚███╔███╔╝
+╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝    ╚═════╝ ╚══════╝╚══════╝ ╚═════╝  ╚══╝╚══╝ 																																		*/
+
+define On = TRUE;
+define Off = FALSE;
+int StrafeWait = 1;
+int AR_Horiz = 0;
+int StrafeShot = TRUE;
+int greetings = TRUE;
+int AntirecoilVertical, AntirecoilHorizontal;
+
+init {
+    if(AutoAim){    
+        cls_oled(OLED_BLACK);
+        print(3, 25, OLED_FONT_MEDIUM, OLED_WHITE, Features[0]);
+        print(3, 50, OLED_FONT_SMALL, OLED_WHITE, Script[0]);
+        print(3, 10, OLED_FONT_SMALL, OLED_WHITE, AutoOn[0]);
+        set_rgb(0, 255, 255);
+    }
+    else {
+        cls_oled(OLED_BLACK);
+        print(20, 25, OLED_FONT_MEDIUM, OLED_WHITE, Features[0]);
+        print(38, 45, OLED_FONT_SMALL, OLED_WHITE, Script[0]);
+        set_rgb(0, 255, 255);
+    }
+}
+
+main {
+        if (get_val(PS4_R2) > 0) {
+        set_val(PS4_R2, 100);
+    }
+    if (get_val(PS4_L2) > 0) {
+        set_val(PS4_L2, 100);
+    }
+    
+    if (antirecoil) {
+        if (get_val(PS4_L2) && get_val(PS4_R2)) {
+            combo_run(AntiRecoil);
+        }
+    }
+    
+    if(greetings){
+        combo_run(vibrate1);
+    }
+
+    if(InstaReset){
+        if(get_val(instareset)){
+            combo_run(insta);
+        }
+    }
+    if (get_val(AdsBtn) > 0) {
+        set_val(AdsBtn, 100);
+    }
+    if (get_val(FireBtn) > 0) {
+        set_val(FireBtn, 100);
+    }
+    if (PickupMacro) {
+        if (get_val(Interact)) {
+            combo_run(pickupmacro);
+        }
+        if (event_release(Interact)) {
+            combo_stop(pickupmacro);
+        }
+        if (get_val(PS5_L2)) {
+            combo_stop(pickupmacro);
+        }
+    }
+    if(AutoAim){
+        if(StrafeShot){    
+            if(event_press(autoaimtoggle)){
+                StrafeShot = FALSE;
+                autoaim(FALSE);
+            }
+        }
+        else {    
+            if(event_press(autoaimtoggle)){
+                StrafeShot = TRUE;
+                autoaim(TRUE);
+            }
+        }
+    }
+
+    if(AutoAim){
+        if(StrafeShot){
+            combo_run(StrafeShot);
+        }
+        if (StrafeShot && abs(get_ival(Strafe)) <= 35 && abs(get_ival(Walk)) <= 35){
+            combo_run(StrafeShot);
+        }
+        else{
+            combo_stop(StrafeShot);
+        }
+    }
+}
+
+combo pickupmacro {
+    set_val(Interact, 100);
+    wait(80);
+    set_val(Interact, 0);
+}
+
+combo vibrate1 {
+    set_rumble(RUMBLE_A, 50);
+    wait(300);
+    set_rumble(RUMBLE_A, 100);
+    wait(600);    
+    reset_rumble();
+    greetings = FALSE;
+}
+
+combo StrafeShot {
+    set_val(Strafe, -70);
+    wait(StrafeWait);
+    set_val(Strafe, 70);
+}
+
+combo insta {
+    set_val(Edit, 100); 
+    wait(40);    
+    set_val(Reset, 100); 
+    wait(80);
+}
+
+combo AntiRecoil {
+    AntirecoilVertical = get_val(PS4_RY) + AR_Ver;
+    if (AntirecoilVertical > 100) AntirecoilVertical = 100;
+    if (abs(get_val(PS4_RY)) < abs(AR_Ver) + 5)
+        set_val(PS4_RY, AntirecoilVertical);
+
+    AntirecoilHorizontal = get_val(PS4_RX) + AR_Horiz;
+    if (AntirecoilHorizontal > 100) AntirecoilHorizontal = 100;
+    if (abs(get_val(PS4_RX)) < abs(AR_Horiz) + 5)
+        set_val(PS4_RX, AntirecoilHorizontal);
+}
+
+function autoaim(state){ 
+    if(state){   
+        cls_oled(OLED_BLACK);   
+        print(3,25,OLED_FONT_MEDIUM,OLED_WHITE,Features[0]);
+        print(3,50,OLED_FONT_SMALL,OLED_WHITE,Script[0]);
+        print(3,10,OLED_FONT_SMALL,OLED_WHITE,AutoOn[0]);
+        set_rgb(0, 255, 255);
+        combo_run(vibon);
+    }
+    else {    
+        cls_oled(OLED_BLACK);
+        print(3,25,OLED_FONT_MEDIUM,OLED_WHITE,Features[0]);
+        print(3,50,OLED_FONT_SMALL,OLED_WHITE,Script[0]);
+        print(3,10,OLED_FONT_SMALL,OLED_WHITE,AutoOff[0]);
+        set_rgb(255, 0, 0);
+        combo_run(viboff);
+    }
+}
+
+combo vibon {
+    set_rumble(RUMBLE_A, 50);
+    wait(100);
+    set_rumble(RUMBLE_A, 0);
+}
+
+combo viboff {
+    set_rumble(RUMBLE_B, 50);
+    wait(100);
+    set_rumble(RUMBLE_B, 0);
+}
+
+const string Features = "ADVANCED";
+const string Script = "SILENTZENS.COM"; 
+const string AutoOn = "SCRIPT: ON";
+const string AutoOff = "SCRIPT: OFF"; ����������������

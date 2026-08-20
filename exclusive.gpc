@@ -1,0 +1,584 @@
+//  ██████╗██╗   ██╗██╗     ██╗██╗  ██╗
+// ██╔════╝╚██╗ ██╔╝██║     ██║╚██╗██╔╝
+// ██║      ╚████╔╝ ██║     ██║ ╚███╔╝
+// ██║       ╚██╔╝  ██║     ██║ ██╔██╗
+// ╚██████╗   ██║   ███████╗██║██╔╝ ██╗
+//  ╚═════╝   ╚═╝   ╚══════╝╚═╝╚═╝  ╚═╝
+// discord.gg/cylix
+// ===== ABOKI EXCLUSIVE =====
+
+define AdsBtn             = PS4_L2;
+define FireBtn            = PS4_R2;
+define Interact           = PS4_SQUARE;
+define RightStickDeadzone = 5;
+define LongRangeAim       = 40;
+define AntiBloom          = 20;
+define AntiRecoilStrength = 9;
+
+int MenuSectionIndex = 0;
+int MenuItemIndex = 0;
+int MenuOpen = FALSE;
+
+int UnderlineX = 0;
+int TargetX = 0;
+
+// discord.gg/cylix
+int CoreToggles[5];
+int ModToggles[4];
+
+int i;
+int tabWidth;
+int x;
+int maxItems;
+
+int AntiRecoilFunction;
+int stick_mag;
+int ar_scale;
+int ar_adjusted;
+int lra_rx;
+int lra_ry;
+int cursor_x;
+int row_y;
+int underline_end;
+int toggle_val;
+int idle_tick  = 0;
+int idle_frame = 0;
+int ul_tick = 0;
+int CoreScrollOffset = 0;
+int ModScrollOffset = 0;
+int shake_tick = 0;
+
+int anim_done  = 0;
+int anim_frame = 0;
+int anim_tick  = 0;
+
+const string TitleLetters[] = {
+    "D", "DE", "DEA", "DEAT", "DEATH",
+    "DEATH ", "DEATH N", "DEATH NO", "DEATH NOT", "DEATH NOTE"
+};
+
+// discord.gg/cylix
+const string BookLines[] = {
+    "Brave Aim",
+    "FZ",
+    "yew"
+};
+
+// discord.gg/cylix
+const string SubTitle[] = {
+    "ABOKI EXCLUSIVE"
+};
+
+const string MenuSectionTitles[] = {
+    "Core",
+    "Mods"
+};
+
+const string MenuCoreItemNames[] = {
+    "AutoTrack",
+    "SilentAim",
+    "AntiBloom",
+    "AntiRecoil",
+    "LongRange"
+};
+
+// discord.gg/cylix
+const string MenuModsItemNames[] = {
+    "PickupMacro",
+    "ZeroDelay",
+    "InstaTrigger",
+    "AntiDrift"
+};
+
+const string MenuToggleLabels[] = {
+    "OFF",
+    "ON"
+};
+
+const string MenuCursor[] = {
+    ">"
+};
+
+// BEUD
+function draw_anim() {
+    cls_oled(0);
+
+    if(anim_frame < 10) {
+        line_oled(0, 0, 127, 0, 1, 1);
+        line_oled(0, 63, 127, 63, 1, 1);
+        line_oled(0, 0, 0, 63, 1, 1);
+        line_oled(127, 0, 127, 63, 1, 1);
+        print(20, 18, OLED_FONT_SMALL, 1, TitleLetters[anim_frame]);
+        cursor_x = 20 + anim_frame * 6;
+        line_oled(cursor_x, 16, cursor_x, 26, 1, 1);
+    }
+
+    if(anim_frame >= 10 && anim_frame < 15) {
+        line_oled(0, 0, 127, 0, 1, 1);
+        line_oled(0, 63, 127, 63, 1, 1);
+        line_oled(0, 0, 0, 63, 1, 1);
+        line_oled(127, 0, 127, 63, 1, 1);
+        print(20, 2, OLED_FONT_SMALL, 1, TitleLetters[9]);
+        line_oled(64, 18, 64, 62, 1, 1);
+        if(anim_frame == 11) { line_oled(52, 18, 52, 62, 1, 1); line_oled(52, 18, 64, 18, 1, 1); line_oled(52, 62, 64, 62, 1, 1); line_oled(76, 18, 76, 62, 1, 1); line_oled(64, 18, 76, 18, 1, 1); line_oled(64, 62, 76, 62, 1, 1); }
+        if(anim_frame == 12) { line_oled(40, 18, 40, 62, 1, 1); line_oled(40, 18, 64, 18, 1, 1); line_oled(40, 62, 64, 62, 1, 1); line_oled(88, 18, 88, 62, 1, 1); line_oled(64, 18, 88, 18, 1, 1); line_oled(64, 62, 88, 62, 1, 1); }
+        if(anim_frame == 13) { line_oled(28, 18, 28, 62, 1, 1); line_oled(28, 18, 64, 18, 1, 1); line_oled(28, 62, 64, 62, 1, 1); line_oled(100, 18, 100, 62, 1, 1); line_oled(64, 18, 100, 18, 1, 1); line_oled(64, 62, 100, 62, 1, 1); }
+        if(anim_frame == 14) { line_oled(16, 18, 16, 62, 1, 1); line_oled(16, 18, 64, 18, 1, 1); line_oled(16, 62, 64, 62, 1, 1); line_oled(112, 18, 112, 62, 1, 1); line_oled(64, 18, 112, 18, 1, 1); line_oled(64, 62, 112, 62, 1, 1); }
+    }
+
+    if(anim_frame >= 15) {
+        print(20, 2, OLED_FONT_SMALL, 1, TitleLetters[9]);
+        line_oled(0, 0, 127, 0, 1, 1);
+        line_oled(0, 63, 127, 63, 1, 1);
+        line_oled(0, 0, 0, 63, 1, 1);
+        line_oled(127, 0, 127, 63, 1, 1);
+        line_oled(16, 18, 16, 62, 1, 1);
+        line_oled(112, 18, 112, 62, 1, 1);
+        line_oled(16, 18, 112, 18, 1, 1);
+        line_oled(16, 62, 112, 62, 1, 1);
+        line_oled(64, 18, 64, 62, 1, 1);
+        print(18, 22, OLED_FONT_SMALL, 1, BookLines[0]);
+        if(anim_frame >= 16) { print(18, 33, OLED_FONT_SMALL, 1, BookLines[1]); }
+        if(anim_frame >= 17) { print(18, 44, OLED_FONT_SMALL, 1, BookLines[2]); }
+    }
+
+    if(anim_frame >= 20) {
+        anim_done = 1;
+    }
+}
+
+function get_tab_width(int index) {
+    if(index == 0) return 28;
+    if(index == 1) return 32;
+    return 30;
+}
+
+function get_max_items() {
+    if(MenuSectionIndex == 0) return 5;
+    if(MenuSectionIndex == 1) return 4;
+    return 1;
+}
+
+function ZeroDelay() {
+    if(get_ival(PS4_UP)){set_val(PS4_UP, 100);}
+    if(get_ival(PS4_DOWN)){set_val(PS4_DOWN, 100);}
+    if(get_ival(PS4_LEFT)){set_val(PS4_LEFT, 100);}
+    if(get_ival(PS4_RIGHT)){set_val(PS4_RIGHT, 100);}
+    if(get_ival(PS4_SQUARE)){set_val(PS4_SQUARE, 100);}
+    if(get_ival(PS4_TRIANGLE)){set_val(PS4_TRIANGLE, 100);}
+    if(get_ival(PS4_CIRCLE)){set_val(PS4_CIRCLE, 100);}
+    if(get_ival(PS4_CROSS)){set_val(PS4_CROSS, 100);}
+    if(get_ival(PS4_L1)){set_val(PS4_L1, 100);}
+    if(get_ival(PS4_R1)){set_val(PS4_R1, 100);}
+    if(get_ival(PS4_L2)){set_val(PS4_L2, 100);}
+    if(get_ival(PS4_R2)){set_val(PS4_R2, 100);}
+    if(get_ival(PS4_L3)){set_val(PS4_L3, 100);}
+    if(get_ival(PS4_R3)){set_val(PS4_R3, 100);}
+    if(get_ival(PS4_L2)){
+        if(get_ival(PS4_SHARE)){set_val(PS4_SHARE, 100);}
+        if(get_ival(PS4_TOUCH)){set_val(PS4_TOUCH, 100);}
+        if(get_ival(PS4_OPTIONS)){set_val(PS4_OPTIONS, 100);}
+    }
+    if(!get_ival(PS4_TOUCH)){
+        if(get_ival(PS4_PS)){set_val(PS4_PS, 100);}
+    } else {
+        if(event_release(PS4_UP)){set_val(PS4_UP, 0);}
+        if(event_release(PS4_DOWN)){set_val(PS4_DOWN, 0);}
+        if(event_release(PS4_LEFT)){set_val(PS4_LEFT, 0);}
+        if(event_release(PS4_RIGHT)){set_val(PS4_RIGHT, 0);}
+        if(event_release(PS4_SQUARE)){set_val(PS4_SQUARE, 0);}
+        if(event_release(PS4_TRIANGLE)){set_val(PS4_TRIANGLE, 0);}
+        if(event_release(PS4_CIRCLE)){set_val(PS4_CIRCLE, 0);}
+        if(event_release(PS4_CROSS)){set_val(PS4_CROSS, 0);}
+        if(event_release(PS4_L1)){set_val(PS4_L1, 0);}
+        if(event_release(PS4_R1)){set_val(PS4_R1, 0);}
+        if(event_release(PS4_L2)){set_val(PS4_L2, 0);}
+        if(event_release(PS4_R2)){set_val(PS4_R2, 0);}
+        if(event_release(PS4_L3)){set_val(PS4_L3, 0);}
+        if(event_release(PS4_R3)){set_val(PS4_R3, 0);}
+        if(event_release(PS4_SHARE)){set_val(PS4_SHARE, 0);}
+        if(event_release(PS4_TOUCH)){set_val(PS4_TOUCH, 0);}
+        if(event_release(PS4_OPTIONS)){set_val(PS4_OPTIONS, 0);}
+        if(event_release(PS4_PS)){set_val(PS4_PS, 0);}
+    }
+}
+
+combo pickupmacro {
+    set_val(Interact, 100);
+    wait(100);
+    set_val(Interact, 0);
+    wait(80);
+}
+
+function AntiRecoilStrengthFunc() {
+    if(get_val(PS4_R2) && get_val(PS4_L2)) {
+        stick_mag = abs(get_ival(PS4_RX));
+        if(abs(get_ival(PS4_RY)) > stick_mag) stick_mag = abs(get_ival(PS4_RY));
+        ar_scale = 100 - (stick_mag * 75 / 100);
+        ar_adjusted = AntiRecoilStrength * ar_scale / 100;
+        AntiRecoilFunction = get_ival(PS4_RY) + ar_adjusted;
+        if(AntiRecoilFunction > 100) AntiRecoilFunction = 100;
+        set_val(PS4_RY, AntiRecoilFunction);
+    }
+}
+
+combo AntiBloomCombo {
+    set_val(PS4_LX, AntiBloom);
+    wait(20);
+    set_val(PS4_LX, -AntiBloom);
+    wait(20);
+}
+
+combo AutoTrackCombo {
+    set_val(PS4_LX, 90);
+    wait(50);
+    set_val(PS4_LX, -90);
+    wait(50);
+}
+
+function draw_menu() {
+    if(!MenuOpen) return;
+
+    cls_oled(0);
+    x = 0;
+
+    for(i = 0; i < 2; i = i + 1) {
+        tabWidth = get_tab_width(i);
+        if(i == MenuSectionIndex) {
+            TargetX = x;
+        }
+        print(x, 2, OLED_FONT_SMALL, 1, MenuSectionTitles[i]);
+        x = x + tabWidth + 10;
+    }
+
+    ul_tick = ul_tick + 1;
+    if(ul_tick >= 3) {
+        ul_tick = 0;
+        if(UnderlineX < TargetX) UnderlineX = UnderlineX + 2;
+        if(UnderlineX > TargetX) UnderlineX = UnderlineX - 2;
+        if(abs(UnderlineX - TargetX) < 2) UnderlineX = TargetX;
+    }
+
+    tabWidth = get_tab_width(MenuSectionIndex);
+    underline_end = UnderlineX + tabWidth;
+    line_oled(UnderlineX, 14, underline_end, 14, 1, 1);
+
+    maxItems = get_max_items();
+
+    if(MenuSectionIndex == 0) {
+        if(MenuItemIndex >= 4) CoreScrollOffset = MenuItemIndex - 3;
+        if(MenuItemIndex < CoreScrollOffset) CoreScrollOffset = MenuItemIndex;
+        for(i = 0; i < 4; i = i + 1) {
+            row_y = 20 + i * 9;
+            toggle_val = CoreToggles[i + CoreScrollOffset];
+            if(i + CoreScrollOffset == MenuItemIndex) {
+                print(0, row_y, OLED_FONT_SMALL, 1, MenuCursor[0]);
+            }
+            print(8, row_y, OLED_FONT_SMALL, 1, MenuCoreItemNames[i + CoreScrollOffset]);
+            print(90, row_y, OLED_FONT_SMALL, 1, MenuToggleLabels[toggle_val]);
+        }
+    }
+    else if(MenuSectionIndex == 1) {
+        for(i = 0; i < maxItems; i = i + 1) {
+            row_y = 20 + i * 9;
+            toggle_val = ModToggles[i];
+            if(i == MenuItemIndex) {
+                print(0, row_y, OLED_FONT_SMALL, 1, MenuCursor[0]);
+            }
+            print(8, row_y, OLED_FONT_SMALL, 1, MenuModsItemNames[i]);
+            print(90, row_y, OLED_FONT_SMALL, 1, MenuToggleLabels[toggle_val]);
+        }
+    }
+}
+
+function draw_image() {
+    idle_tick = idle_tick + 1;
+    if(idle_tick >= 3) {
+        idle_tick = 0;
+        idle_frame = idle_frame + 1;
+        if(idle_frame >= 40) {
+            idle_frame = 0;
+        }
+    }
+
+// BEUD
+    cls_oled(0);
+
+    print(14, 28, OLED_FONT_SMALL, 1, SubTitle[0]);
+
+    if(idle_frame < 20) {
+        line_oled(0, 0, 127, 0, 1, 1);
+        line_oled(0, 63, 127, 63, 1, 1);
+        line_oled(0, 0, 0, 63, 1, 1);
+        line_oled(127, 0, 127, 63, 1, 1);
+    }
+
+// BEUD
+    line_oled(2, 2, 125, 2, 1, 1);
+    line_oled(2, 61, 125, 61, 1, 1);
+    line_oled(2, 2, 2, 61, 1, 1);
+    line_oled(125, 2, 125, 61, 1, 1);
+
+    // stars twinkle by swapping groups every 10 frames
+    if((idle_frame >= 0 && idle_frame < 10) || (idle_frame >= 20 && idle_frame < 30)) {
+        line_oled(10, 6,   10, 6,   1, 1);
+        line_oled(23, 12,  23, 12,  1, 1);
+        line_oled(38, 5,   38, 5,   1, 1);
+        line_oled(55, 18,  55, 18,  1, 1);
+        line_oled(70, 8,   70, 8,   1, 1);
+        line_oled(85, 15,  85, 15,  1, 1);
+        line_oled(99, 6,   99, 6,   1, 1);
+        line_oled(112, 11, 112, 11, 1, 1);
+        line_oled(18, 55,  18, 55,  1, 1);
+        line_oled(45, 58,  45, 58,  1, 1);
+        line_oled(78, 52,  78, 52,  1, 1);
+        line_oled(108, 57, 108, 57, 1, 1);
+        line_oled(62, 22,  62, 22,  1, 1);
+        line_oled(92, 48,  92, 48,  1, 1);
+        line_oled(30, 44,  30, 44,  1, 1);
+    } else {
+        line_oled(16, 10,  16, 10,  1, 1);
+        line_oled(31, 7,   31, 7,   1, 1);
+        line_oled(48, 14,  48, 14,  1, 1);
+        line_oled(63, 9,   63, 9,   1, 1);
+        line_oled(80, 5,   80, 5,   1, 1);
+        line_oled(95, 12,  95, 12,  1, 1);
+        line_oled(118, 8,  118, 8,  1, 1);
+        line_oled(7,  18,  7,  18,  1, 1);
+        line_oled(25, 50,  25, 50,  1, 1);
+        line_oled(52, 56,  52, 56,  1, 1);
+        line_oled(72, 60,  72, 60,  1, 1);
+        line_oled(100, 54, 100, 54, 1, 1);
+        line_oled(115, 50, 115, 50, 1, 1);
+        line_oled(42, 48,  42, 48,  1, 1);
+        line_oled(88, 20,  88, 20,  1, 1);
+    }
+
+// discord.gg/cylix
+    cursor_x = idle_frame * 3;
+    if(cursor_x < 113) {
+        line_oled(14, 40, cursor_x, 40, 1, 1);
+    } else {
+        line_oled(14, 40, 113, 40, 1, 1);
+    }
+
+    line_oled(4,   4,  10,  4,  1, 1);
+    line_oled(4,   4,   4, 10,  1, 1);
+    line_oled(117, 4,  123,  4, 1, 1);
+    line_oled(123, 4,  123, 10, 1, 1);
+    line_oled(4,  53,    4, 59, 1, 1);
+    line_oled(4,  59,   10, 59, 1, 1);
+    line_oled(123, 53, 123, 59, 1, 1);
+    line_oled(117, 59, 123, 59, 1, 1);
+}
+
+// discord.gg/cylix
+function block_inputs() {
+    set_val(PS4_L2,       0);
+    set_val(PS4_R2,       0);
+    set_val(PS4_L1,       0);
+    set_val(PS4_R1,       0);
+    set_val(PS4_CROSS,    0);
+    set_val(PS4_CIRCLE,   0);
+    set_val(PS4_SQUARE,   0);
+    set_val(PS4_TRIANGLE, 0);
+    set_val(PS4_UP,       0);
+    set_val(PS4_DOWN,     0);
+    set_val(PS4_LEFT,     0);
+    set_val(PS4_RIGHT,    0);
+    set_val(PS4_L3,       0);
+    set_val(PS4_R3,       0);
+    set_val(PS4_LX,       0);
+    set_val(PS4_LY,       0);
+    set_val(PS4_RX,       0);
+    set_val(PS4_RY,       0);
+}
+
+function apply_features() {
+    if(CoreToggles[0]) {
+        if(abs(get_val(PS4_LX)) < 15 && abs(get_val(PS4_LY)) < 15) {
+            combo_run(AutoTrackCombo);
+        } else {
+            combo_stop(AutoTrackCombo);
+        }
+    } else {
+        combo_stop(AutoTrackCombo);
+    }
+
+    if(CoreToggles[2]) {
+        if(get_val(AdsBtn) && get_val(FireBtn) && abs(get_val(PS4_LX)) < 15 && abs(get_val(PS4_LY)) < 15) {
+            combo_run(AntiBloomCombo);
+        } else {
+            combo_stop(AntiBloomCombo);
+        }
+    } else {
+        combo_stop(AntiBloomCombo);
+    }
+
+    if(CoreToggles[3]) {
+        AntiRecoilStrengthFunc();
+    }
+
+// discord.gg/cylix
+    if(CoreToggles[4]) {
+        if(get_val(AdsBtn)) {
+            lra_rx = get_ival(PS4_RX) * LongRangeAim / 100;
+            lra_ry = get_ival(PS4_RY);
+            if(CoreToggles[3] && get_val(PS4_R2) && get_val(PS4_L2)) {
+                lra_ry = lra_ry + ar_adjusted;
+                if(lra_ry > 100) lra_ry = 100;
+            }
+            lra_ry = lra_ry * LongRangeAim / 100;
+            set_val(PS4_RX, lra_rx);
+            set_val(PS4_RY, lra_ry);
+        }
+    }
+
+    if(ModToggles[0]) {
+        if(get_val(PS4_L1) && get_val(PS4_LEFT)) {
+            combo_run(pickupmacro);
+        } else {
+            combo_stop(pickupmacro);
+        }
+    } else {
+        combo_stop(pickupmacro);
+    }
+
+    if(ModToggles[1]) {
+        ZeroDelay();
+    }
+
+// discord.gg/cylix
+    if(ModToggles[2]) {
+        if(get_val(AdsBtn) > 10) set_val(AdsBtn, 100);
+        if(get_val(FireBtn) > 10) set_val(FireBtn, 100);
+    }
+
+// discord.gg/cylix
+    if(ModToggles[3]) {
+        if(abs(get_val(PS4_RX)) < RightStickDeadzone) set_val(PS4_RX, 0);
+        if(abs(get_val(PS4_RY)) < RightStickDeadzone) set_val(PS4_RY, 0);
+    }
+
+    if(CoreToggles[1]) {
+        if(get_val(AdsBtn)) {
+            shake_tick = shake_tick + 1;
+            if(shake_tick >= 2) shake_tick = 0;
+            if(shake_tick == 0) {
+                set_val(PS4_RX, get_ival(PS4_RX) + 5);
+                set_val(PS4_RY, get_ival(PS4_RY) - 4);
+            } else {
+                set_val(PS4_RX, get_ival(PS4_RX) - 5);
+                set_val(PS4_RY, get_ival(PS4_RY) + 4);
+            }
+        } else {
+            shake_tick = 0;
+        }
+    }
+}
+
+init {
+    anim_done  = 0;
+    anim_frame = 0;
+    anim_tick  = 0;
+    ul_tick    = 0;
+    UnderlineX = 0;
+    TargetX    = 0;
+    CoreScrollOffset = 0;
+    ModScrollOffset  = 0;
+    shake_tick = 0;
+    CoreToggles[0] = 0;
+    CoreToggles[1] = 0;
+    CoreToggles[2] = 0;
+    CoreToggles[3] = 0;
+    CoreToggles[4] = 0;
+    ModToggles[0]  = 0;
+    ModToggles[1]  = 0;
+    ModToggles[2]  = 0;
+    ModToggles[3]  = 0;
+}
+
+main {
+    vm_tctrl(-6)
+
+// discord.gg/cylix
+    if(anim_done == 0) {
+        anim_tick = anim_tick + 1;
+        if(anim_tick >= 50) {
+            anim_tick  = 0;
+            anim_frame = anim_frame + 1;
+        }
+        draw_anim();
+    } else {
+
+// BEUD
+    if(event_press(PS4_OPTIONS) && get_val(PS4_L2)) {
+        if(MenuOpen == 0) {
+            MenuOpen = 1;
+        } else {
+            MenuOpen = 0;
+        }
+        set_val(PS4_OPTIONS, 0);
+    }
+
+    if(MenuOpen) {
+        if(event_press(PS4_L1)) {
+            MenuSectionIndex = MenuSectionIndex - 1;
+            if(MenuSectionIndex < 0) MenuSectionIndex = 1;
+            MenuItemIndex = 0;
+            CoreScrollOffset = 0;
+            ModScrollOffset  = 0;
+        }
+
+// discord.gg/cylix
+        if(event_press(PS4_R1)) {
+            MenuSectionIndex = MenuSectionIndex + 1;
+            if(MenuSectionIndex > 1) MenuSectionIndex = 0;
+            MenuItemIndex = 0;
+            CoreScrollOffset = 0;
+            ModScrollOffset  = 0;
+        }
+
+        maxItems = get_max_items();
+
+        if(event_press(PS4_UP)) {
+            MenuItemIndex = MenuItemIndex - 1;
+            if(MenuItemIndex < 0) MenuItemIndex = maxItems - 1;
+        }
+
+// BEUD
+        if(event_press(PS4_DOWN)) {
+            MenuItemIndex = MenuItemIndex + 1;
+            if(MenuItemIndex >= maxItems) MenuItemIndex = 0;
+        }
+
+        if(event_press(PS4_CROSS)) {
+            if(MenuSectionIndex == 0) {
+                if(CoreToggles[MenuItemIndex] == 0) {
+                    CoreToggles[MenuItemIndex] = 1;
+                } else {
+                    CoreToggles[MenuItemIndex] = 0;
+                }
+            }
+            else if(MenuSectionIndex == 1) {
+                if(ModToggles[MenuItemIndex] == 0) {
+                    ModToggles[MenuItemIndex] = 1;
+                } else {
+                    ModToggles[MenuItemIndex] = 0;
+                }
+            }
+        }
+
+        draw_menu();
+        block_inputs();
+    }
+
+    if(!MenuOpen) {
+        draw_image();
+        apply_features();
+    }
+
+    }
+}
+
+// BEUD

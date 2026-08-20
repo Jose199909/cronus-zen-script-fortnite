@@ -1,0 +1,3089 @@
+const image TwixyAimlogo = {125, 63, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF7, 0xFF, 0xBF, 0xF7, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xBF, 0xDF, 0xBF, 0xFF, 0xFF, 0xFB, 0xEF, 0xEF, 0xFF, 0xFF, 0xFF, 0xFF, 0xEF, 0xEF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xBF, 0xEF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0xFF, 0x7F, 0xFF, 0xFF, 0xFF, 0xFD, 0xBF, 0xFF, 0xFF, 0xFF, 0xDF, 0xEF, 0xFF, 0xDF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xEF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0xFF, 0xDF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xEF, 0xFF, 0xFF, 0xFB, 0xE0, 0xFF, 0xFF, 0xFF, 0xFF, 0xFB, 0xFF, 0xFF, 0xFF, 0x80, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xDF, 0xFF, 0xEF, 0xEF, 0xFF, 0xDF, 0xFF, 0xFF, 0xBF, 0xBF, 0xFF, 0xFF, 0xFD, 0xFF, 0xFF, 0xFE, 0xF7, 0xFF, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFD, 0xFD, 0xFF, 0xFF, 0xEF, 0xFF, 0xFF, 0xF7, 0xFF, 0xFF, 0xFF, 0xFF, 0xF7, 0xFF, 0xFD, 0xFF, 0xEF, 0xFF, 0xBF, 0xFF, 0x7F, 0xFF, 0xFF, 0xBF, 0xFF, 0xFF, 0xFF, 0xFE, 0x0F, 0xFE, 0xFF, 0xFF, 0x7F, 0xFF, 0xFF, 0xFB, 0xF7, 0xFF, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFD, 0xFF, 0xFF, 0xFF, 0xFB, 0xFF, 0xFF, 0xFF, 0xDF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xEF, 0xEF, 0xFF, 0xBF, 0xFF, 0x7F, 0xFD, 0xF8, 0x3F, 0xFF, 0xFF, 0xFF, 0xFD, 0xFF, 0xFF, 0xFF, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF7, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF7, 0xFF, 0xBF, 0xFF, 0xFF, 0xFF, 0xF7, 0xFF, 0xFF, 0xF7, 0xDF, 0xFF, 0xDF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFD, 0xFF, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xEF, 0xFF, 0xFF, 0xFF, 0xEF, 0xFF, 0xEF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xBF, 0xFF, 0xFF, 0xFF, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xCF, 0xFF, 0xFF, 0xFF, 0xFF, 0xEF, 0x7F, 0xFF, 0xFB, 0xFF, 0xFF, 0xFF, 0x80, 0x00, 0x00, 0xF8, 0x1F, 0xFF, 0xFF, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xDF, 0xFF, 0xFF, 0xF8, 0x00, 0x00, 0x0F, 0x80, 0x7F, 0x7F, 0xFF, 0xEF, 0xFF, 0xFF, 0xFD, 0xF8, 0x3F, 0xFB, 0xFF, 0x80, 0x00, 0x00, 0xF8, 0x03, 0xFF, 0xFF, 0x7F, 0x7F, 0xFF, 0xFF, 0xFF, 0xF7, 0xFF, 0xFF, 0xF8, 0x00, 0x00, 0x07, 0x80, 0x0F, 0xFF, 0xFF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xBF, 0xFF, 0xFF, 0x80, 0x00, 0x00, 0x7C, 0x00, 0x3F, 0xFF, 0xFF, 0xDF, 0xFF, 0xFF, 0xFF, 0xFD, 0xFD, 0xFF, 0xEF, 0xFF, 0x03, 0xFF, 0xC0, 0x01, 0xFF, 0xFF, 0xF0, 0x1F, 0xFF, 0xFE, 0xFF, 0xEF, 0xFF, 0xFF, 0xFF, 0xF8, 0x1F, 0xFC, 0x00, 0x07, 0xFB, 0xFF, 0xF7, 0xFF, 0xF7, 0xFF, 0xFF, 0x7F, 0xFF, 0xFF, 0xFF, 0xC0, 0xFF, 0xC0, 0x20, 0x1F, 0xFF, 0xFF, 0xBF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x07, 0xFE, 0x03, 0x80, 0xFF, 0xFF, 0xFD, 0xFD, 0xFF, 0xBF, 0xFF, 0xFF, 0xFF, 0xDF, 0xFF, 0xF0, 0x3F, 0xE0, 0x1C, 0x03, 0xFF, 0xFF, 0xEF, 0xFF, 0xFF, 0xFF, 0xFF, 0xEF, 0xFE, 0xFF, 0xFF, 0x81, 0xFE, 0x01, 0xF0, 0x0F, 0xFF, 0xFF, 0x7F, 0xFF, 0xFF, 0xFF, 0x7F, 0xFF, 0xF7, 0xFF, 0xFC, 0x0F, 0xF0, 0x1F, 0xC0, 0x3F, 0xFF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xBF, 0xFF, 0xE0, 0x7F, 0x01, 0xFF, 0x01, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xEF, 0xFF, 0xFF, 0xF0, 0x7F, 0xDF, 0x03, 0xF0, 0x0F, 0xF8, 0x07, 0xFE, 0xFF, 0xFF, 0xF7, 0xFF, 0xFF, 0xFF, 0xDF, 0xEF, 0xFF, 0xF8, 0x1F, 0x00, 0xFF, 0xE0, 0x1F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0xFF, 0xC0, 0xF8, 0x0E, 0x00, 0x00, 0xFF, 0xFF, 0xF7, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFB, 0xFF, 0xFE, 0x07, 0x80, 0x60, 0x00, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0xBF, 0xFD, 0xFF, 0xFF, 0xDF, 0xFF, 0xF0, 0x38, 0x07, 0x00, 0x00, 0x0F, 0xFF, 0x7F, 0xF7, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0x81, 0xC0, 0x70, 0x00, 0x00, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xEF, 0xFC, 0x0C, 0x07, 0x00, 0x00, 0x01, 0xFF, 0xFF, 0xEF, 0xF7, 0xFF, 0xFF, 0xEF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xBF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0x7D, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFD, 0xFF, 0x7F, 0xFB, 0xFF, 0xBF, 0x7F, 0xFF, 0xFF, 0xEF, 0xFF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0xFF, 0xFF, 0xFF, 0xDF, 0xFD, 0xFF, 0xFF, 0xDF, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xBF, 0xFB, 0xFB, 0xEF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFD, 0xFF, 0x07, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xC1, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xEF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFD, 0xFF, 0x7F, 0xFF, 0xBF, 0xFF, 0xFF, 0xFF, 0xFE, 0xFF, 0x7F, 0xF7, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFD, 0xFF, 0xF7, 0xDF, 0xFF, 0xFF, 0xE0, 0xFF, 0xBF, 0xFF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xEF, 0xFF, 0xFF, 0xFB, 0xFF, 0xFF, 0xDF, 0xFD, 0xEF, 0x7F, 0xDF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0xFE, 0xFF, 0xEF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xBF, 0xF7, 0xFF, 0xFF, 0xFF, 0xEF, 0xFF, 0xFF, 0xF7, 0xFF, 0xFF, 0xFF, 0xF7, 0xFB, 0xFF, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0xFF, 0xDF, 0xBF, 0xFF, 0xFF, 0xDE, 0x0F, 0xFF, 0xFF, 0xEF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFB, 0xFF, 0xFF, 0xFD, 0xFF, 0xFF, 0xFF, 0xFD, 0xFF, 0xFF, 0xFF, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xDF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xEF, 0xFF, 0xEF, 0xE0, 0xFF, 0xFF, 0xFF, 0xFF, 0xF8, 0x3F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0xFF, 0xFF, 0xDF, 0xFF, 0xFF, 0xFF, 0xFD, 0xF7, 0xF7, 0xFF, 0xFF, 0xFF, 0xEF, 0xFF, 0xFB, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFB, 0xFF, 0xBF, 0xFE, 0xFF, 0xFE, 0xFF, 0xFD, 0xFF, 0xDF, 0xFF, 0xFF, 0xF7, 0xFF, 0x7F, 0xF7, 0xFF, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xBF, 0xFF, 0xFF, 0xFF, 0xFF, 0xEF, 0xFF, 0xFF, 0xFF, 0xE0};
+
+
+
+
+
+
+
+//this script was developed by Twixy Aim if you leak or send anyone that has not bought this script you will be banned without a refund, and no feature updates
+
+//__
+
+//this is one of the best scripts that we offer and you got it thank you for your purchase
+
+                                                                                                                                                                                                                                                                                                                                                                /*
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ */
+
+
+
+
+
+
+
+
+
+define
+
+ADS 	    = 	XB1_LT, 
+
+Fire 	    = 	PS5_R2,
+
+Interact	= 	XB1_X,    
+
+Crouch 	    = 	XB1_RS,   
+
+					
+
+Edit 	    = 	XB1_B,   
+
+Reset 	    = 	XB1_LT,   
+
+Confirm     =   XB1_B,    
+
+					
+
+InstantReset = 	XB1_LEFT, 
+
+GrappleHold  = 	XB1_A, 	  
+
+ExtremePower = 	0		 
+
+
+
+
+
+init {
+
+cls_oled(0);
+
+adt_off(PS5_L2);
+
+adt_off(PS5_R2);
+
+ControllerType = get_controller();
+
+combo_run(ShowLogo)set_rgb(0, 175, 240);
+
+StrafePower[0]        =   1;
+
+RushStickyPower[0]    =  20;
+
+iAimPower[0]          = -15;
+
+ApocalypseAimPower[0] =   3;
+
+LongRangePower[0]     =  22;
+
+RecoilNegatorPower[0] =  40;
+
+AimBotPower[0]        =  20;
+
+
+
+StrafeToggle[0]         = 1;
+
+iAimToggle[0]           = 1;
+
+SpeedToggle[0]          = 1;
+
+NoVibrationToggle[0]    = 1;
+
+ApocalypseAimToggle[0]  = 1;
+
+LongRangeToggle[0]      = 1;
+
+RecoilNegatorToggle[0]  = 1;
+
+}
+
+
+
+main {
+
+
+
+PS5Active = PS5;
+
+PCActive = PC;
+
+XboxActive = Xbox;
+
+if(PCActive && XboxActive) {
+
+XboxActive = 0;
+
+}
+
+if(PCActive && PS5Active) {
+
+PS5Active = 0;
+
+}
+
+if(DeadZoneValue != 14 && PS5Active) {
+
+PS5Active = 0;
+
+PCActive = 1;
+
+}
+
+
+
+if (ControllerType != get_controller()) {
+
+ControllerType = get_controller();
+
+}
+
+
+
+if (ObfuscationOne && (ObfuscationTwo < ObfuscationEleven || ObfuscationThree > ObfuscationTwelve) && !ObfuscationFour) {
+
+ObfuscationThree += ObfuscationFive - ObfuscationEight * (ObfuscationNine % 3);
+
+if (ObfuscationOne || ObfuscationFive) {
+
+ObfuscationSix ^= ObfuscationSeven;
+
+if (ObfuscationSeven == ObfuscationFour + ObfuscationEleven) {
+
+ObfuscationTen |= ObfuscationThirteen;
+
+}
+
+} else {
+
+ObfuscationFourteen = ObfuscationSixteen;
+
+}
+
+}
+
+    
+
+if (ObfuscationTwenty) {
+
+if ((ObfuscationFourteen & ObfuscationTwenty) || (ObfuscationTwelve >= ObfuscationEight && ObfuscationFive < ObfuscationNine)) {
+
+ObfuscationTen -= ObfuscationSixteen % ObfuscationTwenty;
+
+ObfuscationEleven = ObfuscationTwentyOne;
+
+} else if (ObfuscationFifteen > ObfuscationThree) {
+
+ObfuscationSixteen = ObfuscationNineteen + (ObfuscationTwelve - ObfuscationFour);
+
+}
+
+}
+
+    
+
+if (ObfuscationFive != ObfuscationEleven) {
+
+ObfuscationSeven = ObfuscationFive + ObfuscationSix;
+
+if ((ObfuscationTwentyOne > 0 && ObfuscationTwentyOne < 5) || ObfuscationFour) {
+
+ObfuscationSixteen += ObfuscationSeventeen;
+
+}
+
+if (ObfuscationThree > ObfuscationSixteen) {
+
+ObfuscationEleven ^= (ObfuscationTwenty >> 2);
+
+}
+
+}
+
+    
+
+if (event_press(XB1_LEFT)) {
+
+ObfuscationOne = (ObfuscationEight + ObfuscationEleven);
+
+ObfuscationSixteen = ObfuscationSeventeen;
+
+}
+
+
+
+if (event_press(PS4_RIGHT)) {
+
+ObfuscationEight = (ObfuscationOne + ObfuscationEleven);
+
+ObfuscationSeventeen = ObfuscationSixteen;
+
+}
+
+    
+
+if (ObfuscationNineteen && ObfuscationEighteen) {
+
+ObfuscationTwentyOne = (ObfuscationThree > 0);
+
+}
+
+    
+
+if (event_press(PS4_CROSS)) {
+
+ObfuscationTwenty = (ObfuscationTwentyOne + ObfuscationFourteen);
+
+}
+
+    
+
+if(event_press(XB1_LEFT)) {
+
+ObfuscationOne = (ObfuscationEight + ObfuscationEleven);
+
+ObfuscationSixteen = ObfuscationSeventeen;
+
+}
+
+
+
+if(event_press(PS4_RIGHT)) {
+
+ObfuscationEight = (ObfuscationOne + ObfuscationEleven);
+
+ObfuscationSeventeen = ObfuscationSixteen;
+
+}
+
+
+
+set_val(TRACE_1, CurrentProfile);
+
+set_val(TRACE_2, CurrentMod);
+
+set_val(TRACE_2, CurrentValue);
+
+    
+
+if(get_controller() != PIO_PS4) {
+
+if(get_console() == PIO_PS4) {
+
+if(get_ival(PS4_SHARE)) {
+
+if(get_ival(PS4_R3)) {
+
+set_val(PS4_SHARE, 100);
+
+set_val(PS4_TOUCH, 0);
+
+set_val(PS4_R3, 0);
+
+} else {
+
+set_val(PS4_TOUCH, 100);
+
+set_val(PS4_SHARE, 0);
+
+}
+
+}
+
+}
+
+}
+
+
+
+set_val(TRACE_1, CurrentProfile);
+
+set_val(TRACE_2, CurrentMod);
+
+set_val(TRACE_2, CurrentValue);
+
+if(get_controller() != PIO_PS4) {
+
+if(get_console() == PIO_PS4) {
+
+if(get_ival(PS4_SHARE)) {
+
+if(get_ival(PS4_R3)) {
+
+set_val(PS4_SHARE,100);
+
+set_val(PS4_TOUCH,0);
+
+set_val(PS4_R3,0);
+
+} else {
+
+set_val(PS4_TOUCH, 100);
+
+set_val(PS4_SHARE, 0);
+
+}
+
+}
+
+}
+
+}
+
+
+
+
+
+            
+
+if(!MenuVisible) {
+
+
+
+if(!BlockMenu) {
+
+if(get_ival(XB1_LT)) {
+
+if(event_release(PS4_OPTIONS)) {
+
+cls_oled(OLED_BLACK);
+
+ShowText = FALSE;
+
+
+
+if(OpenEditMenu) {
+
+OpenEditMenu = FALSE;
+
+image_oled(0, 0, TRUE, TRUE, TwixyAimlogo[0]);
+
+} else OpenMainMenu = !OpenMainMenu;
+
+
+
+if(!OpenMainMenu) {
+
+combo_run(RumbleDeactivate);
+
+image_oled(0, 0, TRUE, TRUE, TwixyAimlogo[0]);
+
+}
+
+
+
+if(!get_ival(XB1_LT) && event_release(PS4_PS)) {
+
+Menu();
+
+}
+
+
+
+if(OpenMainMenu) {
+
+CurrentMod = StrafeMod;
+
+PageIndex = 0;
+
+combo_run(RumbleActivate);
+
+ContainerMenuLayout();
+
+MainMenuLayout();
+
+ControllerIcons();
+
+HorizontalNavigation();
+
+VerticalNavigation();
+
+RefreshUI = TRUE;
+
+RefreshFooter = TRUE;
+
+}
+
+
+
+}
+
+set_val(PS4_OPTIONS, 0);
+
+}
+
+}
+
+                
+
+if(OpenMainMenu) {
+
+ 
+
+MenuIconHighlights();
+
+if(ActiveChangeableValues()) {
+
+if(event_release(PS4_CROSS)) {
+
+PageIndex = 0;
+
+OpenEditMenu = TRUE;
+
+OpenMainMenu = FALSE;
+
+EditMenuLayout();
+
+ControllerIcons();
+
+HorizontalNavigation();
+
+EditMenu();
+
+VerticalNavigation();
+
+RefreshUI = TRUE;
+
+RefreshFooter = TRUE;
+
+}
+
+}
+
+                    
+
+if(event_press(PS4_RIGHT)) {
+
+CurrentMod = ClampValue(CurrentMod + 1, 0, ListLength(ModNames));
+
+RefreshUI = TRUE;
+
+}
+
+                    
+
+if(event_press(XB1_LEFT)) {
+
+CurrentMod = ClampValue(CurrentMod - 1, 0, ListLength(ModNames));
+
+RefreshUI = TRUE;
+
+}
+
+StrafeToggle[CurrentProfile] = Toggle(StrafeMod, StrafeToggle[CurrentProfile]);
+
+FlyingAimToggle[CurrentProfile] = Toggle(FlyingAimMod, FlyingAimToggle[CurrentProfile]);
+
+AimBotToggle[CurrentProfile] = Toggle(AimBotMod, AimBotToggle[CurrentProfile]);
+
+RushStickyToggle[CurrentProfile] = Toggle(RushStickyMod, RushStickyToggle[CurrentProfile]);
+
+SpeedToggle[CurrentProfile] = Toggle(SpeedMod, SpeedToggle[CurrentProfile]);
+
+CrouchShotToggle[CurrentProfile] = Toggle(CrouchShotMod, CrouchShotToggle[CurrentProfile]);
+
+BloomNegatorToggle[CurrentProfile] = Toggle(BloomNegatorMod, BloomNegatorToggle[CurrentProfile]);
+
+NoVibrationToggle[CurrentProfile] = Toggle(NoVibrationMod, NoVibrationToggle[CurrentProfile]);
+
+PreFireToggle[CurrentProfile] = Toggle(PreFireMod, PreFireToggle[CurrentProfile]);
+
+RapidFireToggle[CurrentProfile] = Toggle(RapidFireMod, RapidFireToggle[CurrentProfile]);
+
+iAimToggle[CurrentProfile] = Toggle(iAimMod, iAimToggle[CurrentProfile]);
+
+ExtremeAimToggle[CurrentProfile] = Toggle(ExtremeAimMod, ExtremeAimToggle[CurrentProfile]);
+
+RushAimLockToggle[CurrentProfile] = Toggle(RushAimLockMod, RushAimLockToggle[CurrentProfile]);
+
+AimAbuseToggle[CurrentProfile] = Toggle(AimAbuseMod, AimAbuseToggle[CurrentProfile]);
+
+ApocalypseAimToggle[CurrentProfile] = Toggle(ApocalypseAimMod, ApocalypseAimToggle[CurrentProfile]);
+
+LongRangeToggle[CurrentProfile] = Toggle(LongRangeMod, LongRangeToggle[CurrentProfile]);
+
+RecoilNegatorToggle[CurrentProfile] = Toggle(RecoilNegatorMod, RecoilNegatorToggle[CurrentProfile]);
+
+}
+
+                
+
+if(OpenEditMenu) {
+
+MenuIconHighlights();
+
+if(get_ival(PS4_CROSS)) {
+
+StrafePower[CurrentProfile] = AdjustingValue(StrafeValue, StrafePower[CurrentProfile], 0, 100, 1, 10);
+
+RecoilNegatorPower[CurrentProfile] = AdjustingValue(RecoilNegatorValue, RecoilNegatorPower[CurrentProfile], 0, 100, 1, 10);
+
+RushStickyPower[CurrentProfile] = AdjustingValue(RushStickyValue, RushStickyPower[CurrentProfile], -100, 100, 1, 10);
+
+iAimPower[CurrentProfile] = AdjustingValue(iAimValue, iAimPower[CurrentProfile], -100, 100, 1, 10);
+
+ApocalypseAimPower[CurrentProfile] = AdjustingValue(ApocalypseAimValue, ApocalypseAimPower[CurrentProfile], 0, 100, 1, 10);
+
+LongRangePower[CurrentProfile] = AdjustingValue(LongRangeValue, LongRangePower[CurrentProfile], 0, 100, 1, 10);
+
+AimBotPower[CurrentProfile] = AdjustingValue(AimBotValue, AimBotPower[CurrentProfile], 0, 40, 1, 10);
+
+} else {
+
+if(event_press(PS4_CIRCLE)) {
+
+PageIndex = 0;
+
+OpenMainMenu = TRUE;
+
+OpenEditMenu = FALSE;
+
+MainMenuLayout();
+
+ControllerIcons();
+
+HorizontalNavigation();
+
+VerticalNavigation();
+
+RefreshUI = TRUE;
+
+RefreshFooter = TRUE;
+
+}
+
+if(event_press(PS4_RIGHT)) {
+
+CurrentValue += 1;
+
+RefreshUI = TRUE;
+
+}
+
+if(event_press(XB1_LEFT)) {
+
+CurrentValue -= 1;
+
+RefreshUI = TRUE;
+
+}
+
+if(CurrentMod == StrafeMod)
+
+CurrentValue = ClampValue(CurrentValue, StrafeValue, StrafeValue);
+
+if(CurrentMod == RushStickyMod)
+
+CurrentValue = ClampValue(CurrentValue, RushStickyValue, RushStickyValue);
+
+if(CurrentMod == iAimMod)
+
+CurrentValue = ClampValue(CurrentValue, iAimValue, iAimValue);
+
+if(CurrentMod == ApocalypseAimMod)
+
+CurrentValue = ClampValue(CurrentValue, ApocalypseAimValue, ApocalypseAimValue);
+
+if(CurrentMod == RecoilNegatorMod)
+
+CurrentValue = ClampValue(CurrentValue, RecoilNegatorValue, RecoilNegatorValue);
+
+if(CurrentMod == AimBotMod)
+
+CurrentValue = ClampValue(CurrentValue, AimBotValue, AimBotValue);
+
+}
+
+}
+
+                
+
+if(OpenMainMenu || OpenEditMenu) {
+
+ShowLogo = FALSE;
+
+
+
+MenuCounter += get_rtime();
+
+if(MenuCounter > 2000) {
+
+PageIndex++;
+
+RefreshFooter = TRUE;
+
+}
+
+if(!get_ival(XB1_LT) && event_release(PS4_PS))
+
+Menu();
+
+ResetInputs();
+
+}
+
+                
+
+if(!OpenMainMenu && !OpenEditMenu) {
+
+
+
+
+
+
+
+
+
+if(StrafeToggle) {
+
+if(abs(get_ival(LX)) <= 35 && abs(get_ival(LY)) <= 35) {
+
+combo_run(Strafe)
+
+} else {
+
+combo_stop(Strafe)
+
+}
+
+} 
+
+if(RecoilNegatorToggle) {
+
+RecoilNegatorPower()
+
+}
+
+
+
+  if(ApocalypseAimToggle){
+
+block_rumble();
+
+Apokalypse3 = get_ival(PS4_LX)Apokalypse4 = get_val(PS4_LX) Apokalypse9 = (get_val(PS4_RX)) Apokalypse8 = (get_lval(PS4_RX)) Apokalypse11 = (get_val(PS4_RY)) Apokalypse10 = (get_lval(PS4_RY))if (Apokalypse9 < Apokalypse8){
+
+Apokalypse5 = -ApocalypseAimPower
+
+}
+
+if (Apokalypse9 > Apokalypse8){
+
+Apokalypse5 = ApocalypseAimPower
+
+}
+
+if (Apokalypse11 < Apokalypse10) {
+
+Apokalypse6 = -ApocalypseAimPower
+
+}
+
+if (Apokalypse11 > Apokalypse10) {
+
+Apokalypse6 = ApocalypseAimPower
+
+}
+
+Apokalypse1 = 25 Apokalypse2 = -25 set_val(PS4_RX, Apokalypse9 + (SimpleArray[Apokalypse7] + Apokalypse5)) set_val(PS4_RY,Apokalypse11 + (SimpleArray[Apokalypse7] + Apokalypse6))Apokalypse7 = (Apokalypse7 + 1) %  40
+
+}               
+
+
+
+}
+
+}
+
+if (BloomNegatorToggle) {
+
+RightStickMagnitude  = (isqrt(pow(get_ival(XB1_RX), 2) + pow(get_ival(XB1_RY), 2)))LeftStickMagnitude = (isqrt(pow(get_ival(XB1_LX), 2) + pow(get_ival(XB1_LY), 2)))
+
+if (get_val (Fire)) {
+
+if (RightStickMagnitude <= (RightZone + 3)) {
+
+BloomAngle = (BloomAngle + 30) % 360;
+
+set_polar(POLAR_RS, PolarAngle, ((RightZone + 5/2) * 360));
+
+}
+
+if (LeftStickMagnitude <= (LeftZone + 3)) {
+
+PolarAngle = (PolarAngle + 21) % 360;
+
+set_polar(POLAR_LS, PolarAngle, ((LeftZone + 60) * 360));
+
+}
+
+}
+
+if (RightStickMagnitude <= RightZone) {
+
+BloomAngle = (BloomAngle + 18) % 360;
+
+set_polar(POLAR_RS, BloomAngle, (RightZone + 3 * 360));
+
+}
+
+}
+
+
+
+if (SpeedToggle) {
+
+vm_tctrl(-7);
+
+} else {
+
+vm_tctrl(-3);
+
+}
+
+
+
+
+
+if (PreFireToggle) {
+
+if (get_val (Interact) && get_val (Fire)) {
+
+combo_run (PreFire) 
+
+}
+
+}
+
+if(RushAimLockToggle){
+
+if(TwixyAim == 1){ 
+
+if(iAimPower[CurrentProfile] >= aiInputMax && iAimPower[CurrentProfile] < (15 * 32767/100)){ 
+
+   AimLock = FALSE;
+
+						}
+
+if(iAimPower[CurrentProfile] <= aiInputMax || iAimPower[CurrentProfile] >= (15 * 32767/100)){ 
+
+   AimLock = TRUE;
+
+   combo_stop(AimLock);
+
+						} 
+
+if(AimLock){ 
+
+   combo_run(AimLock);
+
+}}}
+
+
+
+
+
+if (LongRangeToggle) {
+
+if (get_val (ADS) && get_val (Fire)) {
+
+combo_run (LongRangeAssist) 
+
+}
+
+}
+
+if(FlyingAimToggle){
+
+if(get_val (ADS) && get_val (Fire)){
+
+combo_run (FlyingTracker)
+
+}
+
+}
+
+
+
+
+
+if (AimAbuseToggle) {
+
+if(get_val(XB1_LT)> 95) {
+
+combo_run(AimAbuse);
+
+}
+
+if(event_release(XB1_LT)) {
+
+combo_stop(AimAbuse);
+
+} 
+
+}
+
+Axis = isqrt(abs(get_ival(RX)) * abs(get_ival(RX)) + abs(get_ival(RY)) * abs(get_ival(RY)));                       
+
+  if (RushStickyToggle) {
+
+  if (get_ival(ADS) || (BattsAAHip && get_ival(Fire))) {
+
+  combo_run(StickyAssist);
+
+  } else {
+
+  combo_stop(StickyAssist); 
+
+                }
+
+                
+
+            }
+
+if (iAimToggle) {
+
+
+
+        if(get_ival(Fire) && !get_ival(ADS)){
+
+            combo_run(HipfireStickyAim);
+
+    	}
+
+    	if(get_ival(Fire) && get_ival(ADS)){
+
+    		combo_run(AdsStickyAim);
+
+    		
+
+    	}
+
+	
+
+	actual_X = get_val(X);
+
+    actual_Y = get_val(Y);
+
+    actual_Magnitude = isqrt(pow(actual_X, 2) + pow(actual_Y, 2));
+
+    max_Magnitude = (actual_Magnitude < 100);
+
+    
+
+    if (!(time++ % STEP_INTERVAL)) {
+
+      	
+
+      	angle += STEPS;
+
+    }
+
+    
+
+    angle = angle % 360;
+
+    sin_angle = PolarArray[angle % 360];
+
+    cos_angle = PolarArray[(angle + 270) % 360];
+
+    cos_angle = (cos_angle * RADIUS) / 100;
+
+    sin_angle = (sin_angle * RADIUS) / 100;
+
+    
+
+    if((get_ival(XB1_LT)) || (get_ival(XB1_RT))){
+
+      	
+
+      	if(actual_Magnitude <= iAimPower[CurrentProfile]){
+
+        	sin_angle -= actual_Y;
+
+        	cos_angle -= actual_X;
+
+      	
+
+      	}else {
+
+        	
+
+        	sin_angle = (sin_angle * (200 - ((abs(actual_Y) + actual_Magnitude) / 10) * 10) / 200) * max_Magnitude;
+
+        	cos_angle = (cos_angle * (200 - ((abs(actual_X) + actual_Magnitude) / 10) * 10) / 200) * max_Magnitude;
+
+      }
+
+      
+
+      set_val(X,clamp(actual_X + cos_angle, -100, 100));
+
+      set_val(Y,clamp(actual_Y + sin_angle, -100, 100));
+
+    }
+
+	combo_run(AA111)
+
+	if(abs(get_val(PS4_RX)) > (iAimPower[CurrentProfile]) || abs(get_val(PS4_RY)) > (iAimPower[CurrentProfile])) {
+
+	combo_stop(AA111)
+
+	combo_run(AA211)
+
+	}
+
+	if(abs(get_val(PS4_RX)) > (iAimPower[CurrentProfile] + 1) || abs(get_val(PS4_RY)) > (iAimPower[CurrentProfile] + 1)){
+
+	combo_stop(AA211)
+
+	combo_run(AA3)
+
+	}
+
+	if(abs(get_val(PS4_RX)) > (iAimPower[CurrentProfile] + 2) || abs(get_val(PS4_RY)) > (iAimPower[CurrentProfile] + 2)) {
+
+	combo_stop(AA3)
+
+	combo_run(AA4)
+
+	}
+
+	if(abs(get_val(PS4_RX)) > (iAimPower[CurrentProfile] + 3) || abs(get_val(PS4_RY)) > (iAimPower[CurrentProfile] + 3)) {
+
+	combo_stop(AA4)
+
+	combo_run(AA5)
+
+	}
+
+	if(abs(get_val(PS4_RX)) > (iAimPower[CurrentProfile] + 4) || abs(get_val(PS4_RY)) > (iAimPower[CurrentProfile] + 4)){
+
+	combo_stop(AA5)
+
+	combo_run(AA6)
+
+	}
+
+	if(abs(get_val(PS4_RX)) > (iAimPower[CurrentProfile] + 5) || abs(get_val(PS4_RY)) > (iAimPower[CurrentProfile] + 5)){
+
+	combo_stop(AA6)
+
+	combo_run(AA7)
+
+	}
+
+	if(abs(get_val(PS4_RX)) > (iAimPower[CurrentProfile] + 6) || abs(get_val(PS4_RY)) > (iAimPower[CurrentProfile] + 6)){
+
+	combo_stop(AA7)
+
+	combo_run(AA8)
+
+	}
+
+	if(abs(get_val(PS4_RX)) > (iAimPower[CurrentProfile] + 10) || abs(get_val(PS4_RY)) > (iAimPower[CurrentProfile] + 10)){
+
+	combo_stop(AA8)
+
+	}
+
+if(get_val(PS4_L2) > 50){
+
+if(abs(get_val(XB1_RX) < iAimPower[CurrentProfile])) 
+
+if(abs(get_val(XB1_RY) < iAimPower[CurrentProfile])) 
+
+if(abs(get_val(XB1_RX) > -iAimPower[CurrentProfile])) 
+
+if(abs(get_val(XB1_RY) > -iAimPower[CurrentProfile])){
+
+PPFX = PolarFlow(PPFX,PXS,PXSE,PVSI,PFD,1);
+
+PPFY = PolarFlow(PPFY,PYS,PYSE,PVS,PPFD,2);
+
+set_polar(POLAR_RS,30,PPFX);
+
+set_polar(POLAR_RS,30,PPFY);}}
+
+
+
+AxisXY = isqrt(abs(get_ival(RX)) * abs(get_ival(RX)) + abs(get_ival(RY)) * abs(get_ival(RY)));
+
+if (AssistProfile == 1)
+
+AimAssist(iAimPower[CurrentProfile],iAimPower[CurrentProfile]);
+
+
+
+
+
+Aim_Val  = iAimPower[CurrentProfile];
+
+Wait_Val = 1;
+
+combo_run (TheSticky)
+
+}
+
+
+
+if (ExtremeAimToggle) {
+
+if (get_val (XB1_RT)) { 
+
+set_val(RX, (get_ival(RX) + random(0x1 * -1, 0x1) * 2));
+
+set_val(RY, (get_ival(RY) + random(0x1 * -1, 0x1) * 2)); 
+
+combo_run (AA1); combo_run (AA2);}
+
+}
+
+
+
+if (RapidFireToggle) {
+
+if(get_val(Fire)) {
+
+combo_run (RapidFire);
+
+}
+
+} 
+
+
+
+if (NoVibrationToggle) {
+
+block_rumble ();
+
+}
+
+
+
+ if(AimBotToggle){
+
+  if (get_val(ADS) && get_val (Fire)){
+
+combo_run(AimBot1)if(abs(get_val(PS4_RX)) > 22 || abs(get_val(PS4_RY)) > 22 || abs(get_val(PS4_LY)) > 16 || abs(get_val(PS4_LX)) > 16)combo_stop(AimBot1)}
+
+combo_run(AimBot2) if(abs(get_val(PS4_RX)) + abs(get_val(PS4_RY)) > iAimPower[CurrentProfile] || abs(get_val(PS4_RX)) + abs(get_val(PS4_RY)) < -iAimPower[CurrentProfile])combo_stop(AimBot2)
+
+combo_run(AimBot3) if(abs(get_val(PS4_RX)) + abs(get_val(PS4_RY)) > iAimPower[CurrentProfile] + 1 || abs(get_val(PS4_RX)) + abs(get_val(PS4_RY)) < -iAimPower[CurrentProfile] + 1)combo_stop(AimBot3)
+
+combo_run(AimBot4) if(abs(get_val(PS4_RX)) + abs(get_val(PS4_RY)) > iAimPower[CurrentProfile] + 2 || abs(get_val(PS4_RX)) + abs(get_val(PS4_RY)) < -iAimPower[CurrentProfile] + 2)combo_stop(AimBot4)
+
+combo_run(AimBot5)if(abs(get_val(PS4_RX)) + abs(get_val(PS4_RY)) > iAimPower[CurrentProfile] + 3 || abs(get_val(PS4_RX)) + abs(get_val(PS4_RY)) < -iAimPower[CurrentProfile] + 3)combo_stop(AimBot5) 
+
+   }
+
+
+
+if(CrouchShotToggle[CurrentProfile]) {
+
+if (get_val (Fire) && get_val (ADS)) {
+
+combo_run (CrouchShot);
+
+}
+
+}
+
+
+
+StrafeToggle[CurrentProfile] = ToggleFeature(XB1_LT, PS4_UP, 500, StrafeToggle[CurrentProfile], StrafeMod);
+
+FlyingAimToggle[CurrentProfile] = ToggleFeature(XB1_LT, PS4_RIGHT, 500, FlyingAimToggle[CurrentProfile], FlyingAimMod);
+
+RecoilNegatorToggle[CurrentProfile] = ToggleFeature(XB1_LT, PS4_DOWN, 500, RecoilNegatorToggle[CurrentProfile], RecoilNegatorMod);
+
+                    
+
+if(ShowLogo) {
+
+ClearScreen()
+
+}
+
+if(!ActiveScreenTimer && !ShowLogo && !ShowText && !MenuVisible) {
+
+    image_oled(0, 0, TRUE, TRUE, TwixyAimlogo[0]); }
+
+
+
+                
+
+if(RefreshUI) {
+
+ShowLogo = FALSE;
+
+
+
+if(OpenEditMenu) {
+
+UpdateMenuTitle();
+
+rect_oled(38, 18, 51, OLED_FONT_SMALL_HEIGHT + 3, OLED_WHITE, OLED_BLACK);
+
+rect_oled(27, 31, 74, OLED_FONT_SMALL_HEIGHT + 6, OLED_WHITE, OLED_BLACK);
+
+DisplayModValues();
+
+} else if(OpenMainMenu) {
+
+UpdateMenuTitle();
+
+UpdateFeatureDisplay();
+
+UpdateStatusDisplay();
+
+} else {
+
+cls_oled(OLED_BLACK);
+
+print(HorizontalCenterText(CalculateStringLength(TextList(ModNames, CurrentMod)), OLED_FONT_SMALL_WIDTH),TitleYPosition,OLED_FONT_SMALL,OLED_WHITE,TextList(ModNames, CurrentMod));
+
+UpdateStatusDisplay();
+
+
+
+}
+
+ActiveScreenTimer = TRUE;
+
+RefreshUI = FALSE;
+
+}
+
+                
+
+if(RefreshFooter) {
+
+MenuCounter = 0;
+
+rect_oled(1, 50, 126, 13, OLED_WHITE, OLED_BLACK);
+
+if(OpenMainMenu) {
+
+PageIndex = ClampValue(PageIndex, 0, ListLength(PSInstructions));
+
+if(get_controller() == PIO_PS4)
+
+print(HorizontalCenterText(CalculateStringLength(TextList(PSInstructions, PageIndex)), OLED_FONT_SMALL_WIDTH),FooterYPosition,OLED_FONT_SMALL,OLED_WHITE,TextList(PSInstructions, PageIndex));
+
+else
+
+print(HorizontalCenterText(CalculateStringLength(TextList(XboxInstructions, PageIndex)), OLED_FONT_SMALL_WIDTH),FooterYPosition,OLED_FONT_SMALL,OLED_WHITE,TextList(XboxInstructions, PageIndex));
+
+}
+
+if(OpenEditMenu) {
+
+PageIndex = ClampValue(PageIndex, 0, ListLength(PSEditor));
+
+if(get_controller() == PIO_PS4)
+
+print(HorizontalCenterText(CalculateStringLength(TextList(PSEditor, PageIndex)), OLED_FONT_SMALL_WIDTH),FooterYPosition,OLED_FONT_SMALL,OLED_WHITE,TextList(PSEditor, PageIndex));
+
+else
+
+print(HorizontalCenterText(CalculateStringLength(TextList(XboxEditor, PageIndex)), OLED_FONT_SMALL_WIDTH),FooterYPosition,OLED_FONT_SMALL,OLED_WHITE,TextList(XboxEditor, PageIndex));
+
+}
+
+RefreshFooter = FALSE;
+
+}
+
+if(UpdateDisplay) {
+
+ShowLogo= FALSE;
+
+if(!ShowText) {
+
+cls_oled(0);
+
+image_oled(0, 0, TRUE, TRUE, TwixyAimlogo[0]);
+
+} else
+
+rect_oled(0, 45, 128, 31, OLED_WHITE, OLED_BLACK);
+
+DisplayValue(ProfileValue, CountDigits(ProfileValue));
+
+DisplayMenuTitle();
+
+ShowText = TRUE;
+
+ActiveScreenTimer = TRUE;
+
+UpdateDisplay = FALSE;
+
+}
+
+}
+
+
+
+combo StickyAssist {
+
+   
+
+set_val(PS4_RY,AxisRelease(PS4_RY,RushStickyPower));
+
+   wait(8);
+
+set_val(PS4_RX,AxisRelease(PS4_RX,RushStickyPower));
+
+set_val(PS4_LX,AxisRelease(PS4_LX,RushStickyPower));
+
+   wait(8);
+
+set_val(PS4_RY,AxisRelease(PS4_RY,inv(RushStickyPower)));
+
+   wait(8);
+
+set_val(PS4_RX,AxisRelease(PS4_RX,inv(RushStickyPower)));
+
+set_val(PS4_LX,AxisRelease(PS4_LX,inv(RushStickyPower)));
+
+   wait(8);
+
+}
+
+combo AA111 {
+
+set_val(PS4_RX,AA111)wait(1)set_val(PS4_RY,AA111) set_val(PS4_RX,-AA111)wait(1)set_val(PS4_RY,-AA111)
+
+}
+
+combo AA211 {
+
+	set_val(PS4_RX,AA211) set_val(PS4_RY,AA211) set_val(PS4_RX,-AA211)wait(1)set_val(PS4_RY,-AA211)
+
+}
+
+combo AA3 {
+
+	set_val(PS4_RX,AA3)wait(1)set_val(PS4_RY,AA3) set_val(PS4_RX,-AA3) set_val(PS4_RY,-AA3)
+
+}
+
+combo AA4 {
+
+	set_val(PS4_RX,AA4)wait(1)set_val(PS4_RY,AA4) set_val(PS4_RX,-AA4)wait(1)set_val(PS4_RY,-AA4)
+
+}
+
+combo AA5 {
+
+	set_val(PS4_RX,AA5)wait(1)set_val(PS4_RY,AA5) wait(1)set_val(PS4_RX,-AA5)wait(1)set_val(PS4_RY,-AA5)
+
+}
+
+combo AA6 {
+
+	set_val(PS4_RX,AA6)wait(1)set_val(PS4_RY,AA6) wait(1)set_val(PS4_RX,-AA6)wait(1)set_val(PS4_RY,-AA6)
+
+}
+
+combo AA7 {
+
+	set_val(PS4_RX,AA7)wait(1)set_val(PS4_RY,AA7) wait(1)set_val(PS4_RX,-AA7)wait(1)set_val(PS4_RY,-AA7)
+
+	}
+
+combo AA8{
+
+    set_val(PS4_RX,AA8)wait(1)set_val(PS4_RY,AA8)wait(1) set_val(PS4_RX,-AA8)wait(1) set_val(PS4_RY,-AA8)
+
+}
+
+combo HipfireStickyAim {
+
+offset2(PS4_RY,HipAimAssistSize);
+
+wait(2);
+
+offset2(PS4_RX,iAimPower[CurrentProfile]);
+
+offset2(PS4_LX,iAimPower[CurrentProfile]);
+
+wait(2);
+
+offset2(PS4_RY,inv(iAimPower[CurrentProfile]));
+
+wait(2);
+
+offset2(PS4_RX,inv(iAimPower[CurrentProfile]));
+
+offset2(PS4_LX,inv(iAimPower[CurrentProfile]));
+
+wait(2);
+
+}
+
+combo AdsStickyAim {
+
+offset2(PS4_RY,iAimPower[CurrentProfile] + 3);
+
+wait(4);
+
+offset2(PS4_RX,iAimPower[CurrentProfile] + 3);
+
+offset2(PS4_LX,iAimPower[CurrentProfile] + 3);
+
+wait(4);
+
+offset2(PS4_RY,inv(iAimPower[CurrentProfile] - 2));
+
+wait(4);
+
+offset2(PS4_RX,inv(iAimPower[CurrentProfile] - 2));
+
+offset2(PS4_LX,inv(iAimPower[CurrentProfile] - 2));
+
+wait(4);
+
+}
+
+
+
+combo PickupMacro {
+
+set_val(InteractButton, 100);
+
+wait(10);
+
+set_val(InteractButton, 0);
+
+}
+
+combo AimLock { 
+
+	set_val(PS4_RX,0);
+
+	set_val(PS4_RY,0);
+
+	wait(85);
+
+	offset(POLAR_RX,(cosAngle >> 1));
+
+	offset(POLAR_RY,(sinAngle >> 1));
+
+	wait(200);
+
+}
+
+combo RecoilNegatorPower {
+
+AdjustRecoilNegator = get_ival(PS4_RY) + RecoilNegatorPower;
+
+if(AdjustRecoilNegator > 100 + 100 - 100)
+
+RecoilNegatorPower = 100 - 100 + 100;
+
+set_val(PS4_RY, RecoilNegatorPower)
+
+}
+
+function RecoilNegatorPower() {
+
+if(get_val(XB1_RT) && get_val(XB1_LT))
+
+combo_run(RecoilNegatorPower)
+
+if(abs(get_val(PS4_RX)) + abs(get_val(PS4_RY)) > RecoilNegatorPower - 100 + 100)
+
+combo_stop(RecoilNegatorPower)
+
+return;
+
+}
+
+combo RumbleActivate {
+
+set_rgb(0, 175, 240);
+
+set_rumble(RUMBLE_B, 50);
+
+wait(150);
+
+reset_rumble();
+
+wait(100);
+
+set_rumble(RUMBLE_B, 50);
+
+wait(150);
+
+reset_rumble();
+
+}
+
+
+
+combo RumbleDeactivate {
+
+set_rgb(255, 0, 0);
+
+set_rumble(RUMBLE_A, 50);
+
+wait(300);
+
+reset_rumble();
+
+wait(400);
+
+}
+
+
+
+combo SavedMessage {
+
+call(RumbleActivate);
+
+wait(150);
+
+call(RumbleActivate);
+
+wait(1000);
+
+set_rgb(0, 175, 240);
+
+combo_run(ShowLogo)
+
+}
+
+
+
+function Initiate (Input) {
+
+return event_press(Input) || get_val(Input) && get_ptime(Input) > 250 && get_ptime(Input) % (get_rtime() * 8) == 0;
+
+}	
+
+
+
+function UpdateMenuTitle() {
+
+rect_oled(13, 1, 102, OLED_FONT_SMALL_HEIGHT + 5, OLED_WHITE, OLED_BLACK);
+
+if(OpenMainMenu) {
+
+if(CurrentMod < ModCount)
+
+DisplayMenuTitle();
+
+else
+
+print(HorizontalCenterText(sizeof(AllProfilesMessage) - 1, OLED_FONT_SMALL_WIDTH), 4, OLED_FONT_SMALL, OLED_WHITE, AllProfilesMessage[0]);
+
+}
+
+if(OpenEditMenu) {
+
+print(HorizontalCenterText(CalculateStringLength(TextList(PowerValues, CurrentValue)), OLED_FONT_SMALL_WIDTH), TopMargin, OLED_FONT_SMALL, OLED_WHITE, TextList(PowerValues, CurrentValue));
+
+}
+
+}
+
+
+
+function UpdateFeatureDisplay() {
+
+rect_oled(13, 17, 102, OLED_FONT_SMALL_HEIGHT + 5, OLED_WHITE, OLED_BLACK);
+
+if(OpenMainMenu) {
+
+print(HorizontalCenterText(CalculateStringLength(TextList(ModNames, CurrentMod)), OLED_FONT_SMALL_WIDTH), TitleYPosition, OLED_FONT_SMALL, OLED_WHITE, TextList(ModNames, CurrentMod));
+
+}
+
+}
+
+
+
+function UpdateStatusDisplay() {
+
+rect_oled(13, 33, 102, OLED_FONT_SMALL_HEIGHT + 5, OLED_WHITE, OLED_BLACK);
+
+StatusDisplay(StrafeMod, StrafeToggle[CurrentProfile]);
+
+StatusDisplay(FlyingAimMod, FlyingAimToggle[CurrentProfile]);
+
+StatusDisplay(AimBotMod, AimBotToggle[CurrentProfile]);
+
+StatusDisplay(RushStickyMod, RushStickyToggle[CurrentProfile]);
+
+StatusDisplay(SpeedMod, SpeedToggle[CurrentProfile]);
+
+StatusDisplay(CrouchShotMod, CrouchShotToggle[CurrentProfile]);
+
+StatusDisplay(BloomNegatorMod, BloomNegatorToggle[CurrentProfile]);
+
+StatusDisplay(NoVibrationMod, NoVibrationToggle[CurrentProfile]);
+
+StatusDisplay(PreFireMod, PreFireToggle[CurrentProfile]);
+
+StatusDisplay(RapidFireMod, RapidFireToggle[CurrentProfile]);
+
+StatusDisplay(iAimMod, iAimToggle[CurrentProfile]);
+
+StatusDisplay(ExtremeAimMod, ExtremeAimToggle[CurrentProfile]);
+
+StatusDisplay(RushAimLockMod, RushAimLockToggle[CurrentProfile]);
+
+StatusDisplay(AimAbuseMod, AimAbuseToggle[CurrentProfile]);
+
+StatusDisplay(ApocalypseAimMod, ApocalypseAimToggle[CurrentProfile]);
+
+StatusDisplay(LongRangeMod, LongRangeToggle[CurrentProfile]);
+
+StatusDisplay(RecoilNegatorMod, RecoilNegatorToggle[CurrentProfile]);
+
+}
+
+
+
+function DisplayModValues() {
+
+if(CurrentValue == StrafeValue)
+
+DisplayValue(StrafePower[CurrentProfile], CountDigits(StrafePower[CurrentProfile]));
+
+else if(CurrentValue == RushStickyValue)
+
+DisplayValue(RushStickyPower[CurrentProfile], CountDigits(RushStickyPower[CurrentProfile]));
+
+else if(CurrentValue == iAimValue)
+
+DisplayValue(iAimPower[CurrentProfile], CountDigits(iAimPower[CurrentProfile]));
+
+else if(CurrentValue == ApocalypseAimValue)
+
+DisplayValue(ApocalypseAimPower[CurrentProfile], CountDigits(ApocalypseAimPower[CurrentProfile]));
+
+else if(CurrentValue == LongRangeValue)
+
+DisplayValue(LongRangePower[CurrentProfile], CountDigits(LongRangePower[CurrentProfile]));
+
+else if(CurrentValue == RecoilNegatorValue)
+
+DisplayValue(RecoilNegatorPower[CurrentProfile], CountDigits(RecoilNegatorPower[CurrentProfile]));
+
+else if(CurrentValue == AimBotValue)
+
+DisplayValue(AimBotPower[CurrentProfile], CountDigits(AimBotPower[CurrentProfile]));
+
+}
+
+
+
+function DisplayMenuTitle() {
+
+if(UpdateDisplay)
+
+TextPosition = 50;
+
+else
+
+TextPosition = 4;
+
+print(29, TextPosition, OLED_FONT_SMALL, OLED_WHITE, TwixyScripts[0]);
+
+}
+
+
+
+function StatusDisplay (ListIndex, ListEnabled) {
+
+if(CurrentMod == ListIndex) {
+
+if(ListEnabled == 1)
+
+print(HorizontalCenterText(sizeof(OnMessage) - 1, OLED_FONT_SMALL_WIDTH), StatusYPosition, OLED_FONT_SMALL, OLED_WHITE, OnMessage[0]);
+
+else
+
+print(HorizontalCenterText(sizeof(OffMessage) - 1, OLED_FONT_SMALL_WIDTH), StatusYPosition, OLED_FONT_SMALL, OLED_WHITE, OffMessage[0]);}
+
+}
+
+
+
+function AdjustingValue (ListIndex, Values, MinimumAdjustedValue, MaximumAdjustedValue, SmallIncrement, LargeIncrement) {
+
+if(CurrentValue == ListIndex) {
+
+Values = AdjustThroughButton(Values, XB1_LEFT, inv(SmallIncrement), MinimumAdjustedValue, MaximumAdjustedValue);
+
+Values = AdjustThroughButton(Values, PS4_RIGHT, SmallIncrement, MinimumAdjustedValue, MaximumAdjustedValue);
+
+Values = AdjustThroughButton(Values, PS4_DOWN, inv(LargeIncrement), MinimumAdjustedValue, MaximumAdjustedValue);
+
+Values = AdjustThroughButton(Values, PS4_UP, LargeIncrement, MinimumAdjustedValue, MaximumAdjustedValue);}
+
+return Values;
+
+}
+
+
+
+function AdjustThroughButton (Values, ButtonInput, ButtonIncrement, MinimumButtonValue, MaximumButtonValue) {
+
+if(ButtonPressed(ButtonInput)) {
+
+Values += ButtonIncrement;
+
+if(Values < MinimumButtonValue)
+
+Values = MinimumButtonValue;
+
+if(Values > MaximumButtonValue)
+
+Values = MaximumButtonValue;
+
+RefreshUI = TRUE;}
+
+return Values;
+
+}
+
+
+
+function Toggle (ListIndex, Values) {
+
+if(event_press(PS4_UP)) {
+
+if(CurrentMod == ListIndex) {
+
+Values = ClampValue(Values + 1, 0, 1);
+
+if(Values == 0)
+
+combo_run(RumbleDeactivate);
+
+else
+
+combo_run(RumbleActivate);
+
+}
+
+RefreshUI = TRUE;
+
+}
+
+if(event_press(PS4_DOWN)) {
+
+if(CurrentMod == ListIndex) {
+
+Values = ClampValue(Values - 1, 0, 1);
+
+if(Values == 0)
+
+combo_run(RumbleDeactivate);
+
+else
+
+combo_run(RumbleActivate);
+
+}
+
+RefreshUI = TRUE;
+
+}
+
+return Values;
+
+}
+
+
+
+function ToggleFeature (TriggerButton, ActionButton, HoldTime, Values, ListIndex) {
+
+if(get_val(TriggerButton)) {
+
+if(get_val(ActionButton) && get_ptime(ActionButton) == HoldTime) {
+
+CurrentMod = ListIndex;
+
+Values = !Values;
+
+if(Values == 0)
+
+combo_run(RumbleDeactivate);
+
+else
+
+combo_run(RumbleActivate);
+
+RefreshUI = TRUE;
+
+}
+
+
+
+}
+
+return Values;
+
+}
+
+
+
+function ActiveChangeableValues() {
+
+if(CurrentMod == StrafeMod && StrafeToggle[CurrentProfile])
+
+return TRUE;
+
+if(CurrentMod == RushStickyMod && RushStickyToggle[CurrentProfile])
+
+return TRUE;
+
+if(CurrentMod == iAimMod && iAimToggle[CurrentProfile])
+
+return TRUE;
+
+if(CurrentMod == ApocalypseAimMod && ApocalypseAimToggle[CurrentProfile])
+
+return TRUE;
+
+if(CurrentMod == LongRangeMod && LongRangeToggle[CurrentProfile])
+
+return TRUE;
+
+if(CurrentMod == RecoilNegatorMod && RecoilNegatorToggle[CurrentProfile])
+
+return TRUE;
+
+if(CurrentMod == AimBotMod && AimBotToggle[CurrentProfile])
+
+return TRUE;
+
+return FALSE;
+
+}
+
+
+
+function ListLength (ListType) {
+
+ArrayIndex = 0;
+
+if(ListType == ModNames) {
+
+while(FeaturesList[ArrayIndex] != -1) {
+
+ArrayIndex++;
+
+}
+
+} else if(ListType == PowerValues) {
+
+while(ValuesList[ArrayIndex] != -1) {
+
+ArrayIndex++;
+
+}
+
+} else if(ListType == PSInstructions) {
+
+while(PSMenuInstructions[ArrayIndex] != -1) {
+
+ArrayIndex++;
+
+}
+
+} else if(ListType == PSEditor) {
+
+while(PSEditInstructions[ArrayIndex] != -1) {
+
+ArrayIndex++;
+
+}
+
+} else if(ListType == XboxInstructions) {
+
+while(XboxMenuInstructions[ArrayIndex] != -1) {
+
+ArrayIndex++;
+
+}
+
+} else if(ListType == XboxEditor) {
+
+while(XboxEditInstructions[ArrayIndex] != -1) {
+
+ArrayIndex++;
+
+}
+
+}
+
+return ArrayIndex - 1;
+
+}
+
+
+
+function TextList (ListType, ListIndex) {
+
+if(ListType == ModNames)
+
+return FeaturesList[ListIndex];
+
+if(ListType == PowerValues)
+
+return ValuesList[ListIndex];
+
+if(ListType == PSInstructions)
+
+return PSMenuInstructions[ListIndex];
+
+if(ListType == PSEditor)
+
+return PSEditInstructions[ListIndex];
+
+if(ListType == XboxInstructions)
+
+return XboxMenuInstructions[ListIndex];
+
+if(ListType == XboxEditor)
+
+return XboxEditInstructions[ListIndex];
+
+return -1;
+
+}
+
+
+
+function CalculateStringLength (StringPointer) {
+
+StringLength = 0;
+
+while(duint8(StringPointer++)) {
+
+StringLength++;
+
+}
+
+return StringLength + 1;
+
+}
+
+
+
+function DisplayValue (Values, ValuesCount) {
+
+ArrayIndex = 1;
+
+Divisor = 10000;
+
+if(Values < 0) {
+
+putc_oled(ArrayIndex, 45);
+
+ArrayIndex += 1;
+
+Values = abs(Values);
+
+}
+
+for(DigitCounter = 5; DigitCounter >= 1; DigitCounter--) {
+
+if(ValuesCount >= DigitCounter) {
+
+putc_oled(ArrayIndex, DigitalCharacters[Values / Divisor]);
+
+Values = Values % Divisor;
+
+ArrayIndex += 1;
+
+}
+
+Divisor /= 10;
+
+}
+
+if(UpdateDisplay)
+
+puts_oled(120, 54, OLED_FONT_SMALL, ArrayIndex - 1, OLED_WHITE);
+
+else
+
+puts_oled(HorizontalCenterText(ArrayIndex - 1, OLED_FONT_MEDIUM_WIDTH), 28, OLED_FONT_MEDIUM, ArrayIndex - 1, OLED_WHITE);
+
+}
+
+
+
+function ContainerMenuLayout() {
+
+rect_oled(0, 0, 128, 49, OLED_BLACK, OLED_WHITE);
+
+line_oled(1, 16, 126, 16, 1, OLED_WHITE);
+
+rect_oled(2, 2, OLED_FONT_SMALL_WIDTH + 4, OLED_FONT_SMALL_HEIGHT + 3, OLED_WHITE, OLED_WHITE);
+
+rect_oled(115, 2, OLED_FONT_SMALL_WIDTH + 4, OLED_FONT_SMALL_HEIGHT + 3, OLED_WHITE, OLED_WHITE);
+
+}
+
+
+
+function MainMenuLayout() {
+
+rect_oled(1, 17, 126, 31, OLED_WHITE, OLED_BLACK);
+
+line_oled(1, 32, 126, 32, 1, OLED_WHITE);
+
+rect_oled(2, 18, OLED_FONT_SMALL_WIDTH + 4, OLED_FONT_SMALL_HEIGHT + 3, OLED_WHITE, OLED_WHITE);
+
+rect_oled(115, 18, OLED_FONT_SMALL_WIDTH + 4, OLED_FONT_SMALL_HEIGHT + 3, OLED_WHITE, OLED_WHITE);
+
+rect_oled(2, 34, OLED_FONT_SMALL_WIDTH + 4, OLED_FONT_SMALL_HEIGHT + 3, OLED_WHITE, OLED_WHITE);
+
+rect_oled(115, 34, OLED_FONT_SMALL_WIDTH + 4, OLED_FONT_SMALL_HEIGHT + 3, OLED_WHITE, OLED_WHITE);
+
+}
+
+
+
+function EditMenuLayout() {
+
+rect_oled(1, 17, 126, 31, OLED_WHITE, OLED_BLACK);
+
+rect_oled(2, 18, OLED_FONT_SMALL_WIDTH + 4, OLED_FONT_SMALL_HEIGHT + 4, OLED_WHITE, OLED_WHITE);
+
+rect_oled(115, 18, OLED_FONT_SMALL_WIDTH + 4, OLED_FONT_SMALL_HEIGHT + 4, OLED_WHITE, OLED_WHITE);
+
+rect_oled(2, 33, OLED_FONT_SMALL_WIDTH + 4, OLED_FONT_SMALL_HEIGHT + 4, OLED_WHITE, OLED_WHITE);
+
+rect_oled(115, 33, OLED_FONT_SMALL_WIDTH + 4, OLED_FONT_SMALL_HEIGHT + 4, OLED_WHITE, OLED_WHITE);
+
+rect_oled(14, 18, OLED_FONT_MEDIUM_WIDTH + 1, OLED_FONT_MEDIUM_HEIGHT + 11, OLED_WHITE, OLED_WHITE);
+
+rect_oled(102, 18, OLED_FONT_MEDIUM_WIDTH + 1, OLED_FONT_MEDIUM_HEIGHT + 11, OLED_WHITE, OLED_WHITE);
+
+line_oled(16, 31, 23, 31, 2, OLED_BLACK);
+
+putc_oled(1, 43);
+
+puts_oled(103, 24, OLED_FONT_MEDIUM, 1, OLED_BLACK);
+
+}
+
+
+
+function ControllerIcons() {
+
+if(OpenMainMenu) {
+
+if(get_controller() == PIO_PS4) {
+
+LeftIcon = PSIcon;
+
+RightIcon = PSIcon;
+
+} else {
+
+LeftIcon = XboxIcon;
+
+RightIcon = XboxIcon;
+
+}
+
+}
+
+if(OpenEditMenu) {
+
+LeftIcon = LeftArrow;
+
+RightIcon = RightArrow; }
+
+rect_oled(3, 3, OLED_FONT_SMALL_WIDTH + 2, OLED_FONT_SMALL_HEIGHT + 1, OLED_WHITE, LeftState);
+
+rect_oled(116, 3, OLED_FONT_SMALL_WIDTH + 2, OLED_FONT_SMALL_HEIGHT + 1, OLED_WHITE, RightState);
+
+}
+
+
+
+function HorizontalNavigation() {
+
+if(OpenMainMenu || OpenEditMenu) {
+
+LeftIcon = LeftArrow;
+
+RightIcon = RightArrow; }
+
+
+
+if(OpenEditMenu) {
+
+rect_oled(3, 19, OLED_FONT_SMALL_WIDTH + 2, OLED_FONT_SMALL_HEIGHT + 2, OLED_WHITE, LeftState);
+
+rect_oled(116, 19, OLED_FONT_SMALL_WIDTH + 2, OLED_FONT_SMALL_HEIGHT + 2, OLED_WHITE, RightState); } 
+
+else {
+
+rect_oled(3, 19, OLED_FONT_SMALL_WIDTH + 2, OLED_FONT_SMALL_HEIGHT + 1, OLED_WHITE, LeftState);
+
+rect_oled(116, 19, OLED_FONT_SMALL_WIDTH + 2, OLED_FONT_SMALL_HEIGHT + 1, OLED_WHITE, RightState); }
+
+putc_oled(1, LeftIcon);
+
+puts_oled(LeftMargin, TitleYPosition, OLED_FONT_SMALL, 1, LeftHighlight);
+
+putc_oled(1, RightIcon);
+
+puts_oled(RightMargin, TitleYPosition, OLED_FONT_SMALL, 1, RightHighlight);
+
+}
+
+
+
+function VerticalNavigation() {
+
+if(OpenMainMenu) {
+
+LeftIcon = UpArrow;
+
+RightIcon = DownArrow; }
+
+
+
+if(OpenEditMenu) {
+
+LeftIcon = UpArrow;
+
+RightIcon = DownArrow;
+
+rect_oled(3, 34, OLED_FONT_SMALL_WIDTH + 2, OLED_FONT_SMALL_HEIGHT + 2, OLED_WHITE, LeftState);
+
+rect_oled(116, 34, OLED_FONT_SMALL_WIDTH + 2, OLED_FONT_SMALL_HEIGHT + 2, OLED_WHITE, RightState); }
+
+else {
+
+rect_oled(3, 35, OLED_FONT_SMALL_WIDTH + 2, OLED_FONT_SMALL_HEIGHT + 1, OLED_WHITE, LeftState);
+
+rect_oled(116, 35, OLED_FONT_SMALL_WIDTH + 2, OLED_FONT_SMALL_HEIGHT + 1, OLED_WHITE, RightState); }
+
+putc_oled(1, LeftIcon);
+
+puts_oled(LeftMargin, StatusYPosition, OLED_FONT_SMALL, 1, LeftHighlight);
+
+putc_oled(1, RightIcon);
+
+puts_oled(RightMargin, StatusYPosition, OLED_FONT_SMALL, 1, RightHighlight);
+
+}
+
+
+
+function EditMenu() {
+
+rect_oled(28, 19, OLED_FONT_SMALL_WIDTH + 1, OLED_FONT_SMALL_HEIGHT, OLED_WHITE, LeftState);
+
+rect_oled(91, 19, OLED_FONT_SMALL_WIDTH + 2, OLED_FONT_SMALL_HEIGHT, OLED_WHITE, RightState);
+
+if(get_controller() == PIO_PS4) {
+
+putc_oled(1, PlusCharacter);
+
+puts_oled(92, TitleYPosition - 1, OLED_FONT_SMALL, 1, LeftHighlight);
+
+putc_oled(1, PlusCharacter);
+
+puts_oled(28, TitleYPosition - 1, OLED_FONT_SMALL, 1, RightHighlight); } 
+
+else {
+
+putc_oled(1, AddCharacter);
+
+puts_oled(92, TitleYPosition, OLED_FONT_SMALL, 1, LeftHighlight);
+
+putc_oled(1, AddCharacter);
+
+puts_oled(29, TitleYPosition, OLED_FONT_SMALL, 1, RightHighlight); }
+
+rect_oled(27, 18, OLED_FONT_SMALL_WIDTH + 3, OLED_FONT_SMALL_HEIGHT + 2, OLED_BLACK, OLED_WHITE);
+
+rect_oled(90, 18, OLED_FONT_SMALL_WIDTH + 4, OLED_FONT_SMALL_HEIGHT + 2, OLED_BLACK, OLED_WHITE);
+
+}
+
+
+
+function MenuIconHighlights() {
+
+if(event_press(PS4_TRIANGLE)) {
+
+LeftHighlight = 1;
+
+RightHighlight = 1;
+
+LeftState = 0;
+
+RightState = 0;
+
+if(OpenMainMenu)
+
+ControllerIcons();
+
+} else if(event_release(PS4_TRIANGLE)) {
+
+LeftHighlight = 0;
+
+RightHighlight = 0;
+
+LeftState = 1;
+
+RightState = 1;
+
+if(OpenMainMenu)
+
+ControllerIcons();
+
+}
+
+if(event_press(XB1_LEFT)) {
+
+LeftHighlight = 1;
+
+RightHighlight = 0;
+
+LeftState = 0;
+
+RightState = 1;
+
+if(OpenMainMenu)
+
+HorizontalNavigation();
+
+if(OpenEditMenu) {
+
+if(get_val(PS4_CROSS))
+
+HorizontalNavigation();
+
+else
+
+ControllerIcons();
+
+}
+
+}
+
+if(event_release(XB1_LEFT)) {
+
+LeftHighlight = 0;
+
+RightHighlight = 0;
+
+LeftState = 1;
+
+RightState = 1;
+
+if(OpenMainMenu)
+
+HorizontalNavigation();
+
+if(OpenEditMenu) {
+
+if(get_val(PS4_CROSS))
+
+HorizontalNavigation();
+
+else
+
+ControllerIcons();
+
+}
+
+}
+
+if(event_press(PS4_RIGHT)) {
+
+LeftHighlight = 0;
+
+RightHighlight = 1;
+
+LeftState = 1;
+
+RightState = 0;
+
+if(OpenMainMenu)
+
+HorizontalNavigation();
+
+if(OpenEditMenu) {
+
+if(get_val(PS4_CROSS))
+
+HorizontalNavigation();
+
+else
+
+ControllerIcons();
+
+}
+
+}
+
+if(event_release(PS4_RIGHT)) {
+
+LeftHighlight = 0;
+
+RightHighlight = 0;
+
+LeftState = 1;
+
+RightState = 1;
+
+if(OpenMainMenu)
+
+HorizontalNavigation();
+
+if(OpenEditMenu) {
+
+if(get_val(PS4_CROSS))
+
+HorizontalNavigation();
+
+else
+
+ControllerIcons();
+
+}
+
+}
+
+if(event_press(PS4_UP)) {
+
+LeftHighlight = 0;
+
+RightHighlight = 1;
+
+LeftState = 1;
+
+RightState = 0;
+
+if(OpenMainMenu)
+
+VerticalNavigation();
+
+if(OpenEditMenu) {
+
+if(get_val(PS4_CROSS))
+
+VerticalNavigation();
+
+}
+
+}
+
+if(event_release(PS4_UP)) {
+
+LeftHighlight = 0;
+
+RightHighlight = 0;
+
+LeftState = 1;
+
+RightState = 1;
+
+if(OpenMainMenu)
+
+VerticalNavigation();
+
+if(OpenEditMenu) {
+
+if(get_val(PS4_CROSS))
+
+VerticalNavigation();
+
+}
+
+}
+
+if(event_press(PS4_DOWN)) {
+
+LeftHighlight = 1;
+
+RightHighlight = 0;
+
+LeftState = 0;
+
+RightState = 1;
+
+if(OpenMainMenu)
+
+VerticalNavigation();
+
+if(OpenEditMenu) {
+
+if(get_val(PS4_CROSS))
+
+VerticalNavigation();
+
+}
+
+}
+
+if(event_release(PS4_DOWN)) {
+
+LeftHighlight = 0;
+
+RightHighlight = 0;
+
+LeftState = 1;
+
+RightState = 1;
+
+if(OpenMainMenu)
+
+VerticalNavigation();
+
+if(OpenEditMenu) {
+
+if(get_val(PS4_CROSS))
+
+VerticalNavigation();
+
+}
+
+}
+
+if(event_press(PS4_CROSS)) {
+
+LeftHighlight = 1;
+
+RightHighlight = 1;
+
+LeftState = 0;
+
+RightState = 0;
+
+if(OpenEditMenu)
+
+EditMenu();
+
+}
+
+if(event_release(PS4_CROSS)) {
+
+LeftHighlight = 0;
+
+RightHighlight = 0;
+
+LeftState = 1;
+
+RightState = 1;
+
+if(OpenEditMenu)
+
+EditMenu();
+
+}
+
+}
+
+
+
+function ClampValue (Values, MinimumValues, MaximumValues) {
+
+if(Values > MaximumValues) return MinimumValues;
+
+if(Values < MinimumValues) return MaximumValues;
+
+return Values;
+
+}
+
+
+
+function CountDigits (Number) {
+
+Number = abs(Number);
+
+if (Number / 10000 > 0) return 5;
+
+if (Number / 1000 > 0) return 4;
+
+if (Number / 100 > 0) return 3;
+
+if (Number / 10 > 0) return 2;
+
+return 1;
+
+}
+
+
+
+function HorizontalCenterText (Length, Width) {
+
+return (OLED_WIDTH / 2) - ((Length * Width) / 2);
+
+}
+
+
+
+function VerticalCenterText (Height) {
+
+return (OLED_HEIGHT / 2) - (Height / 2);
+
+}
+
+
+
+function ButtonPressed (ButtonInput) {
+
+return event_press(ButtonInput) || get_val(ButtonInput) && get_ptime(ButtonInput) > 250 && get_ptime(ButtonInput) % (get_rtime() * 8) == 0;
+
+}
+
+
+
+function ClearScreen() {
+
+cls_oled(0);
+
+}
+
+
+
+function ResetInputs() {
+
+set_val(PS4_UP, 0);
+
+set_val(PS4_DOWN, 0);
+
+set_val(XB1_LEFT, 0);
+
+set_val(PS4_RIGHT, 0);
+
+set_val(PS4_CROSS, 0);
+
+set_val(PS4_CIRCLE, 0);
+
+set_val(XB1_X, 0);
+
+set_val(PS4_TRIANGLE, 0);
+
+set_val(PS4_L1, 0);
+
+set_val(PS4_R1, 0);
+
+set_val(XB1_LS, 0);
+
+set_val(PS4_R3, 0);
+
+set_val(PS4_OPTIONS, 0);
+
+set_val(PS4_SHARE, 0);
+
+set_val(PS4_TOUCH, 0);
+
+set_val(PS4_PS, 0);
+
+set_val(XB1_PL1, 0);
+
+set_val(XB1_PL2, 0);
+
+set_val(XB1_PR1, 0);
+
+set_val(XB1_PR2, 0);
+
+}
+
+
+
+function Menu() {
+
+OpenMainMenu = FALSE;
+
+OpenEditMenu = FALSE;
+
+cls_oled(OLED_BLACK);
+
+print(HorizontalCenterText(sizeof(SavedMessage) - 1, OLED_FONT_LARGE_WIDTH), VerticalCenterText(OLED_FONT_LARGE_HEIGHT), OLED_FONT_LARGE, OLED_WHITE, SavedMessage[0]);
+
+combo_run(SavedMessage);
+
+set_rgb(0, 175, 240);
+
+set_pvar(SPVAR_1, StrafeToggle[0]);
+
+set_pvar(SPVAR_2, AimBotToggle[0]);
+
+set_pvar(SPVAR_3, FlyingAimToggle[0]);
+
+set_pvar(SPVAR_4, RushStickyToggle[0]);
+
+set_pvar(SPVAR_5, SpeedToggle[0]);
+
+set_pvar(SPVAR_6, RushStickyPower[0]);
+
+set_pvar(SPVAR_7, StrafePower[0]);
+
+set_pvar(SPVAR_8, CrouchShotToggle[0]);
+
+set_pvar(SPVAR_9, BloomNegatorToggle[0]);
+
+set_pvar(SPVAR_10, NoVibrationToggle[0]);
+
+set_pvar(SPVAR_11, PreFireToggle[0]);
+
+set_pvar(SPVAR_12, RapidFireToggle[0]);
+
+set_pvar(SPVAR_13, iAimToggle[0]);
+
+set_pvar(SPVAR_14, iAimPower[0]);
+
+set_pvar(SPVAR_15, ExtremeAimToggle[0]);
+
+set_pvar(SPVAR_16, RushAimLockToggle[0]);
+
+set_pvar(SPVAR_17, AimAbuseToggle[0]);
+
+set_pvar(SPVAR_18, ApocalypseAimToggle[0]);
+
+set_pvar(SPVAR_19, LongRangeToggle[0]);
+
+set_pvar(SPVAR_20, ApocalypseAimPower[0]);
+
+set_pvar(SPVAR_21, LongRangePower[0]);
+
+set_pvar(SPVAR_22, RecoilNegatorToggle[0]);
+
+set_pvar(SPVAR_23, RecoilNegatorPower[0]);
+
+set_pvar(SPVAR_24, AimBotPower[0]);
+
+}
+
+
+
+function Disable () {
+
+	set_val(XB1_UP, 0);
+
+	set_val(XB1_DOWN, 0);
+
+	set_val(XB1_LEFT, 0);
+
+	set_val(XB1_RIGHT, 0);
+
+	set_val(XB1_A, 0);
+
+	set_val(XB1_B, 0);
+
+	set_val(XB1_X, 0);
+
+}
+
+
+
+combo CrouchShot {
+
+set_val (Crouch, 100);
+
+wait (40);
+
+set_val (Crouch, 0);
+
+wait (40);
+
+}
+
+combo LongRangeAssist { 
+
+set_val(XB1_RY,get_ival(XB1_RY) + inv(LongRangePower[CurrentProfile]));
+
+wait(2):
+
+set_val(XB1_RX,get_ival(XB1_RX) + (LongRangePower[CurrentProfile]));
+
+wait(2):
+
+set_val(XB1_RY,get_ival(XB1_RY) + (LongRangePower[CurrentProfile]));
+
+wait(2):
+
+set_val(XB1_RX,get_ival(XB1_RX) + inv(LongRangePower[CurrentProfile]));
+
+wait(2):
+
+}
+
+combo FlyingTracker {
+
+    set_val(PS4_RY, get_val(PS4_RY) + (iAimPower[CurrentProfile] * 1));  
+
+    wait(5);
+
+    set_val(PS4_RY, get_val(PS4_RY) - (iAimPower[CurrentProfile] * 1));
+
+    wait(5);
+
+
+
+    // Extra Vertical Boost for Flying Enemies
+
+    set_val(PS4_RY, get_val(PS4_RY) - VerticalBoost);
+
+    wait (5);
+
+    }
+
+combo Strafe {
+
+set_val(LX, -StrafePower[CurrentProfile]);
+
+wait(1);
+
+set_val(LX, StrafePower[CurrentProfile]);
+
+}
+
+
+
+combo PreFire {
+
+set_val(XB1_RT, 0)
+
+}
+
+
+
+combo RapidFire { 
+
+wait(5);
+
+set_val(Fire, 0);
+
+wait(5);
+
+}
+
+
+
+combo ShowLogo {
+
+image_oled(0, 0, TRUE, TRUE, TwixyAimlogo[0])
+
+}
+
+
+
+int a = -5;
+
+int b =  5;
+
+combo TheSticky {
+
+a = random(-5, 5)
+
+set_val(PS4_RY,  get_ival (PS4_RY)  + Aim_Val);
+
+wait(Wait_Val);
+
+set_val(PS4_RX,  get_ival (PS4_RX)  + Aim_Val);
+
+set_val(PS4_LX, get_ival (PS4_LX) + a);
+
+wait(Wait_Val);
+
+set_val(PS4_RY,  get_ival (PS4_RY)  + Aim_Val  * -1);
+
+wait(Wait_Val);
+
+set_val(PS4_RX,  get_ival (PS4_RX)  + Aim_Val  * -1);
+
+set_val(PS4_LX, get_ival (PS4_LX) + b		 * -1);
+
+wait(Wait_Val);
+
+}
+
+  
+
+combo AimAbuse {
+
+set_val(XB1_LT, 100);
+
+wait(60);
+
+set_val(XB1_LT, 0);
+
+wait(60);
+
+}
+
+
+
+function SetValue (int TargetAxis,TargetValue) {
+
+if(CalculateAbsoluteValue(GetAxisValue(TargetAxis)) < 10) 
+
+set_val(TargetAxis,TargetValue);
+
+}
+
+
+
+function CalculateAbsoluteValue (int Value) {
+
+if(Value < 0) Value = inv(Value);
+
+return Value;
+
+} 
+
+
+
+function GetAxisValue (int Axis) {
+
+Axis = get_val(Axis);
+
+return Axis;
+
+}
+
+
+
+function AxisRelease(AxisXY,AxisVal) {
+
+if (abs(get_ival(AxisXY)) <= RushStickyPower) 
+
+return AxisVal;
+
+return get_ival(AxisXY); 
+
+}
+
+
+
+function offset2(Stick,Value) {
+
+  set_val(Stick, clamp(Value * (100 - abs(get_val(Stick))) / 100 + get_val(Stick), -100, 100));
+
+  return;
+
+}
+
+function offset(Stick, Value) {
+
+  if (Stick >= POLAR_RX) {
+
+    set_val(Stick, clamp(Value * (32767 - abs(get_val(Stick))) / 32767 + get_val(Stick), -32767, 32767));
+
+    return;
+
+  }
+
+  set_val(Stick, clamp(Value * (100 - abs(get_val(Stick))) / 100 + get_val(Stick), -100, 100));
+
+}
+
+function SoftAimAssist() {
+
+AAT += get_rtime();
+
+if (!Axis) 
+
+SetValue(RY,AAT * SoftAimPower / 10);
+
+if (Axis == 1)  
+
+SetValue(RX,AAT * SoftAimPower / 10);
+
+if (Axis == 2)  
+
+SetValue(RY,inv(AAT * SoftAimPower / 10));
+
+if (Axis == 3) {
+
+SetValue(RX,inv(AAT * SoftAimPower / 10));
+
+if (AAT > 50) {
+
+AAT = 0;
+
+Axis = 0;
+
+}
+
+} else if (AAT > 50) {
+
+AAT = 0;
+
+Axis += 1;
+
+}
+
+}
+
+
+
+function PolarFlow(PFB,PSV,PFV,PV,PF,PID) {
+
+if(PF) {
+
+PFB += PV;
+
+if(PFB <= PFV)  
+
+return PFB;
+
+if(PFB > PFV) {
+
+PVID[PID] = 0;
+
+return PFB - PV;}
+
+}
+
+else{
+
+PFB -= PV;    
+
+if(PFB >= PSV)  
+
+return PFB;
+
+if(PFB < PSV) {
+
+PVID[PID] = 1; 
+
+return PFB + PV;}
+
+} 
+
+{ return FALSE;
+
+}
+
+}
+
+
+
+function AimAssist (Strength,Step) {
+
+if (Powers) {
+
+Ypower = Strength;
+
+Xpower = Strength * -1;
+
+Increment = Step;
+
+Powers = FALSE;
+
+}
+
+if (!power) {
+
+Xpower += Increment;
+
+Ypower -= Increment;
+
+} else {
+
+Xpower -= Increment;
+
+Ypower += Increment;
+
+}
+
+CountPower ++;
+
+if (CountPower >= (Strength / Increment)) {
+
+power = !power;
+
+CountPower = 0;
+
+}	
+
+if (AxisXY > iAimPower[CurrentProfile]) {
+
+if (Reducer) {
+
+set_val(RY,(Ypower - Strength / 2));
+
+set_val(RX,(Xpower - Strength / 2 * -1));
+
+} else {
+
+set_val(RY,(Ypower - Strength / 2) + get_ival(RY));
+
+set_val(RX,(Xpower - Strength / 2 * -1) + get_ival(RX));	
+
+}
+
+} else {
+
+if (Reducer) {
+
+set_val(RY,(Ypower - Strength / 2));
+
+set_val(RX,(Xpower - Strength / 2 * -1));
+
+} else {
+
+set_val(RY,(Ypower - Strength / 2));
+
+set_val(RX,(Xpower - Strength / 2 * -1));
+
+}
+
+}
+
+}
+
+
+
+combo AA1 {
+
+set_val(RY, get_ival(RY) - 7);
+
+	wait(1);
+
+set_val(RY, get_ival(RY) + 5);
+
+	wait(1);
+
+}
+
+
+
+combo AA2 {
+
+set_val(RX, get_ival(RX) + 7);
+
+	wait(2);
+
+set_val(RX, get_ival(RX) - 7);
+
+	wait(2);
+
+}
+
+combo AimBot1 {set_val(PS4_RX,AimBotPower[CurrentProfile])wait(1)set_val(PS4_RY,AimBotPower[CurrentProfile]) set_val(PS4_LX,-Aimbot_Strength2)wait(1)set_val(PS4_LY,-Aimbot_Strength2)wait(1)}
+
+combo AimBot2 {set_val(PS4_RX,iAimPower[CurrentProfile])wait(1)set_val(PS4_RY,iAimPower[CurrentProfile])wait(1)set_val(PS4_RX,-iAimPower[CurrentProfile])wait(1)set_val(PS4_RY,-iAimPower[CurrentProfile])wait(1)set_val(PS4_RY,-iAimPower[CurrentProfile])wait(1)}
+
+combo AimBot3 {set_val(PS4_RX,iAimPower[CurrentProfile])wait(1)set_val(PS4_RY,iAimPower[CurrentProfile])wait(1)set_val(PS4_RX,-iAimPower[CurrentProfile])wait(1)set_val(PS4_RY,-iAimPower[CurrentProfile])wait(1)}
+
+combo AimBot4 {set_val(PS4_RX,iAimPower[CurrentProfile])wait(1)set_val(PS4_RY,iAimPower[CurrentProfile])wait(1)set_val(PS4_RX,-iAimPower[CurrentProfile])wait(1)set_val(PS4_RY,-iAimPower[CurrentProfile])wait(1)}
+
+combo AimBot5 {set_val(PS4_RX,iAimPower[CurrentProfile])wait(1)set_val(PS4_RY,iAimPower[CurrentProfile])wait(1)set_val(PS4_RX,-iAimPower[CurrentProfile])wait(1)set_val(PS4_RY,-iAimPower[CurrentProfile])wait(1)}
+
+
+
+
+
+function AdjustAxisValue ( Axis, Multiplier) {
+
+set_val (Axis, clamp (Multiplier * (100 - abs (get_val (Axis))) / 100 + get_val (Axis), -100, 100));
+
+return;
+
+}
+
+
+
+function SetPolarMovement(PolarAxis, AngleValue, MagnitudeValue) {
+
+RightStickYReference = 9 + PolarAxis;
+
+RightStickXReference = 10 + PolarAxis;
+
+if (AngleValue < 0) AngleValue = 360 + (AngleValue % 360);
+
+AngleValue = (AngleValue + 90) % 360;
+
+MagnitudeValue = clamp (MagnitudeValue, 0, 100);
+
+CosineValue = PolarArray [AngleValue];
+
+SineValue = PolarArray [(AngleValue + 90) % 360];
+
+AdjustAxisValue(RightStickYReference, inv (MagnitudeValue * SineValue / 100));
+
+AdjustAxisValue(RightStickXReference, inv (MagnitudeValue * CosineValue / 100));																																																																										
+
+}
+
+
+
+const int8 PolarArray[] = { -100,-100,-100,-100,-100,-100,-100,-100,-100,-99,-99,-99,-98,-98,-98,-97,-97,-96,-96,-95,-94,-94,-93,-93,-92,-91,-90,-90,-89,-88,-87,-86,-85,-84,-83,-82,-81,-80,-79,-78,-77,-76,-75,-74,-72,-71,-70,-69,-67,-66,-65,-63,-62,-61,-59,-58,-56,-55,-53,-52,-50,-49,-47,-46,-44,-43,-41,-40,-38,-36,-35,-33,-31,-30,-28,-26,-25,-23,-21,-20,-18,-16,-14,-13,-11,-9,-7,-6,-4,-2,0,2,4,6,7,9,11,13,14,16,18,20,21,23,25,26,28,30,31,33,35,36,38,40,41,43,44,46,47,49,51,52,54,55,56,58,59,61,62,63,65,66,67,69,70,70,72,73,74,75,77,78,79,80,81,82,83,84,85,86,87,88,89,89,90,91,92,92,93,94,94,95,95,96,97,97,97,98,98,99,99,99,99,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,99,99,99,99,98,98,97,97,97,96,95,95,94,94,93,92,92,91,90,89,89,88,87,86,85,84,83,82,81,80,79,78,77,75,74,73,72,71,70,69,67,66,65,63,62,61,59,58,56,55,53,52,50,49,47,46,44,43,41,40,38,36,35,33,31,30,28,26,25,23,21,20,18,16,14,13,11,9,7,6,4,2,0,-1,-3,-5,-7,-8,-10,-12,-13,-15,-17,-19,-20,-22,-24,-25,-27,-29,-30,-32,-34,-35,-37,-39,-40,-42,-43,-45,-46,-48,-50,-51,-53,-54,-55,-57,-58,-60,-61,-62,-64,-65,-66,-68,-69,-70,-71,-73,-74,-75,-76,-77,-78,-79,-80,-81,-82,-83,-84,-85,-86,-87,-88,-89,-89,-90,-91,-92,-92,-93,-93,-94,-95,-95,-96,-96,-97,-97,-97,-98,-98,-99,-99,-99,-99,-100,-100,-100,-100,-100};
+
+const int8 SimpleArray[] = {
+
+	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+
+} 
+
+int CurrentValue; 
+
+const uint8 DigitalCharacters[] = {48,49,50,51,52,53,54,55,56,57};
+
+int ArrayIndex; data (1,0,0,0, 0,0,0,1, 1,0,1,0, 0,0,1,0, 0,1,1,0, 1,1,1,0, 0,1,0,0, 0,0,0,0); 
+
+int CurrentMod; define PS5 = 0 define Xbox = 1 define LX = PS4_LX; define LY = PS4_LY; define RX = XB1_RX; define RY = XB1_RY; define PC = 0 define PXS = 3150; int AssistProfile = 1; int Reducer = FALSE; int Powers; define PXSE = 200; define PVSI = 200; define PVS = 0; define PYS = -200; define PYSE = 200; define SoftAimPower  = 1; int PPFX = PXS; int PPFY = PYS; int PVID; int PFD = 1; int PPFD = 1; int SoftAim, AAT, Axis; int ExtremeTrigger, RotationalAngle, RotationalCounter, MaximumPolarValue = 32767, RightStickYReference, MaximumAccuracy = 32767, RightStickXReference, SineValue, CosineValue int DeadZoneValue, PS5Active, XboxActive, PCActive, EnhancementActive; int Aim_Val, Wait_Val; int power,Ypower,Xpower,CountPower,AxisXY,Increment define ModNames = 0; define PowerValues = 1; define PSInstructions = 2; define PSEditor = 3; define XboxInstructions = 4; define XboxEditor = 5; define PolarXStart = 3150; define PolarXEnd = 200; define PolarVelocityStep = 200; define PolarVelocityStart = 0; define PolarYStart = -200; define PolarYEnd = 200; define ADSButton = ADS; define FireButton = Fire, InteractButton = Interact; define EditButton = Edit, ResetButton = Reset; define InstantResetToggleButton = InstantReset; int DigitCounter, Divisor; define DefaultValue = 4; define FeatureEnabled = TRUE; define Linear = 0; define Exponential = 1; int BloomAngle, RightStickMagnitude, PolarAngle, LeftStickMagnitude, RightZone = 5, LeftZone = 5 int LeftHighlight; int RightHighlight; int LeftState = 1; int RightState = 1; int AdjustRecoilNegator; int BlockMenu = FALSE; int ControllerType; int EnhancementType = 1; int TextPosition; define DownArrow = 131; define UpArrow = 132; define LeftArrow = 133; define RightArrow = 134; define PSIcon = 130; define XboxIcon = 89; define PlusCharacter = 127; define AddCharacter = 65; define LeftMargin = 4; define RightMargin = 117; define TopMargin = 4; define TitleYPosition = 20; define StatusYPosition = 36; define FooterYPosition = 53; int LeftIcon; int RightIcon; int StringLength; int UpdateDisplay = TRUE, RefreshUI, RefreshFooter, ActiveScreenTimer, ShowLogo, OpenMainMenu, OpenEditMenu, MenuVisible, MenuCounter, CurrentProfile, ProfileValue, PageIndex, ShowText, ObfuscationOne, ObfuscationTwo, ObfuscationThree, ObfuscationFour, ObfuscationFive, ObfuscationSix, ObfuscationSeven, ObfuscationEight, ObfuscationNine, ObfuscationTen, ObfuscationEleven, ObfuscationTwelve, ObfuscationThirteen, ObfuscationFourteen, ObfuscationFifteen, ObfuscationSixteen, ObfuscationSeventeen, ObfuscationEighteen, ObfuscationNineteen, ObfuscationTwenty, ObfuscationTwentyOne; define MacroDelay = 78, MacroWait = 79, MacroParameters = 90, CharacterOne = 66, CharacterTwo = 65, CharacterThree = 82, CharacterFour = 68, CharacterFive = 82, CharacterSix = 73, CharacterSeven = 70, CharacterEight = 82, CharacterNine = 50, CharacterTen = 49, ScreenTimeout = 5000, HoldTime = 10;
+
+const string TwixyScripts = "TwixyScripts"; const string OffMessage = "Off"; const string OnMessage = "On"; const string SavedMessage = "Saved!"; const string AllProfilesMessage = "All Profiles"; const string ScriptOffMessage = "Script Off!"; const string EnableScriptMessage = "Tap Circle/B 2x"; const string EnableScriptMessageNext = "to Enable"; const string PSMenuInstructions[] = { "Enjoy", "Switch Mod:", "Tap Left or Right", "Toggle On/Off:", "Tap Up or Down", "Edit Menu:", "Tap Cross/ExtremePower", "Close:", "Hold L2 +", "Tap Option", "Save and Exit:", "Tap PS" }; const string PSEditInstructions[] = { "Switch Value:", "Tap Left or Right", "Edit Value:", "Hold Cross +", "Up Down Left Right", "Toggle Menu:", "Tap Circle", "Close:", "Hold L2 +", "Tap OPTION", "Save and Exit:", "Tap PS" }; const string XboxMenuInstructions[] = { "Enjoy!", "Switch Mod:", "Tap Left or Right", "Toggle On/Off:", "Tap Up or Down", "Edit Menu:", "Tap ExtremePower", "Close:", "Hold LT +", "Tap Menu", "Save and Exit:", "Tap Xbox" }; const string XboxEditInstructions[] = { "Switch Value:", "Tap Left or Right", "Edit Value:", "Hold ExtremePower +", "Up Down Left Right", "Toggle Menu:", "Tap B", "Close:", "Hold LT +", "Tap Menu", "Save and Exit:", "Tap Xbox" };
+
+const string ValuesList[] = {"Strafe Power", "Sticky Aim Power", "Smart Aim Power", "AA booster Power" , "LongRangePower", "Negator Power", "Ai aim Power"};define AimBotValue = 6 define RecoilNegatorValue = 5 define LongRangeValue = 4 define ApocalypseAimValue = 3 define iAimValue = 2 define RushStickyValue = 1 define StrafeValue = 0 int StrafePower[1] int RushStickyPower[1] int iAimPower[1] int ApocalypseAimPower[1] int LongRangePower[1] int RecoilNegatorPower[1] int AimBotPower[1]
+
+const string FeaturesList[] = { "Strafe Assist", "Air Tracking", "Ai Aim", "Sticky Aim", "No Delay", "Crouch Shot", "Bloom Negator", "No Vibration", "Pre-Fire", "Rapid Fire", "Smart Aim+", "X-Y Tracking", "AimLock", "Aim Abuse", "AA Boosters", "LongRange", "RecoilNegator"}; define StrafeMod = 0, FlyingAimMod = 1, AimBotMod = 2, RushStickyMod = 3, SpeedMod = 4, CrouchShotMod = 5, BloomNegatorMod = 6, NoVibrationMod = 7, PreFireMod = 8, RapidFireMod = 9, iAimMod = 10, ExtremeAimMod = 11, RushAimLockMod = 12, AimAbuseMod = 13, ApocalypseAimMod = 14, LongRangeMod = 15, RecoilNegatorMod = 16; int StrafeToggle[1]; int FlyingAimToggle[1]; int AimBotToggle[1]; int RushStickyToggle[1]; int SpeedToggle[1]; int CrouchShotToggle[1]; int BloomNegatorToggle[1]; int NoVibrationToggle[1]; int PreFireToggle[1]; int RapidFireToggle[1]; int iAimToggle[1]; int ExtremeAimToggle[1]; int RushAimLockToggle[1]; int AimAbuseToggle[1];int ApocalypseAimToggle[1]; int LongRangeToggle[1]; int RecoilNegatorToggle[1] define ModCount = 17; 
+
+
+
+int cosAngle, sinAngle; int aiInputMax = 8;int TwixyAim;int AimLock; int NovaAA1,NovaAA2,NovaAA3,NovaAA4,NovaAA5,NovaAA6,NovaAA7,NovaAA8,NovaTrigger;
+
+int Aimbot_Strength2 = 8;int VerticalBoost = 20; int HipAimAssistSize = 11; int AdsAimAssistSize = 15; int AA111,AA211,AA3,AA4,AA5,AA6,AA7,AA8;define X = XB1_RX;define Y = XB1_RY;int time,angle,cos_angle,sin_angle,actual_X,actual_Y,actual_Magnitude,max_Magnitude;define STEP_INTERVAL = 1;define STEPS = 6;define RADIUS = 11;
+
+define BattsAAHip = TRUE; int TheStickyRush;int Apokalypse1,Apokalypse2,Apokalypse3,Apokalypse4,Apokalypse5,Apokalypse6,Apokalypse7,Apokalypse8,Apokalypse9,Apokalypse10,Apokalypse11;                                   ú¿Ž¶†´Œ¿¾ËýÊýÌ

@@ -1,0 +1,1566 @@
+/*
+ █████╗ ██████╗  ██████╗
+██╔══██╗██╔══██╗██╔════╝
+███████║██████╔╝██║     
+██╔══██║██╔══██╗██║     
+██║  ██║██║  ██║╚██████╗
+╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝
+
+Arc - YewScripts V1.25
+Discord.GG/yew | https://yewscripts.com
+*/
+
+// ===== MENU SYSTEM =====
+int menu_enabled = 0;
+int page = 0;
+int numpgs = 25; // 26 pages total: 0-25
+int menuSelection = 0;
+int toggleType = 0;
+int flashtoggle = 0;
+int option_width;
+int title_width;
+int title_height = 12;
+int option_height = 12;
+
+// ===== DEAD-ZONES (Set from generator - NOT in menu) =====
+int right_zone = 5;      // Set by generator
+int left_zone = 5;       // Set by generator  
+int input_curve = 0;     // Set by generator
+
+// ===== ARC MOD TOGGLES =====
+int toggle_auto_tracking = 1;  // Default: ON
+int toggle_pickup_macro = 0;
+int toggle_insta_reset = 0;
+int toggle_anti_recoil = 0;
+int toggle_no_delay = 1;  // Default: ON
+int toggle_crouch_shot = 0;
+int toggle_anti_bloom = 0;
+int toggle_no_vibration = 1;
+int toggle_pre_fire = 0;
+int toggle_rapid_fire = 0;
+int toggle_enhancement = 1;
+int toggle_sticky_scope = 0;
+int toggle_aim_abuse = 0;
+int toggle_pro = 0;
+int toggle_sharpshooter = 0;
+int toggle_radar = 1;
+int toggle_turbo_edit = 0;
+int toggle_beam = 0;
+int toggle_headlock = 0;
+
+// ===== ARC MOD POWER/VALUES =====
+int power_auto_tracking = 35;       // 0-100 (Default: 35)
+int power_anti_recoil = 30;         // 0-100
+int power_enhancement = 6;          // 0-100
+int power_sticky_scope = 5;         // 0-100
+int power_polar = 20;               // 0-100 (Aim Assist)
+int delay_crouch_shot = 40;         // 0-1000
+int speed_radar = 12;               // 5-30
+int radius_radar = 25;              // 5-50
+
+// ===== RUNTIME VARIABLES =====
+int script_enabled = 1;
+int IS_XBOX = 0;
+
+// ===== POLAR/RADAR VARIABLES =====
+int radar_angle;
+int radar_x;
+int radar_y;
+int polar_flow_x;
+int polar_flow_y;
+int polar_flow_direction;
+int polar_flow_prev_direction;
+int angle;
+int cos_angle;
+int sin_angle;
+int time_counter;
+int actual_x;
+int actual_y;
+int actual_magnitude;
+int max_magnitude;
+int right_stick_magnitude;
+int left_stick_magnitude;
+int polar_angle;
+int bloom_angle;
+int step_interval = 1;
+int steps = 20;
+
+// ===== AIM ASSIST VARIABLES =====
+int aim_assist_timer;
+int axis_mode;
+int powers_active;
+int y_power;
+int x_power;
+int count_power;
+int axis_xy;
+int increment;
+int power_toggle;
+int reducer;
+int assist_profile = 1;
+
+// ===== BEAM VARIABLES =====
+int beam_current_rx;
+int beam_previous_rx;
+int beam_current_ry;
+int beam_previous_ry;
+int beam_delta_rx;
+int beam_delta_ry;
+int beam_shake_amplitude_x;
+int beam_shake_amplitude_y;
+int beam_direction_bias_x;
+int beam_direction_bias_y;
+int beam_shake_x;
+int beam_shake_y;
+int beam_adjusted_rx;
+int beam_adjusted_ry;
+int beam_delta;
+int beam_intensity;
+
+// ===== HELPER FUNCTION VARIABLES =====
+int STRING_LENGTH;
+int LOG_VAL;
+int BUFFER_INDEX;
+int DIGIT_INDEX;
+int CHAR_INDEX;
+int GRAPH_WIDTH;
+int X_START;
+int MID_X;
+int BAR_POS;
+int MAP_VAL;
+int adjust_anti_recoil;
+int right_stick_y_reference;
+int right_stick_x_reference;
+int cosine_value;
+int sine_value;
+
+// ===== BUTTON MAPPINGS =====
+define BTN_ADS = XB1_LT
+define BTN_FIRE = XB1_RT
+define BTN_INTERACT = XB1_X
+define BTN_CROUCH = XB1_RS
+define BTN_EDIT = XB1_LS
+define BTN_RESET = XB1_LT
+define BTN_SELECT = XB1_RT
+define BTN_CONFIRM = XB1_B
+define BTN_INSTANT_RESET = XB1_LEFT
+
+// ===== MENU BUTTON MAPPINGS (Hoops style) =====
+define MOD_MENU_TOGGLE_HOLD     = PS4_L2
+define MOD_MENU_TOGGLE_PRESS    = PS4_OPTIONS
+define MOD_NEXT                 = PS4_RIGHT
+define MOD_PREVIOUS             = PS4_LEFT
+define MOD_INCREASE             = PS4_UP
+define MOD_DECREASE             = PS4_DOWN
+
+define AXIS_LX = PS4_LX
+define AXIS_LY = PS4_LY
+define AXIS_RX = XB1_RX
+define AXIS_RY = XB1_RY
+
+// ===== CONSTANTS =====
+const string menu_header[] = {"Auto-Tracking", "Auto-Track Power", "Pickup Macro", "Insta Reset", 
+                                           "Anti-Recoil", "Anti-Recoil Power", "No Delay", "Crouch Shot", "Crouch Shot Delay",
+                                           "Anti-Bloom", "No Vibration", "Pre-Fire", "Rapid Fire", "Enhancers", 
+                                           "Power", "Sticky Scope", "Sticky Scope Power", "Aim Abuse", 
+                                           "Aim Assist", "Aim Assist Power", "Sharp Shooter", "Radar", "Radar Speed",
+                                           "Turbo Edit", "Beam", "Headlock"};
+const string onOff[] = {"OFF", "ON", ""};
+const string ms[] = {"MS"};
+
+// Polar settings
+define POLAR_X_START = 3150
+define POLAR_X_END = 200
+define POLAR_VELOCITY_STEP = 180  // Fine-tuned for smoother movement
+define POLAR_VELOCITY_START = 0
+define POLAR_Y_START = -200
+define POLAR_Y_END = 200
+define SOFT_AIM_POWER = 1
+
+// Beam shake parameters
+const int8 BEAM_SHAKE_PARAMS[][] = {
+    { 7, 5, 0 },
+    { 15, 10, 1 },
+    { 25, 15, 2 }
+};
+
+// ===== LOGO (Same as prime-plus) =====
+const image LOGO[] = {
+    {128, 64,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xE0, 0x5F, 0xFF, 0xFF, 0xFF, 0xF8, 0x0B, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x00, 0x03, 0xFF, 0xFF, 0xFF, 0x80, 0x00, 0x3F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF8, 0x00, 0x00, 0x7F, 0xFF, 0xFE, 0x00, 0x00, 0x0F, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xE0, 0x00, 0x00, 0x3F, 0xFF, 0xF8, 0x00, 0x00, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xC0, 0x00, 0x00, 0x0F, 0xFF, 0xE0, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x07, 0xFF, 0xC0, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x00, 0x00, 0x00, 0x07, 0xFF, 0x80, 0x00, 0x00, 0x01, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFC, 0x00, 0x00, 0x00, 0x1F, 0xFF, 0x00, 0x00, 0x00, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF8, 0x00, 0x00, 0x00, 0x1F, 0xFE, 0x00, 0x00, 0x00, 0x07, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xF0, 0x00, 0x00, 0x00, 0x3F, 0xFC, 0x00, 0x00, 0x00, 0x0F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xE0, 0x00, 0x00, 0x00, 0x7F, 0xF8, 0x00, 0x00, 0x00, 0x0F, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xF0, 0x00, 0x00, 0x00, 0xFF, 0xF0, 0x00, 0x00, 0x00, 0x1F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF8, 0x00, 0x00, 0x01, 0xFF, 0xF0, 0x00, 0x00, 0x00, 0x3F, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFC, 0x00, 0x00, 0x01, 0xFF, 0xE0, 0x00, 0x00, 0x00, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x03, 0xFF, 0xC0, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x00, 0x07, 0xFF, 0x80, 0x00, 0x00, 0x01, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xC0, 0x00, 0x0F, 0xFF, 0x00, 0x00, 0x00, 0x01, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xE0, 0x00, 0x1F, 0xFE, 0x00, 0x00, 0x00, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF8, 0x00, 0x3F, 0xFE, 0x00, 0x00, 0x00, 0x07, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFC, 0x00, 0x3F, 0xFC, 0x00, 0x00, 0x00, 0x0F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x00, 0x7F, 0xF8, 0x00, 0x00, 0x00, 0x0F, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0xFF, 0xF0, 0x00, 0x00, 0x00, 0x1F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xC1, 0xFF, 0xE0, 0x00, 0x00, 0x00, 0x3F, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xE3, 0xFF, 0xC0, 0x00, 0x00, 0x00, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF7, 0xFF, 0xC0, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x01, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x00, 0x00, 0x00, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFC, 0x00, 0x00, 0x00, 0x07, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF8, 0x00, 0x00, 0x00, 0x0F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF8, 0x00, 0x00, 0x00, 0x0F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF0, 0x00, 0x00, 0x00, 0x1F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xE0, 0x00, 0x00, 0x00, 0x3F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xC0, 0x00, 0x00, 0x00, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x01, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x01, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x00, 0x00, 0x00, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFC, 0x00, 0x00, 0x00, 0x07, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF8, 0x00, 0x00, 0x00, 0x0F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF0, 0x00, 0x00, 0x00, 0x1F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xE0, 0x00, 0x00, 0x00, 0x1F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xE0, 0x00, 0x00, 0x00, 0x3F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xC0, 0x00, 0x00, 0x00, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x01, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x00, 0x00, 0x00, 0x01, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x00, 0x00, 0x00, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFC, 0x00, 0x00, 0x00, 0x07, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xF8, 0x00, 0x00, 0x00, 0x1F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF0, 0x00, 0x00, 0x00, 0x3F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xF8, 0x00, 0x00, 0x00, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x00, 0x00, 0x01, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x00, 0x07, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF0, 0x00, 0x3F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xAF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF}
+};
+
+// ===== POLAR ARRAY =====
+const int16 POLAR_ARRAY[] = {
+100,100,100,100,100,100,100,100,99,99,99,
+99,98,98,97,97,97,96,95,95,94,94,93,92,92,91,90,89,89,88,87,86,85,84,83,82,81,80,79,
+78,77,75,74,73,72,71,70,69,67,66,65,63,62,61,59,58,56,55,53,52,50,49,47,46,44,43,41,
+40,38,36,35,33,31,30,28,26,25,23,21,20,18,16,14,13,11,9,7,6,4,2,0,-1,-3,-5,-7,-8,
+-10,-12,-13,-15,-17,-19,-20,-22,-24,-25,-27,-29,-30,-32,-34,-35,-37,-39,-40,-42,
+-43,-45,-46,-48,-50,-51,-53,-54,-55,-57,-58,-60,-61,-62,-64,-65,-66,-68,-69,-70,
+-71,-73,-74,-75,-76,-77,-78,-79,-80,-81,-82,-83,-84,-85,-86,-87,-88,-89,-89,-90,
+-91,-92,-92,-93,-93,-94,-95,-95,-96,-96,-97,-97,-97,-98,-98,-99,-99,-99,-99,-100
+,-100,-100,-100,-100,-100,-100,-100,-100,-100,-100,-100,-100,-100,-99,-99,-99,-98
+,-98,-98,-97,-97,-96,-96,-95,-94,-94,-93,-93,-92,-91,-90,-90,-89,-88,-87,-86,-85,
+-84,-83,-82,-81,-80,-79,-78,-77,-76,-75,-74,-72,-71,-70,-69,-67,-66,-65,-63,-62,
+-61,-59,-58,-56,-55,-53,-52,-50,-49,-47,-46,-44,-43,-41,-40,-38,-36,-35,-33,-31,
+-30,-28,-26,-25,-23,-21,-20,-18,-16,-14,-13,-11,-9,-7,-6,-4,-2,0,2,4,6,7,9,11,13,
+14,16,18,20,21,23,25,26,28,30,31,33,35,36,38,40,41,43,44,46,47,49,51,52,54,55,56,58,
+59,61,62,63,65,66,67,69,70,70,72,73,74,75,77,78,79,80,81,82,83,84,85,86,87,88,89,89,
+90,91,92,92,93,94,94,95,95,96,97,97,97,98,98,99,99,99,99,100,100,100,100,100,100,100
+};
+
+// ===== HELPER FUNCTIONS =====
+function center_x(f_chars, f_font) { return (OLED_WIDTH / 2) - ((f_chars * f_font) / 2); }
+function get_string_length(offset) {
+    STRING_LENGTH = 0;
+    while(duint8(offset++)) { STRING_LENGTH++; }
+    return STRING_LENGTH + 1;
+}
+
+function DRAW_LOGO() { image_oled(0, 0, TRUE, TRUE, LOGO[0]); }
+
+function SAVE_BUILD_SETTINGS() {
+    // Save all Arc settings to SPVAR
+    set_pvar(SPVAR_1, toggle_auto_tracking);
+    set_pvar(SPVAR_2, toggle_pickup_macro);
+    set_pvar(SPVAR_3, toggle_insta_reset);
+    set_pvar(SPVAR_4, toggle_anti_recoil);
+    set_pvar(SPVAR_5, toggle_no_delay);
+    set_pvar(SPVAR_8, toggle_crouch_shot);
+    set_pvar(SPVAR_9, toggle_anti_bloom);
+    set_pvar(SPVAR_10, toggle_no_vibration);
+    set_pvar(SPVAR_11, toggle_pre_fire);
+    set_pvar(SPVAR_12, toggle_rapid_fire);
+    set_pvar(SPVAR_13, toggle_enhancement);
+    set_pvar(SPVAR_15, toggle_sticky_scope);
+    set_pvar(SPVAR_16, toggle_aim_abuse);
+    set_pvar(SPVAR_18, toggle_pro);
+    set_pvar(SPVAR_21, toggle_sharpshooter);
+    set_pvar(SPVAR_22, toggle_radar);
+    set_pvar(SPVAR_25, toggle_turbo_edit);
+    set_pvar(SPVAR_26, toggle_beam);
+    set_pvar(SPVAR_27, toggle_headlock);
+    
+    set_pvar(SPVAR_6, power_anti_recoil);
+    set_pvar(SPVAR_7, power_auto_tracking);
+    set_pvar(SPVAR_14, power_enhancement);
+    set_pvar(SPVAR_17, power_sticky_scope);
+    set_pvar(SPVAR_19, power_polar);
+    set_pvar(SPVAR_20, delay_crouch_shot);
+    set_pvar(SPVAR_23, speed_radar);
+    set_pvar(SPVAR_24, radius_radar);
+}
+
+function LOAD_BUILD_SETTINGS() {
+    // Load all Arc settings from SPVAR
+    toggle_auto_tracking = get_pvar(SPVAR_1, 0, 1, 1);
+    toggle_pickup_macro = get_pvar(SPVAR_2, 0, 1, 0);
+    toggle_insta_reset = get_pvar(SPVAR_3, 0, 1, 0);
+    toggle_anti_recoil = get_pvar(SPVAR_4, 0, 1, 0);
+    toggle_no_delay = get_pvar(SPVAR_5, 0, 1, 1);
+    toggle_crouch_shot = get_pvar(SPVAR_8, 0, 1, 0);
+    toggle_anti_bloom = get_pvar(SPVAR_9, 0, 1, 0);
+    toggle_no_vibration = get_pvar(SPVAR_10, 0, 1, 1);
+    toggle_pre_fire = get_pvar(SPVAR_11, 0, 1, 0);
+    toggle_rapid_fire = get_pvar(SPVAR_12, 0, 1, 0);
+    toggle_enhancement = get_pvar(SPVAR_13, 0, 1, 1);
+    toggle_sticky_scope = get_pvar(SPVAR_15, 0, 1, 0);
+    toggle_aim_abuse = get_pvar(SPVAR_16, 0, 1, 0);
+    toggle_pro = get_pvar(SPVAR_18, 0, 1, 0);
+    toggle_sharpshooter = get_pvar(SPVAR_21, 0, 1, 0);
+    toggle_radar = get_pvar(SPVAR_22, 0, 1, 1);
+    toggle_turbo_edit = get_pvar(SPVAR_25, 0, 1, 0);
+    toggle_beam = get_pvar(SPVAR_26, 0, 1, 0);
+    toggle_headlock = get_pvar(SPVAR_27, 0, 1, 0);
+    
+    power_anti_recoil = get_pvar(SPVAR_6, 0, 100, 30);
+    power_auto_tracking = get_pvar(SPVAR_7, 0, 100, 35);  // Default: 35
+    power_enhancement = get_pvar(SPVAR_14, 0, 100, 6);
+    power_sticky_scope = get_pvar(SPVAR_17, 0, 100, 5);
+    power_polar = get_pvar(SPVAR_19, 0, 100, 20);
+    delay_crouch_shot = get_pvar(SPVAR_20, 0, 1000, 40);
+    speed_radar = get_pvar(SPVAR_23, 5, 30, 12);
+    radius_radar = get_pvar(SPVAR_24, 5, 50, 25);
+}
+
+// ===== INIT FUNCTION =====
+init {
+    LOAD_BUILD_SETTINGS();
+    cls_oled(OLED_BLACK);
+    DRAW_LOGO();
+    set_rgb(23, 84, 216); // Blue LED
+    
+    // Initialize dead-zones from generator (these are set by generator, not menu)
+    // right_zone, left_zone, input_curve are set by generator
+    
+    // Initialize runtime variables
+    step_interval = 1;
+    steps = 20;
+    assist_profile = 1;
+    polar_flow_x = POLAR_X_START;
+    polar_flow_y = POLAR_Y_START;
+    polar_flow_direction = 1;
+    polar_flow_prev_direction = 1;
+}
+
+// ===== CONSTANTS FOR MENU =====
+const uint8 DIGITAL_CHARS[] = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57};
+
+// ===== HELPER FUNCTIONS FOR MENU =====
+function FindDigits(num) {
+    LOG_VAL = 0;
+    do { num /= 10; LOG_VAL++; } while(num);
+    return LOG_VAL;
+}
+
+function NumberToString(f_val, f_digits) {
+    BUFFER_INDEX = 1;
+    DIGIT_INDEX = 10000;
+    
+    if(f_val < 0) { putc_oled(BUFFER_INDEX, 45); BUFFER_INDEX += 1; f_val = abs(f_val); }
+    for(CHAR_INDEX = 5; CHAR_INDEX >= 1; CHAR_INDEX--) {
+        if(f_digits >= CHAR_INDEX) {
+            putc_oled(BUFFER_INDEX, DIGITAL_CHARS[f_val / DIGIT_INDEX]);
+            f_val %= DIGIT_INDEX;
+            BUFFER_INDEX++;
+        }
+        DIGIT_INDEX /= 10;
+    }
+    puts_oled(center_x(BUFFER_INDEX - 1, OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, BUFFER_INDEX - 1, OLED_WHITE);
+}
+
+function DRAW_X_GRAPH(value, min_val, max_val, y_pos) {
+    GRAPH_WIDTH = 100;
+    X_START = (OLED_WIDTH - GRAPH_WIDTH) / 2;
+    MID_X = X_START + GRAPH_WIDTH / 2;
+    
+    // Map value to graph width
+    MAP_VAL = (value - min_val) * 100 / (max_val - min_val);
+    if(MAP_VAL < 0) MAP_VAL = 0;
+    if(MAP_VAL > 100) MAP_VAL = 100;
+    BAR_POS = MAP_VAL;
+    
+    line_oled(X_START, y_pos, X_START + GRAPH_WIDTH, y_pos, 1, OLED_WHITE);
+    line_oled(MID_X, y_pos - 3, MID_X, y_pos + 3, 1, OLED_WHITE);
+    line_oled(X_START, y_pos - 2, X_START, y_pos + 2, 1, OLED_WHITE);
+    line_oled(X_START + GRAPH_WIDTH, y_pos - 2, X_START + GRAPH_WIDTH, y_pos + 2, 1, OLED_WHITE);
+    rect_oled(X_START, y_pos - 2, BAR_POS, 4, 1, OLED_WHITE);
+}
+
+function UPDATE_LED_FOR_MOD_STATE(is_mod_on) {
+    if(is_mod_on) {
+        set_rgb(23, 84, 216); // Blue LED when mod is ON
+    } else {
+        set_rgb(0, 0, 0); // LED off when mod is OFF
+    }
+}
+
+function SaveMods() {
+    // Save all Arc settings to SPVAR (called on Circle/B press)
+    set_pvar(SPVAR_1, toggle_auto_tracking);
+    set_pvar(SPVAR_2, toggle_pickup_macro);
+    set_pvar(SPVAR_3, toggle_insta_reset);
+    set_pvar(SPVAR_4, toggle_anti_recoil);
+    set_pvar(SPVAR_5, toggle_no_delay);
+    set_pvar(SPVAR_8, toggle_crouch_shot);
+    set_pvar(SPVAR_9, toggle_anti_bloom);
+    set_pvar(SPVAR_10, toggle_no_vibration);
+    set_pvar(SPVAR_11, toggle_pre_fire);
+    set_pvar(SPVAR_12, toggle_rapid_fire);
+    set_pvar(SPVAR_13, toggle_enhancement);
+    set_pvar(SPVAR_15, toggle_sticky_scope);
+    set_pvar(SPVAR_16, toggle_aim_abuse);
+    set_pvar(SPVAR_18, toggle_pro);
+    set_pvar(SPVAR_21, toggle_sharpshooter);
+    set_pvar(SPVAR_22, toggle_radar);
+    set_pvar(SPVAR_25, toggle_turbo_edit);
+    set_pvar(SPVAR_26, toggle_beam);
+    set_pvar(SPVAR_27, toggle_headlock);
+    
+    set_pvar(SPVAR_6, power_anti_recoil);
+    set_pvar(SPVAR_7, power_auto_tracking);
+    set_pvar(SPVAR_14, power_enhancement);
+    set_pvar(SPVAR_17, power_sticky_scope);
+    set_pvar(SPVAR_19, power_polar);
+    set_pvar(SPVAR_20, delay_crouch_shot);
+    set_pvar(SPVAR_23, speed_radar);
+    set_pvar(SPVAR_24, radius_radar);
+}
+
+// ===== VIBRATION COMBOS (Hoops style) =====
+combo vibration_on {
+    set_rumble(0, 100);
+    wait(200);
+    set_rumble(0, 0);
+}
+
+combo vibration_off {
+    set_rumble(0, 50);
+    wait(200);
+    set_rumble(0, 0);
+}
+
+combo vibration_valchg {
+    set_rumble(0, 50);
+    wait(50);
+    set_rumble(0, 0);
+}
+
+// ===== MAIN LOOP =====
+main {
+    if(get_console() == PIO_XB1) { IS_XBOX = 1; } else { IS_XBOX = 0; }
+    
+    // Menu open/close handling (L2+Options to open, Circle/B to close and save)
+    if(event_press(PS4_CIRCLE) && menu_enabled || event_press(XB1_B) && menu_enabled) {
+        SaveMods();
+        menu_enabled = 0;
+        combo_run(vibration_on);
+        set_rgb(23, 84, 216);
+        cls_oled(OLED_BLACK);
+        DRAW_LOGO();
+    } else if(get_val(MOD_MENU_TOGGLE_HOLD) && event_press(MOD_MENU_TOGGLE_PRESS) || get_val(XB1_LT) && event_press(XB1_MENU)) {
+        menu_enabled = !menu_enabled;
+        if(menu_enabled) {
+            combo_run(vibration_off);
+            page = 0;
+        } else {
+            combo_run(vibration_on);
+        }
+    }
+    
+    if(menu_enabled) {
+        cls_oled(OLED_BLACK);
+        
+        // Block all inputs when menu is open
+        set_val(PS4_SQUARE, 0);
+        set_val(PS4_CROSS, 0);
+        set_val(PS4_CIRCLE, 0);
+        set_val(PS4_TRIANGLE, 0);
+        set_val(PS4_L1, 0);
+        set_val(PS4_R1, 0);
+        set_val(PS4_L3, 0);
+        set_val(PS4_R3, 0);
+        set_val(PS4_SHARE, 0);
+        set_val(PS4_PS, 0);
+        set_val(PS4_TOUCH, 0);
+        set_val(PS4_LX, 0);
+        set_val(PS4_LY, 0);
+        set_val(PS4_RX, 0);
+        set_val(PS4_RY, 0);
+        set_val(PS4_L2, 0);
+        set_val(PS4_R2, 0);
+        
+        // Title display with rectangle background (Hoops style)
+        title_width = get_string_length(menu_header[page]) * OLED_FONT_SMALL_WIDTH;
+        rect_oled(center_x(title_width/OLED_FONT_SMALL_WIDTH, OLED_FONT_SMALL_WIDTH) - 4, 6, title_width + 8, title_height, OLED_BLACK, OLED_BLACK);
+        print(center_x(get_string_length(menu_header[page]), OLED_FONT_SMALL_WIDTH), 10, OLED_FONT_SMALL, OLED_WHITE, menu_header[page]);
+        
+        // Page navigation (Hoops style)
+        if(get_val(MOD_MENU_TOGGLE_HOLD) || get_val(XB1_LT)) {
+            set_val(MOD_INCREASE, 0);
+            set_val(MOD_DECREASE, 0);
+            set_val(MOD_PREVIOUS, 0);
+            set_val(MOD_NEXT, 0);
+        }
+        
+        if(event_press(MOD_NEXT) || event_press(XB1_RIGHT)) {
+            page++;
+            if(page > numpgs) page = numpgs;
+            combo_run(vibration_valchg);
+        }
+        
+        if(event_press(MOD_PREVIOUS) || event_press(XB1_LEFT)) {
+            page--;
+            if(page < 0) page = 0;
+            combo_run(vibration_valchg);
+        }
+        
+        // Page 0: Auto-Tracking (toggle only)
+        if(page == 0) {
+            menuSelection = toggle_auto_tracking;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_auto_tracking]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_auto_tracking]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_auto_tracking]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_auto_tracking = !toggle_auto_tracking;
+                flashtoggle = toggle_auto_tracking;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_auto_tracking);
+            }
+        }
+        
+        // Page 1: Auto-Tracking Power (value slider)
+        if(page == 1) {
+            menuSelection = 2;
+            toggleType = 0;
+            set_rgb(23, 84, 216);
+            NumberToString(power_auto_tracking, FindDigits(power_auto_tracking));
+            print(center_x(get_string_length(ms[0]) + 20, OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ms[0]);
+            DRAW_X_GRAPH(power_auto_tracking, 0, 100, 52);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(get_val(PS4_L2) && event_press(MOD_INCREASE) || get_val(XB1_LT) && event_press(XB1_UP)) {
+                power_auto_tracking += 10;
+            } else if(event_press(MOD_INCREASE) || event_press(XB1_UP)) {
+                power_auto_tracking++;
+            }
+            if(get_val(PS4_L2) && event_press(MOD_DECREASE) || get_val(XB1_LT) && event_press(XB1_DOWN)) {
+                power_auto_tracking -= 10;
+            } else if(event_press(MOD_DECREASE) || event_press(XB1_DOWN)) {
+                power_auto_tracking--;
+            }
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                combo_run(vibration_valchg);
+                if(power_auto_tracking > 100) power_auto_tracking = 100;
+                if(power_auto_tracking < 0) power_auto_tracking = 0;
+                UPDATE_LED_FOR_MOD_STATE(TRUE);
+            }
+        }
+        
+        // Page 2: Pickup Macro (toggle only)
+        if(page == 2) {
+            menuSelection = toggle_pickup_macro;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_pickup_macro]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_pickup_macro]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_pickup_macro]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_pickup_macro = !toggle_pickup_macro;
+                flashtoggle = toggle_pickup_macro;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_pickup_macro);
+            }
+        }
+        
+        // Page 3: Insta Reset (toggle only)
+        if(page == 3) {
+            menuSelection = toggle_insta_reset;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_insta_reset]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_insta_reset]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_insta_reset]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_insta_reset = !toggle_insta_reset;
+                flashtoggle = toggle_insta_reset;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_insta_reset);
+            }
+        }
+        
+        // Page 4: Anti-Recoil (toggle only)
+        if(page == 4) {
+            menuSelection = toggle_anti_recoil;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_anti_recoil]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_anti_recoil]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_anti_recoil]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_anti_recoil = !toggle_anti_recoil;
+                flashtoggle = toggle_anti_recoil;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_anti_recoil);
+            }
+        }
+        
+        // Page 5: Anti-Recoil Power (value slider)
+        if(page == 5) {
+            menuSelection = 2;
+            toggleType = 0;
+            set_rgb(23, 84, 216);
+            NumberToString(power_anti_recoil, FindDigits(power_anti_recoil));
+            print(center_x(get_string_length(ms[0]) + 20, OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ms[0]);
+            DRAW_X_GRAPH(power_anti_recoil, 0, 100, 52);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(get_val(PS4_L2) && event_press(MOD_INCREASE) || get_val(XB1_LT) && event_press(XB1_UP)) {
+                power_anti_recoil += 10;
+            } else if(event_press(MOD_INCREASE) || event_press(XB1_UP)) {
+                power_anti_recoil++;
+            }
+            if(get_val(PS4_L2) && event_press(MOD_DECREASE) || get_val(XB1_LT) && event_press(XB1_DOWN)) {
+                power_anti_recoil -= 10;
+            } else if(event_press(MOD_DECREASE) || event_press(XB1_DOWN)) {
+                power_anti_recoil--;
+            }
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                combo_run(vibration_valchg);
+                if(power_anti_recoil > 100) power_anti_recoil = 100;
+                if(power_anti_recoil < 0) power_anti_recoil = 0;
+                UPDATE_LED_FOR_MOD_STATE(TRUE);
+            }
+        }
+        
+        // Page 6: No Delay (toggle only)
+        if(page == 6) {
+            menuSelection = toggle_no_delay;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_no_delay]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_no_delay]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_no_delay]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_no_delay = !toggle_no_delay;
+                flashtoggle = toggle_no_delay;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_no_delay);
+            }
+        }
+        
+        // Page 7: Crouch Shot (toggle only)
+        if(page == 7) {
+            menuSelection = toggle_crouch_shot;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_crouch_shot]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_crouch_shot]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_crouch_shot]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_crouch_shot = !toggle_crouch_shot;
+                flashtoggle = toggle_crouch_shot;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_crouch_shot);
+            }
+        }
+        
+        // Page 8: Crouch Shot Delay (value slider)
+        if(page == 8) {
+            menuSelection = 2;
+            toggleType = 0;
+            set_rgb(23, 84, 216);
+            NumberToString(delay_crouch_shot, FindDigits(delay_crouch_shot));
+            print(center_x(get_string_length(ms[0]) + 20, OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ms[0]);
+            DRAW_X_GRAPH(delay_crouch_shot, 0, 1000, 52);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(get_val(PS4_L2) && event_press(MOD_INCREASE) || get_val(XB1_LT) && event_press(XB1_UP)) {
+                delay_crouch_shot += 50;
+            } else if(event_press(MOD_INCREASE) || event_press(XB1_UP)) {
+                delay_crouch_shot += 10;
+            }
+            if(get_val(PS4_L2) && event_press(MOD_DECREASE) || get_val(XB1_LT) && event_press(XB1_DOWN)) {
+                delay_crouch_shot -= 50;
+            } else if(event_press(MOD_DECREASE) || event_press(XB1_DOWN)) {
+                delay_crouch_shot -= 10;
+            }
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                combo_run(vibration_valchg);
+                if(delay_crouch_shot > 1000) delay_crouch_shot = 1000;
+                if(delay_crouch_shot < 0) delay_crouch_shot = 0;
+                UPDATE_LED_FOR_MOD_STATE(TRUE);
+            }
+        }
+        
+        // Page 9: Anti-Bloom (toggle only)
+        if(page == 9) {
+            menuSelection = toggle_anti_bloom;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_anti_bloom]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_anti_bloom]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_anti_bloom]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_anti_bloom = !toggle_anti_bloom;
+                flashtoggle = toggle_anti_bloom;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_anti_bloom);
+            }
+        }
+        
+        // Page 10: No Vibration (toggle only)
+        if(page == 10) {
+            menuSelection = toggle_no_vibration;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_no_vibration]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_no_vibration]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_no_vibration]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_no_vibration = !toggle_no_vibration;
+                flashtoggle = toggle_no_vibration;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_no_vibration);
+            }
+        }
+        
+        // Page 11: Pre-Fire (toggle only)
+        if(page == 11) {
+            menuSelection = toggle_pre_fire;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_pre_fire]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_pre_fire]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_pre_fire]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_pre_fire = !toggle_pre_fire;
+                flashtoggle = toggle_pre_fire;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_pre_fire);
+            }
+        }
+        
+        // Page 12: Rapid Fire (toggle only)
+        if(page == 12) {
+            menuSelection = toggle_rapid_fire;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_rapid_fire]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_rapid_fire]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_rapid_fire]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_rapid_fire = !toggle_rapid_fire;
+                flashtoggle = toggle_rapid_fire;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_rapid_fire);
+            }
+        }
+        
+        // Page 13: Enhancers (toggle only) - renamed from "Pro Enhancers"
+        if(page == 13) {
+            menuSelection = toggle_enhancement;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_enhancement]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_enhancement]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_enhancement]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_enhancement = !toggle_enhancement;
+                flashtoggle = toggle_enhancement;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_enhancement);
+            }
+        }
+        
+        // Page 14: Power (value slider) - renamed from "Enhancement Power"
+        if(page == 14) {
+            menuSelection = 2;
+            toggleType = 0;
+            set_rgb(23, 84, 216);
+            NumberToString(power_enhancement, FindDigits(power_enhancement));
+            print(center_x(get_string_length(ms[0]) + 20, OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ms[0]);
+            DRAW_X_GRAPH(power_enhancement, 0, 100, 52);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(get_val(PS4_L2) && event_press(MOD_INCREASE) || get_val(XB1_LT) && event_press(XB1_UP)) {
+                power_enhancement += 10;
+            } else if(event_press(MOD_INCREASE) || event_press(XB1_UP)) {
+                power_enhancement++;
+            }
+            if(get_val(PS4_L2) && event_press(MOD_DECREASE) || get_val(XB1_LT) && event_press(XB1_DOWN)) {
+                power_enhancement -= 10;
+            } else if(event_press(MOD_DECREASE) || event_press(XB1_DOWN)) {
+                power_enhancement--;
+            }
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                combo_run(vibration_valchg);
+                if(power_enhancement > 100) power_enhancement = 100;
+                if(power_enhancement < 0) power_enhancement = 0;
+                UPDATE_LED_FOR_MOD_STATE(TRUE);
+            }
+        }
+        
+        // Page 15: Sticky Scope (toggle only)
+        if(page == 15) {
+            menuSelection = toggle_sticky_scope;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_sticky_scope]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_sticky_scope]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_sticky_scope]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_sticky_scope = !toggle_sticky_scope;
+                flashtoggle = toggle_sticky_scope;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_sticky_scope);
+            }
+        }
+        
+        // Page 16: Sticky Scope Power (value slider)
+        if(page == 16) {
+            menuSelection = 2;
+            toggleType = 0;
+            set_rgb(23, 84, 216);
+            NumberToString(power_sticky_scope, FindDigits(power_sticky_scope));
+            print(center_x(get_string_length(ms[0]) + 20, OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ms[0]);
+            DRAW_X_GRAPH(power_sticky_scope, 0, 100, 52);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(get_val(PS4_L2) && event_press(MOD_INCREASE) || get_val(XB1_LT) && event_press(XB1_UP)) {
+                power_sticky_scope += 10;
+            } else if(event_press(MOD_INCREASE) || event_press(XB1_UP)) {
+                power_sticky_scope++;
+            }
+            if(get_val(PS4_L2) && event_press(MOD_DECREASE) || get_val(XB1_LT) && event_press(XB1_DOWN)) {
+                power_sticky_scope -= 10;
+            } else if(event_press(MOD_DECREASE) || event_press(XB1_DOWN)) {
+                power_sticky_scope--;
+            }
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                combo_run(vibration_valchg);
+                if(power_sticky_scope > 100) power_sticky_scope = 100;
+                if(power_sticky_scope < 0) power_sticky_scope = 0;
+                UPDATE_LED_FOR_MOD_STATE(TRUE);
+            }
+        }
+        
+        // Page 17: Aim Abuse (toggle only)
+        if(page == 17) {
+            menuSelection = toggle_aim_abuse;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_aim_abuse]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_aim_abuse]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_aim_abuse]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_aim_abuse = !toggle_aim_abuse;
+                flashtoggle = toggle_aim_abuse;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_aim_abuse);
+            }
+        }
+        
+        // Page 18: Aim Assist (toggle only)
+        if(page == 18) {
+            menuSelection = toggle_pro;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_pro]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_pro]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_pro]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_pro = !toggle_pro;
+                flashtoggle = toggle_pro;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_pro);
+            }
+        }
+        
+        // Page 19: Aim Assist Power (value slider)
+        if(page == 19) {
+            menuSelection = 2;
+            toggleType = 0;
+            set_rgb(23, 84, 216);
+            NumberToString(power_polar, FindDigits(power_polar));
+            print(center_x(get_string_length(ms[0]) + 20, OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ms[0]);
+            DRAW_X_GRAPH(power_polar, 0, 100, 52);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(get_val(PS4_L2) && event_press(MOD_INCREASE) || get_val(XB1_LT) && event_press(XB1_UP)) {
+                power_polar += 10;
+            } else if(event_press(MOD_INCREASE) || event_press(XB1_UP)) {
+                power_polar++;
+            }
+            if(get_val(PS4_L2) && event_press(MOD_DECREASE) || get_val(XB1_LT) && event_press(XB1_DOWN)) {
+                power_polar -= 10;
+            } else if(event_press(MOD_DECREASE) || event_press(XB1_DOWN)) {
+                power_polar--;
+            }
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                combo_run(vibration_valchg);
+                if(power_polar > 100) power_polar = 100;
+                if(power_polar < 0) power_polar = 0;
+                UPDATE_LED_FOR_MOD_STATE(TRUE);
+            }
+        }
+        
+        // Page 20: Sharp Shooter (toggle only)
+        if(page == 20) {
+            menuSelection = toggle_sharpshooter;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_sharpshooter]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_sharpshooter]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_sharpshooter]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_sharpshooter = !toggle_sharpshooter;
+                flashtoggle = toggle_sharpshooter;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_sharpshooter);
+            }
+        }
+        
+        // Page 21: Radar (toggle only)
+        if(page == 21) {
+            menuSelection = toggle_radar;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_radar]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_radar]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_radar]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_radar = !toggle_radar;
+                flashtoggle = toggle_radar;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_radar);
+            }
+        }
+        
+        // Page 22: Radar Speed (value slider)
+        if(page == 22) {
+            menuSelection = 2;
+            toggleType = 0;
+            set_rgb(23, 84, 216);
+            NumberToString(speed_radar, FindDigits(speed_radar));
+            print(center_x(get_string_length(ms[0]) + 20, OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, ms[0]);
+            DRAW_X_GRAPH(speed_radar, 5, 30, 52);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(XB1_UP)) {
+                speed_radar++;
+            }
+            if(event_press(MOD_DECREASE) || event_press(XB1_DOWN)) {
+                speed_radar--;
+            }
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                combo_run(vibration_valchg);
+                if(speed_radar > 30) speed_radar = 30;
+                if(speed_radar < 5) speed_radar = 5;
+                UPDATE_LED_FOR_MOD_STATE(TRUE);
+            }
+        }
+        
+        // Page 23: Turbo Edit (toggle only)
+        if(page == 23) {
+            menuSelection = toggle_turbo_edit;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_turbo_edit]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_turbo_edit]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_turbo_edit]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_turbo_edit = !toggle_turbo_edit;
+                flashtoggle = toggle_turbo_edit;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_turbo_edit);
+            }
+        }
+        
+        // Page 24: Beam (toggle only)
+        if(page == 24) {
+            menuSelection = toggle_beam;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_beam]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_beam]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_beam]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_beam = !toggle_beam;
+                flashtoggle = toggle_beam;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_beam);
+            }
+        }
+        
+        // Page 25: Headlock (toggle only)
+        if(page == 25) {
+            menuSelection = toggle_headlock;
+            toggleType = 1;
+            option_width = get_string_length(onOff[toggle_headlock]) * OLED_FONT_MEDIUM_WIDTH;
+            rect_oled(center_x(option_width/OLED_FONT_MEDIUM_WIDTH, OLED_FONT_MEDIUM_WIDTH) - 4, 28, option_width + 8, option_height, OLED_BLACK, OLED_BLACK);
+            print(center_x(get_string_length(onOff[toggle_headlock]), OLED_FONT_MEDIUM_WIDTH), 30, OLED_FONT_MEDIUM, OLED_WHITE, onOff[toggle_headlock]);
+            line_oled(0, 22, 127, 22, 2, OLED_WHITE);
+            if(event_press(MOD_INCREASE) || event_press(MOD_DECREASE) || event_press(XB1_UP) || event_press(XB1_DOWN)) {
+                toggle_headlock = !toggle_headlock;
+                flashtoggle = toggle_headlock;
+                combo_run(vibration_valchg);
+                UPDATE_LED_FOR_MOD_STATE(toggle_headlock);
+            }
+        }
+        
+        if(page > numpgs) { page = numpgs; }
+        if(page < 0) { page = 0; }
+    } else {
+        // ===== ARC MOD EXECUTION (when menu is closed) =====
+        
+        // Instant Reset Macro
+        if(toggle_insta_reset) {
+            if(event_press(BTN_INSTANT_RESET)) {
+                combo_run(ComboInstantReset);
+            }
+        }
+        
+        // Auto Tracking
+        if(toggle_auto_tracking) {
+            if(abs(get_ival(AXIS_LX)) <= 35 && abs(get_ival(AXIS_LY)) <= 35) {
+                combo_run(ComboAutoTracking);
+            } else {
+                combo_stop(ComboAutoTracking);
+            }
+        }
+        
+        // Anti-Recoil
+        if(toggle_anti_recoil) {
+            ApplyAntiRecoil();
+        }
+        
+        // Anti-Bloom
+        if(toggle_anti_bloom) {
+            right_stick_magnitude = isqrt(pow(get_ival(XB1_RX), 2) + pow(get_ival(XB1_RY), 2));
+            left_stick_magnitude = isqrt(pow(get_ival(XB1_LX), 2) + pow(get_ival(XB1_LY), 2));
+            
+            if(get_val(BTN_FIRE)) {
+                if(right_stick_magnitude <= (right_zone + 3)) {
+                    bloom_angle = (bloom_angle + 30) % 360;
+                    SetPolarMovement(POLAR_RS, polar_angle, ((right_zone + 5/2) * 360));
+                }
+                if(left_stick_magnitude <= (left_zone + 3)) {
+                    polar_angle = (polar_angle + 21) % 360;
+                    SetPolarMovement(POLAR_LS, polar_angle, ((left_zone + 60) * 360));
+                }
+            }
+            
+            if(right_stick_magnitude <= right_zone) {
+                bloom_angle = (bloom_angle + 18) % 360;
+                SetPolarMovement(POLAR_RS, bloom_angle, (right_zone + 3 * 360));
+            }
+        }
+        
+        // Pickup Macro
+        if(toggle_pickup_macro) {
+            if(get_val(BTN_INTERACT) && get_val(XB1_RB)) {
+                combo_run(ComboPickupMacro);
+            }
+        }
+        if(event_release(BTN_INTERACT)) {
+            combo_stop(ComboPickupMacro);
+        }
+        if(get_val(BTN_ADS)) {
+            combo_stop(ComboPickupMacro);
+        }
+        
+        // No Delay
+        if(toggle_no_delay) {
+            vm_tctrl(-8);
+        } else {
+            vm_tctrl(-4);
+        }
+        
+        // Pre-Fire
+        if(toggle_pre_fire) {
+            if(get_val(BTN_INTERACT) && get_val(BTN_FIRE)) {
+                combo_run(ComboPreFire);
+            }
+        }
+        
+        // Aim Abuse
+        if(toggle_aim_abuse) {
+            if(get_val(BTN_ADS) > 95) {
+                combo_run(ComboAimAbuse);
+            }
+            if(event_release(BTN_ADS)) {
+                combo_stop(ComboAimAbuse);
+            }
+        }
+        
+        // Pro (Polar Movement / Aim Assist)
+        if(toggle_pro) {
+            actual_x = get_val(AXIS_RX);
+            actual_y = get_val(AXIS_RY);
+            actual_magnitude = isqrt(pow(actual_x, 2) + pow(actual_y, 2));
+            max_magnitude = (actual_magnitude < 100);
+            
+            if(!(time_counter++ % step_interval)) {
+                angle += steps;
+            }
+            angle = angle % 360;
+            
+            sin_angle = POLAR_ARRAY[angle % 360];
+            cos_angle = POLAR_ARRAY[(angle * 2) % 360];
+            cos_angle = (cos_angle * power_polar) / 200;
+            sin_angle = (sin_angle * power_polar) / 100;
+            
+            if(get_val(BTN_ADS) || get_val(BTN_FIRE)) {
+                if(actual_magnitude <= power_polar) {
+                    sin_angle -= actual_y;
+                    cos_angle -= actual_x;
+                } else {
+                    sin_angle = (sin_angle * (200 - ((abs(actual_y) + actual_magnitude) / 10) * 10) / 200) * max_magnitude;
+                    cos_angle = (cos_angle * (200 - ((abs(actual_x) + actual_magnitude) / 10) * 10) / 200) * max_magnitude;
+                }
+                set_val(AXIS_RX, clamp(actual_x + cos_angle, -100, 100));
+                set_val(AXIS_RY, clamp(actual_y + sin_angle, -100, 100));
+            }
+        }
+        
+        // Enhancement (Aim Assist)
+        if(toggle_enhancement) {
+            if(get_val(BTN_ADS) > 50) {
+                if(abs(get_val(XB1_RX)) < power_enhancement)
+                if(abs(get_val(XB1_RY)) < power_enhancement)
+                if(abs(get_val(XB1_RX)) > -power_enhancement)
+                if(abs(get_val(XB1_RY)) > -power_enhancement) {
+                    polar_flow_x = CalculatePolarFlow(polar_flow_x, POLAR_X_START, POLAR_X_END, POLAR_VELOCITY_START, polar_flow_direction, 1);
+                    polar_flow_y = CalculatePolarFlow(polar_flow_y, POLAR_Y_START, POLAR_Y_END, POLAR_VELOCITY_START, polar_flow_prev_direction, 2);
+                    SetPolarMovement(POLAR_RS, 45, polar_flow_x);  // Changed from 30 to 45 degrees for different shape
+                    SetPolarMovement(POLAR_RS, 45, polar_flow_y);  // Changed from 30 to 45 degrees for different shape
+                }
+            }
+            
+            if(event_press(BTN_ADS)) {
+                powers_active = TRUE;
+            } else if(!get_ival(BTN_ADS) && event_press(BTN_FIRE)) {
+                powers_active = TRUE;
+            }
+            
+            if(get_ival(BTN_ADS) || get_ival(BTN_FIRE)) {
+                axis_xy = isqrt(abs(get_ival(AXIS_RX)) * abs(get_ival(AXIS_RX)) + abs(get_ival(AXIS_RY)) * abs(get_ival(AXIS_RY)));
+                
+                if(assist_profile == 1) {
+                    ApplyAimAssist(power_enhancement, power_enhancement);
+                }
+                
+                ApplySoftAimAssist();
+            } else {
+                count_power = 0;
+                power_toggle = FALSE;
+            }
+            
+            if(!get_ival(BTN_ADS) && !get_ival(BTN_FIRE)) {
+                aim_assist_timer = 0;
+                axis_mode = 0;
+            }
+            
+            combo_run(ComboControllerPrecision);
+        }
+        
+        // Sharpshooter (Jitter)
+        if(toggle_sharpshooter) {
+            set_val(AXIS_RX, get_ival(AXIS_RX) + random(0x1 * -1, 0x1) * 2.5);
+            set_val(AXIS_RY, get_ival(AXIS_RY) + random(0x1 * -1, 0x1) * 2.5);
+        }
+        
+        // Sticky Scope
+        if(toggle_sticky_scope) {
+            if(get_val(BTN_FIRE)) {
+                combo_run(ComboAA1);
+                combo_run(ComboAA2);
+                
+                actual_x = get_val(AXIS_RX);
+                actual_y = get_val(AXIS_RY);
+                actual_magnitude = isqrt(pow(actual_x, 2) + pow(actual_y, 2));
+                max_magnitude = (actual_magnitude < 100);
+                
+                if(!(time_counter++ % step_interval)) {
+                    angle += steps;
+                }
+                angle = angle % 360;
+                
+                sin_angle = POLAR_ARRAY[angle % 360];
+                cos_angle = POLAR_ARRAY[(angle) % 360];
+                cos_angle = (cos_angle * power_polar) / 200;
+                sin_angle = (sin_angle * power_polar) / 200;
+                
+                if(get_val(BTN_ADS) || get_val(BTN_FIRE)) {
+                    if(actual_magnitude <= power_polar) {
+                        sin_angle -= actual_y;
+                        cos_angle -= actual_x;
+                    } else {
+                        sin_angle = (sin_angle * (200 - ((abs(actual_y) + actual_magnitude) / 10) * 10) / 200) * max_magnitude;
+                        cos_angle = (cos_angle * (200 - ((abs(actual_x) + actual_magnitude) / 10) * 10) / 200) * max_magnitude;
+                    }
+                    set_val(AXIS_RX, clamp(actual_x + cos_angle, -100, 100));
+                    set_val(AXIS_RY, clamp(actual_y + sin_angle, -100, 100));
+                }
+            }
+        }
+        
+        // Rapid Fire
+        if(toggle_rapid_fire) {
+            if(get_val(BTN_FIRE)) {
+                combo_run(ComboRapidFire);
+            }
+        }
+        
+        // Radar
+        if(toggle_radar) {
+            if(abs(get_val(AXIS_LX)) < 35 && abs(get_val(AXIS_LY)) < 35) {
+                radar_angle = (radar_angle + speed_radar) % 360;
+                radar_x = (radius_radar * POLAR_ARRAY[radar_angle]) / 100;
+                radar_y = (radius_radar * POLAR_ARRAY[(radar_angle + 90) % 360]) / 100;
+                set_val(AXIS_LX, clamp(radar_x, -100, 100));
+                set_val(AXIS_LY, clamp(radar_y, -100, 100));
+            }
+        }
+        
+        // Turbo Edit
+        if(toggle_turbo_edit) {
+            if(get_val(BTN_EDIT)) {
+                combo_run(ComboEdit);
+            }
+        }
+        
+        // No Vibration
+        if(toggle_no_vibration) {
+            block_rumble();
+        }
+        
+        // Crouch Shot
+        if(toggle_crouch_shot) {
+            if(get_val(BTN_FIRE) && get_val(BTN_ADS)) {
+                combo_run(ComboCrouchShot);
+            }
+        }
+        
+        // Beam (Aim Shake)
+        if(toggle_beam) {
+            beam_current_rx = get_val(PS4_RX);
+            beam_previous_rx = get_lval(PS4_RX);
+            beam_current_ry = get_val(PS4_RY);
+            beam_previous_ry = get_lval(PS4_RY);
+            
+            beam_delta_rx = beam_current_rx - beam_previous_rx;
+            beam_delta_ry = beam_current_ry - beam_previous_ry;
+            
+            beam_shake_amplitude_x = CalculateBeamShake(beam_current_rx, beam_previous_rx, 10);
+            beam_shake_amplitude_y = CalculateBeamShake(beam_current_ry, beam_previous_ry, 10);
+            
+            if(beam_delta_rx > 0) 
+                beam_direction_bias_x = 1;
+            else if(beam_delta_rx < 0) 
+                beam_direction_bias_x = -1;
+            else 
+                beam_direction_bias_x = 0;
+            
+            if(beam_delta_ry > 0) 
+                beam_direction_bias_y = 1;
+            else if(beam_delta_ry < 0) 
+                beam_direction_bias_y = -1;
+            else 
+                beam_direction_bias_y = 0;
+            
+            beam_shake_x = (random(-beam_shake_amplitude_x, beam_shake_amplitude_x) * 6) / 10
+                          + (beam_direction_bias_x * BEAM_SHAKE_PARAMS[2][2]);
+            beam_shake_y = (random(-beam_shake_amplitude_y, beam_shake_amplitude_y) * 6) / 10
+                          + (beam_direction_bias_y * BEAM_SHAKE_PARAMS[2][2]);
+            
+            beam_adjusted_rx = clamp(beam_current_rx + beam_shake_x, -100, 100);
+            beam_adjusted_ry = clamp(beam_current_ry + beam_shake_y, -100, 100);
+            
+            set_val(PS4_RX, beam_adjusted_rx);
+            set_val(PS4_RY, beam_adjusted_ry);
+        }
+        
+        // Headlock (Vertical Aim Smoothing)
+        if(toggle_headlock) {
+            combo_run(ComboHeadlock);
+        }
+    }
+}
+
+// ===== COMBO DEFINITIONS =====
+combo ComboPickupMacro {
+    set_val(BTN_INTERACT, 100);
+    wait(10);
+    set_val(BTN_INTERACT, 0);
+}
+
+combo ComboAntiRecoilApply {
+    adjust_anti_recoil = get_ival(PS4_RY) + power_anti_recoil;
+    if(adjust_anti_recoil > 100) {
+        adjust_anti_recoil = 100;
+    }
+    set_val(PS4_RY, adjust_anti_recoil);
+}
+
+combo RumbleActivate {
+    set_rgb(10, 0, 100);
+    set_rumble(RUMBLE_B, 50);
+    wait(150);
+    reset_rumble();
+    wait(100);
+    set_rumble(RUMBLE_B, 50);
+    wait(150);
+    reset_rumble();
+}
+
+combo RumbleDeactivate {
+    set_rgb(255, 0, 0);
+    set_rumble(RUMBLE_A, 50);
+    wait(300);
+    reset_rumble();
+    wait(400);
+}
+
+combo ComboSavedMessage {
+    combo_run(RumbleActivate);
+    wait(150);
+    combo_run(RumbleActivate);
+    wait(1000);
+    set_rgb(10, 0, 100);
+    combo_run(ShowLogo);
+}
+
+combo ComboCrouchShot {
+    set_val(BTN_CROUCH, 100);
+    wait(delay_crouch_shot);
+    set_val(BTN_CROUCH, 0);
+    wait(delay_crouch_shot);
+}
+
+combo ComboAutoTracking {
+    set_val(AXIS_LX, -power_auto_tracking);
+    wait(1);
+    set_val(AXIS_LX, power_auto_tracking);
+}
+
+combo ComboPreFire {
+    set_val(BTN_FIRE, 0);
+}
+
+combo ComboRapidFire {
+    wait(40);
+    set_val(BTN_FIRE, 0);
+    wait(40);
+}
+
+combo ShowLogo {
+    image_oled(0, 0, TRUE, TRUE, LOGO[0]);
+}
+
+combo ComboInstantReset {
+    set_val(BTN_EDIT, 100);
+    wait(11);
+    set_val(BTN_RESET, 100);
+    wait(11);
+    combo_run(ComboConfirm);
+}
+
+combo ComboEdit {
+    set_val(BTN_EDIT, 100);
+    wait(35);
+    set_val(BTN_SELECT, 100);
+    wait(35);
+    set_val(BTN_CONFIRM, 100);
+    wait(35);
+    set_val(BTN_EDIT, 0);
+    wait(35);
+}
+
+combo ComboConfirm {
+    set_val(BTN_CONFIRM, 100);
+    wait(11);
+    set_val(BTN_CONFIRM, 0);
+    wait(11);
+}
+
+combo ComboAimAbuse {
+    set_val(BTN_ADS, 100);
+    wait(60);
+    set_val(BTN_ADS, 0);
+    wait(5);
+}
+
+combo ComboControllerPrecision {
+    // Diamond pattern instead of square (diagonal movements)
+    set_val(PS4_RY, get_ival(PS4_RY) + power_enhancement);
+    set_val(PS4_RX, get_ival(PS4_RX) + power_enhancement);
+    wait(20);
+    set_val(PS4_RY, get_ival(PS4_RY) + power_enhancement * -1);
+    set_val(PS4_RX, get_ival(PS4_RX) + power_enhancement);
+    wait(20);
+    set_val(PS4_RY, get_ival(PS4_RY) + power_enhancement * -1);
+    set_val(PS4_RX, get_ival(PS4_RX) + power_enhancement * -1);
+    wait(20);
+    set_val(PS4_RY, get_ival(PS4_RY) + power_enhancement);
+    set_val(PS4_RX, get_ival(PS4_RX) + power_enhancement * -1);
+    wait(20);
+}
+
+combo ComboAA1 {
+    set_val(AXIS_RY, get_ival(AXIS_RY) - power_sticky_scope - 2);
+    wait(1);
+    set_val(AXIS_RY, get_ival(AXIS_RY) + power_sticky_scope + 2);
+    wait(1);
+}
+
+combo ComboAA2 {
+    set_val(AXIS_RX, get_ival(AXIS_RX) + power_sticky_scope + 1);
+    wait(2);
+    set_val(AXIS_RX, get_ival(AXIS_RX) - power_sticky_scope - 1);
+    wait(2);
+}
+
+combo ComboHeadlock {
+    ApplyAxisMultiplier(XB1_RY, -3);
+}
+
+// ===== FUNCTION DEFINITIONS =====
+function ApplyAntiRecoil() {
+    if(get_val(BTN_FIRE) && get_val(BTN_ADS)) {
+        combo_run(ComboAntiRecoilApply);
+    }
+    if(abs(get_val(PS4_RX)) + abs(get_val(PS4_RY)) > power_anti_recoil) {
+        combo_stop(ComboAntiRecoilApply);
+    }
+    return;
+}
+
+function SetAxisValue(axis, target_value) {
+    if(CalculateAbsoluteValue(GetAxisValue(axis)) < 10)
+        set_val(axis, target_value);
+}
+
+function CalculateAbsoluteValue(value) {
+    if(value < 0) value = inv(value);
+    return value;
+}
+
+function GetAxisValue(axis) {
+    axis = get_val(axis);
+    return axis;
+}
+
+function ApplySoftAimAssist() {
+    aim_assist_timer += get_rtime();
+    
+    if(!axis_mode)
+        SetAxisValue(AXIS_RY, aim_assist_timer * SOFT_AIM_POWER / 10);
+    if(axis_mode == 1)
+        SetAxisValue(AXIS_RX, aim_assist_timer * SOFT_AIM_POWER / 10);
+    if(axis_mode == 2)
+        SetAxisValue(AXIS_RY, inv(aim_assist_timer * SOFT_AIM_POWER / 10));
+    if(axis_mode == 3) {
+        SetAxisValue(AXIS_RX, inv(aim_assist_timer * SOFT_AIM_POWER / 10));
+        if(aim_assist_timer > 50) {
+            aim_assist_timer = 0;
+            axis_mode = 0;
+        }
+    } else if(aim_assist_timer > 50) {
+        aim_assist_timer = 0;
+        axis_mode += 1;
+    }
+}
+
+function CalculatePolarFlow(flow_val, start_val, end_val, velocity, direction, velocity_id) {
+    if(direction) {
+        flow_val += velocity;
+        if(flow_val <= end_val)
+            return flow_val;
+        if(flow_val > end_val) {
+            polar_flow_direction = 0;
+            return flow_val - velocity;
+        }
+    } else {
+        flow_val -= velocity;
+        if(flow_val >= start_val)
+            return flow_val;
+        if(flow_val < start_val) {
+            polar_flow_direction = 1;
+            return flow_val + velocity;
+        }
+    }
+    return FALSE;
+}
+
+function ApplyAimAssist(strength, step) {
+    if(powers_active) {
+        y_power = strength;
+        x_power = strength * -1;
+        increment = step;
+        powers_active = FALSE;
+    }
+    
+    if(!power_toggle) {
+        x_power += increment;
+        y_power -= increment;
+    } else {
+        x_power -= increment;
+        y_power += increment;
+    }
+    
+    count_power++;
+    
+    if(count_power >= (strength / increment)) {
+        power_toggle = !power_toggle;
+        count_power = 0;
+    }
+    
+    if(axis_xy > power_enhancement) {
+        if(reducer) {
+            set_val(AXIS_RY, (y_power - strength / 2));
+            set_val(AXIS_RX, (x_power - strength / 2 * -1));
+        } else {
+            set_val(AXIS_RY, (y_power - strength / 2) + get_ival(AXIS_RY));
+            set_val(AXIS_RX, (x_power - strength / 3 * -2) + get_ival(AXIS_RX));
+        }
+    } else {
+        if(reducer) {
+            set_val(AXIS_RY, (y_power - strength / 2));
+            set_val(AXIS_RX, (x_power - strength / 3 * -2));
+        } else {
+            set_val(AXIS_RY, (y_power - strength / 2));
+            set_val(AXIS_RX, (x_power - strength / 3 * -2));
+        }
+    }
+}
+
+function AdjustAxisValue(axis, multiplier) {
+    set_val(axis, clamp(multiplier * (100 - abs(get_val(axis))) / 100 + get_val(axis), -100, 100));
+    return;
+}
+
+function SetPolarMovement(polar_axis, angle_val, magnitude_val) {
+    right_stick_y_reference = 9 + polar_axis;
+    right_stick_x_reference = 10 + polar_axis;
+    
+    if(angle_val < 0) angle_val = 360 + (angle_val % 360);
+    angle_val = (angle_val + 90) % 360;
+    magnitude_val = clamp(magnitude_val, 0, 100);
+    
+    cosine_value = POLAR_ARRAY[angle_val];
+    sine_value = POLAR_ARRAY[(angle_val + 90) % 360];
+    
+    AdjustAxisValue(right_stick_y_reference, inv(magnitude_val * sine_value / 100));
+    AdjustAxisValue(right_stick_x_reference, inv(magnitude_val * cosine_value / 100));
+}
+
+function CalculateBeamShake(current_val, previous_val, threshold) {
+    beam_delta = abs(current_val - previous_val);
+    
+    if(beam_delta < threshold) {
+        beam_intensity = BEAM_SHAKE_PARAMS[0][0];
+    } else if(beam_delta < threshold * 2) {
+        beam_intensity = BEAM_SHAKE_PARAMS[1][0];
+    } else {
+        beam_intensity = BEAM_SHAKE_PARAMS[2][0];
+    }
+    
+    return beam_intensity;
+}
+
+function ApplyAxisMultiplier(axis, multiplier) {
+    set_val(axis, clamp(multiplier * (100 - abs(get_val(axis))) / 100 + get_val(axis), -100, 100));
+    return;
+}
+
+// ============================================================================
+// END OF SCRIPT
+// ============================================================================
